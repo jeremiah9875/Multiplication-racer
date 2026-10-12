@@ -1,34 +1,36 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Halloween Multiplication Racer</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:#241044;background:linear-gradient(145deg,#7925b9,#d13cba,#ff7d83);min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
-.app{max-width:950px;margin:auto;padding:16px}
-header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#fff;font-weight:900}
-.candy{background:#241044;border-radius:30px;padding:10px 16px}
-.hero{text-align:center;color:white;padding:22px 5px}
-.hero h1{font-size:clamp(34px,8vw,65px);line-height:1;margin:12px 0;text-shadow:0 5px #40165b}
-.hero h1 span{color:#ffce62}
+:root{--purple:#281044;--mint:#2bd8a0;--gold:#ffdc58}
+body{margin:0;font-family:Arial,sans-serif;color:#281536;background:linear-gradient(145deg,#a72be8,#d43bcf 52%,#ff6688);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}
+.app{max-width:1000px;margin:auto;padding:15px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:white;font-weight:1000}
+.candy{background:var(--purple);padding:12px 16px;border-radius:25px}
+.hero{text-align:center;color:white;padding:25px 5px}
+.hero h1{font-size:clamp(35px,8vw,72px);line-height:1;margin:14px 0;text-shadow:0 5px #49205d}
+.hero h1 span{display:block;color:#ffdc58}
 .hero p{line-height:1.6}
 .decor{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
 .decor span{position:absolute;font-size:35px;animation:float 4s infinite ease-in-out}
-.decor span:nth-child(1){top:5%;left:4%}
+.decor span:nth-child(1){top:4%;left:4%}
 .decor span:nth-child(2){top:15%;right:4%}
-.decor span:nth-child(3){top:50%;left:2%}
-.decor span:nth-child(4){top:70%;right:3%}
+.decor span:nth-child(3){top:45%;left:2%}
+.decor span:nth-child(4){top:65%;right:3%}
+.decor span:nth-child(5){top:82%;left:8%}
 @keyframes float{50%{transform:translateY(-12px) rotate(8deg)}}
-.stage{max-width:700px;margin:15px auto;background:#251039;border:3px solid #8e4cbd;border-radius:24px;overflow:hidden}
+.stage{max-width:750px;margin:15px auto;background:#251039;border:3px solid #8c45c9;border-radius:24px;overflow:hidden;box-shadow:0 8px #170923}
 .stage-top{height:14px;background:repeating-linear-gradient(135deg,#ff941d 0 15px,#251039 15px 30px)}
-.track{position:relative;min-height:170px;padding:18px;background:linear-gradient(#251039,#42205d);overflow:hidden}
+.track{position:relative;height:180px;padding:18px;background:linear-gradient(#251039,#42205d);overflow:hidden}
 .track-title{color:#e1b6ff;font-size:11px;letter-spacing:2px;font-weight:bold}
-.moon{position:absolute;right:12%;top:18px;background:#ffdc87;width:45px;height:45px;border-radius:50%}
+.moon{position:absolute;right:12%;top:20px;background:#ffdc87;width:48px;height:48px;border-radius:50%}
 .road{position:absolute;bottom:18px;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#ffffff88 0 30px,transparent 30px 55px)}
 .pumpkin{position:relative;width:180px;height:120px;margin:4px auto 0;animation:bob 2s infinite ease-in-out}
 @keyframes bob{50%{transform:translateY(-5px)}}
@@ -42,41 +44,38 @@ header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:
 .grin{position:absolute;z-index:3;left:57px;top:72px;width:65px;height:20px;background:#351027;clip-path:polygon(0 0,100% 0,85% 65%,70% 40%,58% 100%,43% 45%,28% 90%,15% 45%,5% 70%)}
 .wheel{position:absolute;bottom:4px;width:36px;height:36px;border:6px solid #171020;border-radius:50%;background:#80718e}
 .wleft{left:28px}.wright{right:28px}
-.panel{max-width:800px;margin:22px auto;padding:5px}
-h2{text-align:center;font-size:24px}
-.sub{text-align:center;color:white;font-weight:bold;font-size:13px}
+.panel{max-width:850px;margin:20px auto;padding:5px}
+.section-title{text-align:center;font-size:24px;font-weight:1000;text-transform:uppercase}
+.sub{text-align:center;color:white;font-size:13px;font-weight:bold}
 .modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}
 .mode{position:relative;min-width:0;min-height:160px;padding:14px 9px;background:#f8f5f1;border:3px solid #21162e;border-radius:22px;box-shadow:0 6px #21162e;color:#21162e;text-align:center}
 .mode[data-mode="Easy"]{background:#2bd8a0}
 .mode.selected{outline:3px solid #ffdc58;transform:translateY(-2px)}
-.mode.selected[data-mode="Easy"]:after{content:"✓";position:absolute;right:-7px;top:-12px;border:3px solid #21162e;border-radius:50%;background:#ffdc58;width:28px;height:28px;line-height:24px;font-weight:bold}
-.mode .emoji{display:block;font-size:28px;margin-bottom:8px}
+.mode.selected[data-mode="Easy"]:after{content:"";position:absolute;width:29px;height:29px;background:#ffdc58;border:3px solid #21162e;border-radius:50%;top:-13px;right:-7px}
+.mode .emoji{display:block;font-size:28px;margin-bottom:7px}
 .mode strong{display:block;font-size:16px;margin-bottom:8px}
-.mode small{display:block;font-size:11px;line-height:1.4;margin-top:5px}
+.mode small{display:block;font-size:12px;line-height:1.4;margin-top:5px}
 .options{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:20px 0}
-.options span{color:white;font-weight:bold;font-size:12px}
+.options label{color:white;font-size:12px;font-weight:bold}
 .time{padding:10px 14px;background:#fff8ed;border:2px solid #241044;border-radius:11px;font-weight:bold}
 .time.selected{background:#ffdc58}
 #startBtn{display:block;width:min(100%,440px);min-height:72px;margin:25px auto;padding:16px;border:4px solid #241044;border-radius:20px;background:linear-gradient(#ffce58,#ff851b);color:#241044;font-size:25px;font-weight:1000;box-shadow:0 7px #241044}
 #startBtn:active{transform:translateY(4px);box-shadow:0 3px #241044}
 .hint{text-align:center;color:white;font-size:12px}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px auto;max-width:700px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px auto;max-width:750px}
 .feature{padding:14px 5px;background:#fff0ff;border:2px solid #241044;border-radius:15px;text-align:center;font-size:12px}
 .feature b{display:block;margin-top:6px}
 .hidden{display:none!important}
-.card{max-width:800px;margin:20px auto;padding:18px;background:#fff7ff;border:3px solid #241044;border-radius:20px;box-shadow:0 5px #241044}
+.card{max-width:850px;margin:20px auto;padding:18px;background:#fff7ff;border:3px solid #241044;border-radius:20px;box-shadow:0 5px #241044}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .stat{background:#321747;color:white;border-radius:12px;padding:12px;text-align:center;font-size:11px}
 .stat strong{display:block;color:#ffce58;font-size:23px;margin-top:5px}
-.question{font-size:clamp(38px,9vw,60px);font-weight:1000;text-align:center;color:#7228a0;margin:20px 0}
-.answers{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.answer{padding:13px 20px;background:#2bd8a0;border:3px solid #241044;border-radius:12px;font-weight:900;font-size:20px}
-input{width:140px;max-width:45%;padding:12px;border:3px solid #241044;border-radius:12px;font-size:22px;text-align:center}
-.message{text-align:center;min-height:28px;font-weight:bold;margin:14px 0}
+.question{font-size:clamp(38px,9vw,65px);font-weight:1000;text-align:center;color:#7228a0;margin:22px 0}
+.message{text-align:center;min-height:26px;font-weight:bold;margin:14px 0}
 .progress{height:12px;background:#ddd;border-radius:20px;overflow:hidden;margin:15px 0}
-.progress div{height:100%;width:0;background:#2bd8a0}
+.progress div{height:100%;width:0;background:#2bd8a0;transition:width .2s}
 .racers{background:#27143a;padding:14px;border-radius:14px;color:white;margin:18px 0}
-.lane{height:37px;border-bottom:2px dashed #bba4cf;position:relative;margin:8px 0}
+.lane{height:36px;border-bottom:2px dashed #bba4cf;position:relative;margin:8px 0}
 .lane span{position:absolute;left:0;font-size:27px;transition:left .25s}
 .action{padding:12px 18px;background:#2bd8a0;border:2px solid #241044;border-radius:12px;font-weight:bold}
 .tabs{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
@@ -86,20 +85,25 @@ td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
 .garage button{background:white;border:2px solid #241044;border-radius:12px;padding:12px 3px;font-weight:bold}
 .garage span{display:block;font-size:30px;margin-bottom:7px}
 footer{text-align:center;color:white;font-size:12px;padding:20px}
+#game{padding-bottom:155px}
+#answerForm{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#fff7ff;border-top:3px solid #241044;box-shadow:0 -5px 18px #24104430;padding:12px 10px calc(12px + env(safe-area-inset-bottom))}
+#answers{display:flex;justify-content:center;align-items:stretch;gap:10px;flex-wrap:wrap;max-width:650px;margin:auto}
+#answerInput{width:min(55%,300px);min-width:120px;min-height:70px;border:7px solid #241044;border-radius:25px;background:white;color:#7228a0;font-size:30px;text-align:center}
+#answerForm button{min-width:140px;min-height:70px;border:7px solid #241044;border-radius:25px;background:#2bd8a0;color:white;font-size:25px;font-weight:1000}
+#answerForm button:focus-visible,#answerInput:focus-visible{outline:4px solid #8bcaff;outline-offset:3px}
 @media(max-width:560px){
-.app{padding:11px}
-.modes{gap:6px}
+.app{padding:11px}.modes{gap:6px}
 .mode{padding:10px 4px;min-height:165px;border-radius:16px}
-.mode strong{font-size:12px}
-.mode small{font-size:10px}
-.mode .emoji{font-size:23px}
-.features{gap:5px}
-.feature{font-size:10px}
+.mode strong{font-size:12px}.mode small{font-size:10px}.mode .emoji{font-size:23px}
+.features{gap:5px}.feature{font-size:10px}
+#answerForm{padding:10px 8px calc(10px + env(safe-area-inset-bottom))}
+#answerInput{width:48%;min-width:0;font-size:23px;min-height:60px;border-width:4px}
+#answerForm button{min-width:0;flex:1;min-height:60px;font-size:20px;border-width:4px}
 }
 </style>
 </head>
 <body>
-<div class="decor"><span>🦇</span><span>👻</span><span>🕸️</span><span>🎃</span></div>
+<div class="decor"><span>🦇</span><span>👻</span><span>🕸️</span><span>🎃</span><span>🦇</span></div>
 <div class="app">
 <header>
 <div>🎃 SPOOKY RACING LEAGUE</div>
@@ -112,31 +116,25 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 <h1>HALLOWEEN<br><span>MULTIPLICATION RACER</span></h1>
 <p>Solve multiplication questions, speed up your pumpkin, and beat the spooky rivals!</p>
 </div>
-
-<div class="stage">
-<div class="stage-top"></div>
-<div class="track">
-<div class="moon"></div>
-<div class="track-title">PUMPKIN SPEEDWAY</div>
+<div class="stage"><div class="stage-top"></div><div class="track">
+<div class="moon"></div><div class="track-title">PUMPKIN SPEEDWAY</div>
 <div class="pumpkin">
 <div class="stem"></div><div class="leaf"></div>
 <div class="pbody"><div class="rib r1"></div><div class="rib r2"></div><div class="rib r3"></div></div>
 <div class="face"><i class="eye"></i><i class="eye"></i></div><div class="grin"></div>
 <div class="wheel wleft"></div><div class="wheel wright"></div>
-</div>
-<div class="road"></div>
-</div>
-</div>
+</div><div class="road"></div>
+</div></div>
 
 <div class="panel">
-<h2>CHOOSE YOUR DIFFICULTY</h2>
+<h2 class="section-title">CHOOSE YOUR DIFFICULTY</h2>
 <p class="sub">Pick a mode, then start your spooky race!</p>
 <div class="modes">
-<button class="mode selected" data-mode="Easy"><span class="emoji">🐢</span><strong>EASY</strong><small>Pick from 4 answers.<br>Slow rival. 10 to win.</small></button>
-<button class="mode" data-mode="Hard"><span class="emoji">🔥</span><strong>HARD</strong><small>Type the answer.<br>Speedy rival. 12 to win.</small></button>
-<button class="mode" data-mode="Impossible"><span class="emoji">💀</span><strong>IMPOSSIBLE</strong><small>4-second clock.<br>Wrong answers push you back.</small></button>
+<button class="mode selected" data-mode="Easy"><span class="emoji">🐢</span><strong>EASY</strong><small>Pick from 4 answers.<br>Slow rival. 10 to win.</small><small id="winsEasy">0 wins</small></button>
+<button class="mode" data-mode="Hard"><span class="emoji">🔥</span><strong>HARD</strong><small>Type the answer.<br>Speedy rival. 12 to win.</small><small id="winsHard">0 wins</small></button>
+<button class="mode" data-mode="Impossible"><span class="emoji">💀</span><strong>IMPOSSIBLE</strong><small>4-second clock.<br>Wrong answers push you back.</small><small id="winsImpossible">0 wins</small></button>
 </div>
-<div class="options"><span>⏱ RACE TIME</span>
+<div class="options"><label>⏱ RACE TIME</label>
 <button class="time selected" data-minutes="1">1 MIN</button>
 <button class="time" data-minutes="5">5 MIN</button>
 <button class="time" data-minutes="10">10 MIN</button>
@@ -161,7 +159,7 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 <div class="progress"><div id="bar"></div></div>
 <p class="sub" id="modeLabel" style="color:#7228a0"></p>
 <div class="question" id="question">7 × 8 = ?</div>
-<form id="answerForm"><div id="answers" class="answers"></div></form>
+<form id="answerForm"><div id="answers"></div></form>
 <div class="message" id="message">Ready to race!</div>
 <div class="racers">
 <div>YOU 🎃<div class="lane"><span id="player">🎃</span></div></div>
@@ -175,15 +173,12 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 <section id="result" class="hidden card">
 <h2 id="resultTitle">🏁 RACE OVER!</h2>
 <p id="resultText" style="text-align:center"></p>
-<div class="options">
-<button class="action" id="again">Race Again</button>
-<button class="action" id="menu">Main Menu</button>
-</div>
+<div class="options"><button class="action" id="again">Race Again</button><button class="action" id="menu">Main Menu</button></div>
 </section>
 
 <div class="card">
 <h2>🏆 SPEED LEADERBOARDS</h2>
-<p>Fastest completed races on this device.</p>
+<p>Fastest completed races saved on this device.</p>
 <div class="tabs">
 <button class="time selected" data-board="Easy">🐢 Easy</button>
 <button class="time" data-board="Hard">🔥 Hard</button>
@@ -194,7 +189,7 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 
 <div class="card">
 <h2>🚗 PUMPKIN GARAGE</h2>
-<p>Use your candy to unlock new racers!</p>
+<p>Use candy to unlock racers!</p>
 <div class="garage">
 <button data-car="pumpkin"><span>🎃</span>Pumpkin<br>FREE</button>
 <button data-car="ghost"><span>👻</span>Ghost<br>50 🍬</button>
@@ -206,62 +201,49 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 </div>
 
 <script>
-(() => {
-const $ = id => document.getElementById(id);
-const get = (key, fallback) => {
- try {
-  const value = localStorage.getItem(key);
-  return value === null ? fallback : JSON.parse(value);
- } catch { return fallback; }
-};
-const put = (key, value) => {
- try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
-};
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id);
+const get=(key,fallback)=>{try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}};
+const put=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
 
-let mode="Easy", minutes=1, remaining=60, score=0;
-let candy=get("hmrCandy",0), player=0, ghost=0, bat=0;
-let active=false, locked=false, answer=0, started=0;
-let tick=null, questionTick=null, qtime=4;
+let mode="Easy",minutes=1,remaining=60,score=0,candy=get("hmrCandy",0);
+let player=0,ghost=0,bat=0,active=false,locked=false,answer=0,started=0;
+let tick=null,qTick=null,qtime=4,boardMode="Easy";
 let boards=get("hmrBoards",{Easy:[],Hard:[],Impossible:[]});
 let unlocked=get("hmrUnlocked",["pumpkin"]);
-let currentCar=get("hmrCar","pumpkin");
-if(!boards || typeof boards!=="object") boards={Easy:[],Hard:[],Impossible:[]};
+if(!boards||typeof boards!=="object")boards={Easy:[],Hard:[],Impossible:[]};
 ["Easy","Hard","Impossible"].forEach(m=>{if(!Array.isArray(boards[m]))boards[m]=[]});
 
-function updateCandy(){
-$("candy").textContent=candy;
-$("gameCandy").textContent=candy;
-put("hmrCandy",candy);
+function saveCandy(){ $("candy").textContent=candy;$("gameCandy").textContent=candy;put("hmrCandy",candy) }
+function show(which){
+$("home").classList.toggle("hidden",which!=="home");
+$("game").classList.toggle("hidden",which!=="game");
+$("result").classList.toggle("hidden",which!=="result");
+window.scrollTo(0,0);
 }
-function show(id){
-$("home").classList.toggle("hidden",id!=="home");
-$("game").classList.toggle("hidden",id!=="game");
-$("result").classList.toggle("hidden",id!=="result");
-window.scrollTo({top:0,behavior:"smooth"});
-}
-function selectMode(m){
+function setMode(m){
 mode=m;
 document.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("selected",b.dataset.mode===m));
 }
-document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>selectMode(b.dataset.mode));
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 document.querySelectorAll("[data-minutes]").forEach(b=>b.onclick=()=>{
 minutes=Number(b.dataset.minutes);
 document.querySelectorAll("[data-minutes]").forEach(x=>x.classList.toggle("selected",x===b));
 });
-function format(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
 function updateRace(){
 $("player").style.left=Math.min(90,player)+"%";
 $("ghost").style.left=Math.min(90,ghost)+"%";
 $("bat").style.left=Math.min(90,bat)+"%";
 $("bar").style.width=Math.min(100,player)+"%";
 }
-function stopClocks(){clearInterval(tick);clearInterval(questionTick);tick=null;questionTick=null}
+function stopClocks(){clearInterval(tick);clearInterval(qTick);tick=null;qTick=null}
+
 function nextQuestion(){
-clearInterval(questionTick);
-locked=false;
+clearInterval(qTick);locked=false;
 const a=Math.floor(Math.random()*13),b=Math.floor(Math.random()*13);
-answer=a*b;
-$("question").textContent=a+" × "+b+" = ?";
+answer=a*b;$("question").textContent=a+" × "+b+" = ?";
 $("answers").innerHTML="";
 if(mode==="Easy"){
 const opts=new Set([answer]);
@@ -269,54 +251,57 @@ while(opts.size<4)opts.add(Math.floor(Math.random()*145));
 [...opts].sort(()=>Math.random()-.5).forEach(n=>{
 const btn=document.createElement("button");
 btn.type="button";btn.className="answer";btn.textContent=n;
-btn.onclick=()=>check(n);
-$("answers").appendChild(btn);
+btn.onclick=()=>checkAnswer(n);$("answers").appendChild(btn);
 });
+$("message").textContent="Choose the correct answer!";
 }else{
 const input=document.createElement("input");
-input.type="number";input.inputMode="numeric";input.id="answerInput";
-input.placeholder="Answer";input.required=true;input.autocomplete="off";
+input.id="answerInput";input.type="number";input.inputMode="numeric";
+input.autocomplete="off";input.placeholder="Answer";input.required=true;
+input.setAttribute("aria-label","Type your multiplication answer");
 const btn=document.createElement("button");
-btn.type="submit";btn.className="answer";btn.textContent="GO! 🏁";
-$("answers").append(input,btn);input.focus();
+btn.type="submit";btn.textContent="GO! 🏁";
+$("answers").append(input,btn);
+$("message").textContent=mode==="Impossible"?"Answer within 4 seconds!":"Solve it to speed up!";
+requestAnimationFrame(()=>input.focus({preventScroll:true}));
 }
 if(mode==="Impossible"){
 qtime=4;
-$("message").textContent="⏳ Answer within 4 seconds!";
-questionTick=setInterval(()=>{
+qTick=setInterval(()=>{
 qtime--;
 if(qtime<=0&&active&&!locked){
-clearInterval(questionTick);locked=true;ghost=Math.min(90,ghost+8);
-$("message").textContent="Too slow! Rival speeds ahead!";
+clearInterval(qTick);locked=true;ghost=Math.min(90,ghost+8);
+$("message").textContent="⏰ Time's up! The rival moves ahead!";
 updateRace();setTimeout(()=>{if(active)nextQuestion()},700);
 }
 },1000);
-}else $("message").textContent="Solve it to speed up!";
 }
-function check(n){
-if(!active||locked||String(n).trim()==="")return;
-locked=true;clearInterval(questionTick);
-if(Number(n)===answer){
+}
+function checkAnswer(value){
+if(!active||locked||String(value).trim()===""||!Number.isFinite(Number(value)))return;
+locked=true;clearInterval(qTick);
+if(Number(value)===answer){
 score++;candy+=5;
 player=Math.min(100,player+(mode==="Easy"?10:mode==="Hard"?9:8));
 $("message").textContent="🎉 CORRECT! +5 candy!";
 }else{
 if(mode==="Impossible")player=Math.max(0,player-5);
-$("message").textContent="❌ Not quite! The answer was "+answer;
+$("message").textContent="❌ The answer was "+answer;
 }
-$("score").textContent=score;updateCandy();updateRace();
+$("score").textContent=score;saveCandy();updateRace();
 if(player>=100){finish(true);return}
 setTimeout(()=>{if(active)nextQuestion()},650);
 }
-$("answerForm").onsubmit=e=>{
+$("answerForm").addEventListener("submit",e=>{
 e.preventDefault();
 const input=$("answerInput");
-if(input)check(input.value);
-};
+if(input)checkAnswer(input.value);
+});
+
 function start(){
 stopClocks();score=0;player=0;ghost=0;bat=0;
 remaining=minutes*60;started=Date.now();active=true;
-$("score").textContent="0";
+$("score").textContent=0;$("timer").textContent=fmt(remaining);
 $("modeLabel").textContent=mode.toUpperCase()+" MODE";
 show("game");updateRace();nextQuestion();
 tick=setInterval(()=>{
@@ -324,7 +309,7 @@ if(!active)return;
 remaining=Math.max(0,remaining-1);
 ghost=Math.min(95,ghost+(mode==="Easy"?.6:mode==="Hard"?1.1:1.6));
 bat=Math.min(95,bat+(mode==="Easy"?.4:mode==="Hard"?.8:1.3));
-$("timer").textContent=format(remaining);updateRace();
+$("timer").textContent=fmt(remaining);updateRace();
 if(remaining<=0)finish(false);
 },1000);
 }
@@ -339,12 +324,11 @@ wins[mode]=(wins[mode]||0)+1;put("hmrWins",wins);
 if(won||score>0){
 boards[mode].push({score,time:elapsed,won});
 boards[mode].sort((a,b)=>Number(b.won)-Number(a.won)||a.time-b.time);
-boards[mode]=boards[mode].slice(0,10);
-put("hmrBoards",boards);
+boards[mode]=boards[mode].slice(0,10);put("hmrBoards",boards);
 }
 $("resultTitle").textContent=won?"🏆 YOU WON!":"🏁 TIME'S UP!";
-$("resultText").textContent="Mode: "+mode+" · Correct answers: "+score+" · Time: "+format(elapsed);
-show("result");renderBoards();
+$("resultText").textContent=mode+" · "+score+" correct · "+fmt(elapsed);
+show("result");renderBoards();renderWins();
 }
 $("startBtn").onclick=start;
 $("again").onclick=start;
@@ -352,16 +336,15 @@ $("quit").onclick=()=>{active=false;stopClocks();show("home")};
 $("menu").onclick=()=>show("home");
 
 function renderBoards(){
-const arr=boards[boardMode]||[];
 $("scores").innerHTML="";
-if(!arr.length){
-$("scores").innerHTML='<tr><td colspan="3">No finishes yet. Be the first!</td></tr>';return;
-}
-arr.forEach((r,i)=>{
+const list=boards[boardMode]||[];
+if(!list.length){$("scores").innerHTML='<tr><td colspan="3">No finishes yet. Be the first!</td></tr>';return}
+list.forEach((r,i)=>{
 const tr=document.createElement("tr");
-const a=document.createElement("td"),b=document.createElement("td"),c=document.createElement("td");
-a.textContent=i+1;b.textContent=r.won?"🏆 Won · "+r.score+" correct":"Finished · "+r.score+" correct";c.textContent=format(r.time);
-tr.append(a,b,c);$("scores").appendChild(tr);
+[i+1,r.won?"🏆 Won · "+r.score+" correct":"Finished · "+r.score+" correct",fmt(r.time)].forEach(v=>{
+const td=document.createElement("td");td.textContent=v;tr.appendChild(td);
+});
+$("scores").appendChild(tr);
 });
 }
 document.querySelectorAll("[data-board]").forEach(b=>b.onclick=()=>{
@@ -369,22 +352,19 @@ boardMode=b.dataset.board;
 document.querySelectorAll("[data-board]").forEach(x=>x.classList.toggle("selected",x===b));
 renderBoards();
 });
-
-document.querySelectorAll("[data-car]").forEach(btn=>btn.onclick=()=>{
-const name=btn.dataset.car;
-const cost={pumpkin:0,ghost:50,bat:100}[name];
-if(unlocked.includes(name)){
-currentCar=name;put("hmrCar",name);
-$("garageMessage").textContent="Selected "+name+" racer!";
-return;
+function renderWins(){
+const wins=get("hmrWins",{Easy:0,Hard:0,Impossible:0});
+["Easy","Hard","Impossible"].forEach(m=>$("wins"+m).textContent=(wins[m]||0)+" wins");
 }
-if(candy<cost){$("garageMessage").textContent="You need "+(cost-candy)+" more candy!";return}
-candy-=cost;unlocked.push(name);currentCar=name;
-put("hmrUnlocked",unlocked);put("hmrCar",name);
-updateCandy();$("garageMessage").textContent="🎉 Unlocked "+name+"!";
+document.querySelectorAll("[data-car]").forEach(btn=>btn.onclick=()=>{
+const name=btn.dataset.car,cost={pumpkin:0,ghost:50,bat:100}[name];
+if(unlocked.includes(name)){ $("garageMessage").textContent="You already own this racer!";return}
+if(candy<cost){$("garageMessage").textContent="You need "+(cost-candy)+" more candy.";return}
+candy-=cost;unlocked.push(name);put("hmrUnlocked",unlocked);
+$("garageMessage").textContent="🎉 You unlocked "+name+"!";
+saveCandy();
 });
-
-updateCandy();renderBoards();
+saveCandy();renderBoards();renderWins();
 })();
 </script>
 </body>
