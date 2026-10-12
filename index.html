@@ -9,45 +9,33 @@
 *{box-sizing:border-box}
 :root{--ink:#281637;--cream:#fffaf0;--green:#20d9a0;--gold:#ffdc49}
 body{margin:0;padding:12px;font-family:Arial,sans-serif;color:var(--ink);
-background:radial-gradient(circle at 12% 10%,#a75af3 0 7%,transparent 25%),
-linear-gradient(145deg,#8225e7,#e43cba 58%,#ff658c);min-height:100vh}
-button,input{font:inherit}
-button{font-weight:bold;color:var(--ink);cursor:pointer}
+background:radial-gradient(circle at 12% 10%,#a75af3 0 7%,transparent 25%),linear-gradient(145deg,#8225e7,#e43cba 58%,#ff658c);min-height:100vh}
+button,input{font:inherit}button{font-weight:bold;color:var(--ink);cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid #ffdc49;outline-offset:3px}
 .wrap{max-width:1000px;margin:auto}
 header{text-align:center;color:white;padding:12px 4px 20px}
 .icons{font-size:30px;letter-spacing:12px}
-h1{font-size:clamp(40px,8vw,76px);line-height:.9;margin:15px 0;
-text-shadow:0 5px #43204c;color:white}
+h1{font-size:clamp(40px,8vw,76px);line-height:.9;margin:15px 0;text-shadow:0 5px #43204c;color:white}
 .subtitle{font-size:clamp(14px,2.5vw,19px);font-weight:bold;line-height:1.5}
-.heroPumpkin{font-size:88px;line-height:1.25;margin:10px auto;
-filter:drop-shadow(0 5px 4px #44204d)}
-.panel{background:var(--cream);border:5px solid var(--ink);border-radius:27px;
-padding:18px;margin:16px 0;box-shadow:0 6px 0 var(--ink)}
+.heroPumpkin{font-size:100px;line-height:1.25;margin:12px auto;filter:drop-shadow(0 5px 4px #44204d)}
+.panel{background:var(--cream);border:5px solid var(--ink);border-radius:27px;padding:18px;margin:16px 0;box-shadow:0 6px 0 var(--ink)}
 .sectionTitle{text-align:center;font-size:clamp(23px,4vw,35px);margin:8px 0 22px}
 .modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.mode{position:relative;min-height:190px;background:#fffdf8;border:5px solid var(--ink);
-border-radius:25px;box-shadow:0 6px 0 var(--ink);padding:14px 10px;
-display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mode{position:relative;min-height:190px;background:#fffdf8;border:5px solid var(--ink);border-radius:25px;box-shadow:0 6px 0 var(--ink);padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .mode.selected{background:var(--green)}
-.mode.selected:after{content:"";position:absolute;right:-8px;top:-12px;
-width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;background:var(--gold)}
-.mode .emoji{font-size:34px}
-.mode h3{font-size:22px;margin:8px 0}
+.mode.selected:after{content:"";position:absolute;right:-8px;top:-12px;width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;background:var(--gold)}
+.mode .emoji{font-size:34px}.mode h3{font-size:22px;margin:8px 0}
 .mode p{font-size:13px;line-height:1.5;margin:4px 0 10px}
 .wins{background:#eee8f1;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:bold}
-.primary{background:var(--gold);border:4px solid var(--ink);border-radius:16px;
-padding:14px 20px;box-shadow:0 4px var(--ink)}
+.primary{background:var(--gold);border:4px solid var(--ink);border-radius:16px;padding:14px 20px;box-shadow:0 4px var(--ink)}
 .primary:active{transform:translateY(3px);box-shadow:0 1px var(--ink)}
 .startRow{text-align:center;margin:25px 0}
-.candyBar{background:#ffe5a6;border:5px solid var(--ink);border-radius:20px;
-padding:18px;text-align:center;font-size:clamp(22px,4vw,32px);font-weight:900;margin:18px 0}
+.candyBar{background:#ffe5a6;border:5px solid var(--ink);border-radius:20px;padding:18px;text-align:center;font-size:clamp(22px,4vw,32px);font-weight:900;margin:18px 0}
 .garage{background:#291638;color:white;border:5px dashed #ff9c31;border-radius:25px;padding:18px;margin-top:20px}
 .garage h2{text-align:center;color:#ffb044}
 .cars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .carCard{background:#fff8ed;color:var(--ink);border:3px solid #9256b9;border-radius:17px;padding:12px 8px}
-.carEmoji{font-size:45px}
-.carCard p{font-size:13px;min-height:28px}
+.carEmoji{font-size:45px}.carCard p{font-size:13px;min-height:28px}
 .carCard button{background:var(--gold);border:2px solid var(--ink);border-radius:10px;padding:10px 4px;width:100%}
 .row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px}
 .purple,.green,.red{border:2px solid var(--ink);border-radius:11px;padding:10px}
@@ -66,18 +54,11 @@ padding:18px;text-align:center;font-size:clamp(22px,4vw,32px);font-weight:900;ma
 #answer{width:145px;max-width:100%;padding:12px;border:3px solid var(--ink);border-radius:12px;font-size:23px}
 #feedback{min-height:25px;font-weight:bold}
 input[type=text],input[type=number],input[type=password]{padding:11px;border:2px solid var(--ink);border-radius:10px;max-width:100%}
-.field{margin:12px 0}
-.field label{display:block;font-weight:bold;margin-bottom:6px}
+.field{margin:12px 0}.field label{display:block;font-weight:bold;margin-bottom:6px}
 .note{font-size:13px;line-height:1.5}
 table{border-collapse:collapse;width:100%;margin-top:12px}
 th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
-#ownerStatus{overflow-wrap:anywhere}
-@media(max-width:650px){
- body{padding:7px}.panel{padding:12px}.modes{grid-template-columns:1fr}
- .mode{min-height:140px}.mode p{font-size:14px;max-width:290px}
- .cars{grid-template-columns:repeat(2,minmax(0,1fr))}
- .icons{letter-spacing:7px}
-}
+@media(max-width:650px){body{padding:7px}.panel{padding:12px}.modes{grid-template-columns:1fr}.mode{min-height:140px}.mode p{font-size:14px;max-width:290px}.cars{grid-template-columns:repeat(2,minmax(0,1fr))}.icons{letter-spacing:7px}}
 </style>
 </head>
 <body>
@@ -85,8 +66,7 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
 <header>
  <div class="icons">🦇 🎃 🕸️</div>
  <h1>HALLOWEEN<br>RACER</h1>
- <p class="subtitle">Solve times tables from 0 to 12, beat spooky bots,<br>
- earn candy, and unlock Halloween cars! 🏁</p>
+ <p class="subtitle">Solve times tables from 0 to 12, beat spooky bots,<br>earn candy, and unlock Halloween cars! 🏁</p>
  <div class="heroPumpkin" aria-label="Pumpkin">🎃</div>
 </header>
 
@@ -96,23 +76,18 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
   <div class="modes">
    <button class="mode selected" data-mode="Easy" onclick="chooseMode('Easy')">
     <div class="emoji">🧟</div><h3>EASY</h3>
-    <p>Pick from 4 answers. Slow rival. 10 to win.</p>
-    <span class="wins" id="easyWins">No wins yet</span>
+    <p>Pick from 4 answers. Slow rival. 10 to win.</p><span class="wins" id="easyWins">No wins yet</span>
    </button>
    <button class="mode" data-mode="Hard" onclick="chooseMode('Hard')">
     <div class="emoji">🔥</div><h3>HARD</h3>
-    <p>Type the answer. Speedy rival. 12 to win.</p>
-    <span class="wins" id="hardWins">No wins yet</span>
+    <p>Type the answer. Speedy rival. 12 to win.</p><span class="wins" id="hardWins">No wins yet</span>
    </button>
    <button class="mode" data-mode="Impossible" onclick="chooseMode('Impossible')">
     <div class="emoji">💀</div><h3>IMPOSSIBLE</h3>
-    <p>4-second clock. Wrong answers push you back. 15 to win.</p>
-    <span class="wins" id="impossibleWins">No wins yet</span>
+    <p>4-second clock. Wrong answers push you back. 15 to win.</p><span class="wins" id="impossibleWins">No wins yet</span>
    </button>
   </div>
-  <div class="startRow">
-   <button class="primary" style="font-size:24px;width:min(100%,440px)" onclick="startRace()">🏁 START RACE!</button>
-  </div>
+  <div class="startRow"><button class="primary" style="font-size:24px;width:min(100%,440px)" onclick="startRace()">🏁 START RACE!</button></div>
   <div class="candyBar">🍬 Candy points: <span id="candy">0</span></div>
 
   <section class="garage">
@@ -124,7 +99,7 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
     <div class="carCard"><div class="carEmoji">🦇</div><b>Bat Car</b><p>🍬 1,000 candy</p><button onclick="buyCar('Bat Car')">Buy / Select</button></div>
     <div class="carCard"><div class="carEmoji">👻</div><b>Ghost Car</b><p>🍬 1,000 candy</p><button onclick="buyCar('Ghost Car')">Buy / Select</button></div>
    </div>
-   <p class="note">Each special car costs 1,000 candy one time.</p>
+   <p class="note">Each special car costs 1,000 candy one time. Win races to earn candy!</p>
   </section>
 
   <section class="panel">
@@ -146,15 +121,12 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
    </div>
    <p id="ownerStatus" role="status"></p>
    <div id="ownerControls" class="hidden">
-    <hr>
-    <h3>🍬 Custom Candy Rewards</h3>
-    <p>Type the amount of candy you want to give.</p>
-    <div class="field">
-     <label for="rewardAmount">Candy amount</label>
+    <hr><h3>🍬 Custom Candy Rewards</h3>
+    <p>Type the amount you want to give.</p>
+    <div class="field"><label for="rewardAmount">Candy amount</label>
      <input id="rewardAmount" type="number" min="1" max="1000000000" step="1" value="100" inputmode="numeric">
     </div>
-    <div class="field">
-     <label for="playerName">Player name (for one player)</label>
+    <div class="field"><label for="playerName">Player name (for one player)</label>
      <input id="playerName" type="text" maxlength="30" placeholder="Enter exact player name">
     </div>
     <div class="row">
@@ -164,12 +136,12 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
     <p id="rewardMessage" role="status"></p>
     <div class="panel" style="box-shadow:none">
      <h3>📋 Local Demo Award Log</h3>
-     <p class="note">This log records your reward attempts in this browser. It does not deliver candy to other devices.</p>
+     <p class="note">This records reward attempts on this browser only. It does not deliver candy to other devices.</p>
      <div id="awardLog"></div>
     </div>
     <button class="red" onclick="ownerLogout()">Lock Owner Panel</button>
    </div>
-   <p class="note">Online note: GitHub Pages alone cannot give candy to other players. Shared rewards require a database, player accounts, and secure owner permissions. The owner code in this demo is not secure against someone inspecting the page source.</p>
+   <p class="note">Online note: shared rewards need a database, player accounts, and secure owner permissions. This demo's owner code is visible in the page source.</p>
   </section>
 </main>
 
@@ -207,7 +179,6 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
 'use strict';
 const OWNER_CODE='Owner is himothy';
 const $=id=>document.getElementById(id);
-
 function load(key,fallback){
  try{const value=localStorage.getItem(key);return value===null?fallback:JSON.parse(value)}
  catch(e){return fallback}
@@ -237,9 +208,7 @@ function render(){
  $('candy').textContent=rewards.candy;
  $('raceCandy').textContent=rewards.candy;
  $('selectedCarName').textContent=selectedCar;
- // The top image remains a pumpkin, regardless of selected racing car.
- $('heroPumpkin')?.textContent;
- $('playerCar').textContent=cars[selectedCar]||'🚕';
+ // The top of the page always displays a pumpkin, never the selected car.
  for(const m of ['Easy','Hard','Impossible']){
   const count=wins[m]||0;
   $(m.toLowerCase()+'Wins').textContent=count?count+' win'+(count===1?'':'s'):'No wins yet';
@@ -248,43 +217,35 @@ function render(){
 }
 function chooseMode(m){
  mode=m;
- document.querySelectorAll('.mode').forEach(button=>
-  button.classList.toggle('selected',button.dataset.mode===m));
+ document.querySelectorAll('.mode').forEach(button=>button.classList.toggle('selected',button.dataset.mode===m));
 }
 function selectCar(name){
- if(name!=='Classic Car'&&!rewards.owned.includes(name)){
-  alert('Buy this car first for 1,000 candy!');return;
- }
+ if(name!=='Classic Car'&&!rewards.owned.includes(name)){alert('Buy this car first for 1,000 candy!');return}
  selectedCar=name;save();render();
 }
 function buyCar(name){
  if(!rewards.owned.includes(name)){
-  if(rewards.candy<1000){alert('You need 1,000 candy to buy the '+name+'!');return;}
+  if(rewards.candy<1000){alert('You need 1,000 candy to buy the '+name+'!');return}
   rewards.candy-=1000;rewards.owned.push(name);
- }else{
-  selectedCar=name;save();render();alert('You already own this car!');return;
- }
+ }else{selectedCar=name;save();render();alert('You already own this car!');return}
  selectedCar=name;save();render();alert('You unlocked the '+name+'!');
 }
 function beep(){
  try{
   const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
   const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=850;
-  gain.gain.value=.06;osc.start();osc.stop(ctx.currentTime+.12);
-  osc.onended=()=>ctx.close();
+  osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=850;gain.gain.value=.06;
+  osc.start();osc.stop(ctx.currentTime+.12);osc.onended=()=>ctx.close();
  }catch(e){}
 }
 function startRace(){
- clearInterval(clock);raceActive=true;questionLock=false;
- correct=0;playerProgress=0;rivalProgress=0;
+ clearInterval(clock);raceActive=true;questionLock=false;correct=0;playerProgress=0;rivalProgress=0;
  goal=mode==='Easy'?10:mode==='Hard'?12:15;
  $('home').classList.add('hidden');$('game').classList.remove('hidden');
- $('modeLabel').textContent=mode.toUpperCase()+' MODE';
- $('goalCount').textContent=goal;$('correctCount').textContent='0';
- $('progress').style.width='0%';$('playerCar').style.marginLeft='0%';
- $('rivalCar').style.marginLeft='0%';$('playerCar').textContent=cars[selectedCar]||'🚕';
- $('rivalCar').textContent='🏎️';
+ $('modeLabel').textContent=mode.toUpperCase()+' MODE';$('goalCount').textContent=goal;
+ $('correctCount').textContent='0';$('progress').style.width='0%';
+ $('playerCar').style.marginLeft='0%';$('rivalCar').style.marginLeft='0%';
+ $('playerCar').textContent=cars[selectedCar]||'🚕';$('rivalCar').textContent='🏎️';
  $('typedArea').classList.toggle('hidden',mode==='Easy');
  $('choiceArea').classList.toggle('hidden',mode!=='Easy');
  nextQuestion();
@@ -293,8 +254,7 @@ function nextQuestion(){
  if(!raceActive)return;
  clearInterval(clock);questionLock=false;
  const a=Math.floor(Math.random()*13),b=Math.floor(Math.random()*13);
- answerValue=a*b;$('question').textContent=a+' × '+b+' = ?';
- $('feedback').textContent='';
+ answerValue=a*b;$('question').textContent=a+' × '+b+' = ?';$('feedback').textContent='';
  if(mode==='Easy'){
   const choices=new Set([answerValue]);
   while(choices.size<4)choices.add(Math.floor(Math.random()*145));
@@ -323,26 +283,21 @@ function submitAnswer(value){
  if(!raceActive||questionLock)return;
  questionLock=true;clearInterval(clock);
  if(Number(value)===answerValue){
-  correct++;playerProgress+=100/goal;rewards.candy+=10;
-  save();render();beep();
-  $('correctCount').textContent=correct;
-  $('progress').style.width=Math.min(100,playerProgress)+'%';
+  correct++;playerProgress+=100/goal;rewards.candy+=10;save();render();beep();
+  $('correctCount').textContent=correct;$('progress').style.width=Math.min(100,playerProgress)+'%';
   $('playerCar').style.marginLeft=Math.min(65,playerProgress*.65)+'%';
   $('feedback').textContent='Correct! +10 candy! 🍬';
   if(correct>=goal){finishRace();return}
   rivalProgress+=mode==='Easy'?5:mode==='Hard'?8:11;
   $('rivalCar').style.marginLeft=Math.min(65,rivalProgress*.65)+'%';
   setTimeout(nextQuestion,550);
- }else{
-  questionLock=false;wrongAnswer('Not quite! Keep racing! 🎃');
- }
+ }else{questionLock=false;wrongAnswer('Not quite! Keep racing! 🎃')}
 }
 function wrongAnswer(message){
  if(!raceActive)return;
  questionLock=true;clearInterval(clock);
  if(mode==='Impossible'){
-  playerProgress=Math.max(0,playerProgress-10);
-  $('progress').style.width=playerProgress+'%';
+  playerProgress=Math.max(0,playerProgress-10);$('progress').style.width=playerProgress+'%';
   $('playerCar').style.marginLeft=Math.min(65,playerProgress*.65)+'%';
  }
  rivalProgress+=mode==='Easy'?6:mode==='Hard'?9:13;
@@ -351,24 +306,20 @@ function wrongAnswer(message){
  setTimeout(()=>{if(raceActive)nextQuestion()},750);
 }
 function finishRace(){
- raceActive=false;clearInterval(clock);
- rewards.candy+=100;wins[mode]=(wins[mode]||0)+1;
- $('feedback').textContent='🏆 YOU WON! +100 bonus candy!';
- save();render();
+ raceActive=false;clearInterval(clock);rewards.candy+=100;wins[mode]=(wins[mode]||0)+1;
+ $('feedback').textContent='🏆 YOU WON! +100 bonus candy!';save();render();
  setTimeout(()=>{
   const name=prompt('You won! Enter a leaderboard name:','Player');
   if(name&&name.trim()){
    if(!Array.isArray(boards[mode]))boards[mode]=[];
    boards[mode].push({name:name.trim().slice(0,18),score:correct});
-   boards[mode].sort((a,b)=>b.score-a.score);
-   boards[mode]=boards[mode].slice(0,10);save();
+   boards[mode].sort((a,b)=>b.score-a.score);boards[mode]=boards[mode].slice(0,10);save();
   }
   showBoard(mode);alert('Race complete! You earned 100 bonus candy!');
  },100);
 }
 function quitRace(){
- raceActive=false;clearInterval(clock);
- $('game').classList.add('hidden');$('home').classList.remove('hidden');render();
+ raceActive=false;clearInterval(clock);$('game').classList.add('hidden');$('home').classList.remove('hidden');render();
 }
 function showBoard(m){
  const area=$('board');area.replaceChildren();
@@ -376,23 +327,18 @@ function showBoard(m){
  const list=Array.isArray(boards[m])?boards[m]:[];
  if(!list.length){const p=document.createElement('p');p.textContent='No wins yet. Be the first racer!';area.appendChild(p);return}
  const table=document.createElement('table'),head=document.createElement('tr');
- ['Rank','Player','Correct'].forEach(text=>{
-  const th=document.createElement('th');th.textContent=text;head.appendChild(th);
- });
+ ['Rank','Player','Correct'].forEach(text=>{const th=document.createElement('th');th.textContent=text;head.appendChild(th)});
  table.appendChild(head);
  list.forEach((entry,index)=>{
   const tr=document.createElement('tr');
-  [index+1,entry.name,entry.score].forEach(value=>{
-   const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
-  });
+  [index+1,entry.name,entry.score].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});
   table.appendChild(tr);
  });
  area.appendChild(table);
 }
 function ownerLogin(){
  if($('ownerCode').value===OWNER_CODE){
-  $('ownerControls').classList.remove('hidden');
-  $('ownerStatus').textContent='Owner panel unlocked!';
+  $('ownerControls').classList.remove('hidden');$('ownerStatus').textContent='Owner panel unlocked!';
  }else $('ownerStatus').textContent='Incorrect owner code.';
  $('ownerCode').value='';
 }
@@ -415,13 +361,13 @@ function rewardOne(){
  const name=$('playerName').value.trim();
  if(!name){$('rewardMessage').textContent='Type the player name first.';return}
  addAwardLog(name,amount);
- $('rewardMessage').textContent='Demo award recorded for "'+name+'" ('+amount+' candy). It has NOT been delivered to another player. Connect a shared database to deliver it online.';
+ $('rewardMessage').textContent='Demo award recorded for "'+name+'" ('+amount+' candy). It has NOT been delivered to another player. A shared database is needed for online delivery.';
 }
 function rewardEveryone(){
  const amount=validAmount();if(amount===null)return;
  if(!confirm('Record a demo award of '+amount+' candy for everyone?'))return;
  addAwardLog('EVERYONE',amount);
- $('rewardMessage').textContent='Demo broadcast recorded ('+amount+' candy per player). It has NOT been delivered to other devices. A shared database is required.';
+ $('rewardMessage').textContent='Demo broadcast recorded ('+amount+' candy per player). It has NOT been delivered to other devices. A shared database is needed.';
 }
 function renderAwardLog(){
  const area=$('awardLog');if(!area)return;area.replaceChildren();
@@ -431,9 +377,7 @@ function renderAwardLog(){
  table.appendChild(head);
  awardLog.forEach(entry=>{
   const tr=document.createElement('tr');
-  [entry.target,entry.amount,entry.date].forEach(value=>{
-   const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
-  });
+  [entry.target,entry.amount,entry.date].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});
   table.appendChild(tr);
  });
  area.appendChild(table);
