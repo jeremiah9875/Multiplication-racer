@@ -1,91 +1,77 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Halloween Multiplication Racer</title>
+
 <style>
 *{box-sizing:border-box}
 body{
  margin:0;font-family:Arial,sans-serif;color:#fff4df;text-align:center;
- background:linear-gradient(180deg,#210936,#50105d 50%,#a52b32);
+ background:linear-gradient(180deg,#160522,#39094f 55%,#74152f);
  min-height:100vh
 }
-main{width:min(100%,1000px);margin:auto;padding:16px}
-h1{font-size:clamp(36px,8vw,68px);line-height:1;margin:16px 0;color:#ff9e28;text-shadow:3px 4px #46102f}
-h2{margin:8px 0 16px}
+main{width:min(100%,1000px);margin:auto;padding:14px}
+h1{font-size:clamp(38px,8vw,68px);line-height:1;margin:16px 0;color:#ff9e28;text-shadow:3px 4px #46102f}
+h2{margin:8px 0 16px;color:#ffb74e}
 p{line-height:1.5}
 header p{font-weight:bold}
 .hero{font-size:90px;filter:drop-shadow(0 0 15px #ff8b00)}
 .panel{
- background:#fff3dc;color:#281439;border:4px solid #261035;
- border-radius:22px;padding:16px;margin:16px 0;
- box-shadow:0 7px 0 #160820
+ background:linear-gradient(145deg,#24083f,#420c59);color:#fff4ff;
+ border:3px solid #a52bff;border-radius:22px;padding:16px;margin:16px 0;
+ box-shadow:0 0 16px #7620a0
 }
 .hidden{display:none!important}
 button,input{font:inherit}
 button{cursor:pointer;touch-action:manipulation;font-weight:bold}
-button:focus-visible,input:focus-visible{outline:4px solid #ff9e28;outline-offset:3px}
+button:focus-visible,input:focus-visible{outline:4px solid #ffdf4e;outline-offset:3px}
 .modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .mode{
  display:flex;flex-direction:column;align-items:center;gap:7px;
- background:#fffaf0;color:#281439;border:3px solid #39204b;
- border-radius:16px;padding:13px;min-height:150px
+ background:linear-gradient(145deg,#301044,#4c176b);color:white;
+ border:3px solid #a52bff;border-radius:16px;padding:13px;min-height:150px
 }
-.mode.active{background:#b8ffd7;border-color:#148b60}
+.mode.active{background:linear-gradient(145deg,#07523e,#00a96b);border-color:#26ff9b;box-shadow:0 0 12px #00ff99}
 .mode .emoji{font-size:34px}
 .mode strong{font-size:20px}
 .mode small{line-height:1.4}
-.wins{background:#eadcf6;border-radius:20px;padding:5px 10px}
-.wallet{
- margin:15px auto;padding:12px;background:#ffe6a0;color:#713000;
- border:3px solid #281439;border-radius:14px;font-size:21px;font-weight:bold
-}
+.wins{background:#241033;color:#ffe65c;border:1px solid #a52bff;border-radius:20px;padding:5px 10px}
+.wallet{margin:15px auto;padding:12px;background:#43204f;color:#ffe65c;border:3px solid #ff9e28;border-radius:14px;font-size:21px;font-weight:bold}
 .garage{background:#281439;color:white;border:3px dashed #ff9e28;border-radius:18px;padding:14px}
 .garage h2{color:#ffb74e}
 .garage-pumpkin{font-size:76px;filter:drop-shadow(0 0 12px #ff7b00)}
-.action,.start,.secondary,.choice{
- border:3px solid #281439;border-radius:13px;padding:12px;
- color:#281439;background:#ff9e28;font-weight:bold
-}
+.action,.start,.secondary,.choice{border:3px solid #281439;border-radius:13px;padding:12px;color:#fff;background:#7620a0;font-weight:bold}
 .action:disabled{opacity:.5;cursor:not-allowed}
-.start{width:100%;font-size:clamp(22px,5vw,32px);margin-top:14px;background:#ffdf4e}
+.start{width:100%;font-size:clamp(22px,5vw,32px);margin-top:14px;background:#ffdf4e;color:#281439}
 .hud{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#f1e8f8;border:2px solid #281439;border-radius:12px;padding:8px}
+.stat{background:#301044;color:white;border:2px solid #a52bff;border-radius:12px;padding:8px}
 .stat span,.stat b{display:block}
 .stat b{font-size:22px;margin-top:4px}
-.track{
- position:relative;height:180px;overflow:hidden;border:4px solid #281439;
- border-radius:18px;margin:16px 0;background:#5b9a42
-}
+.track{position:relative;height:180px;overflow:hidden;border:4px solid #a52bff;border-radius:18px;margin:16px 0;background:#386d30}
 .road{position:absolute;left:0;right:0;top:20px;height:132px;background:#393341}
-.lane{position:absolute;left:0;right:0;top:84px;border-top:4px dashed white}
-.finish{
- position:absolute;right:8px;top:20px;height:132px;width:18px;
- background:repeating-conic-gradient(#fff 0 25%,#222 0 50%) 0/18px 18px
-}
-.racer{
- position:absolute;left:8px;z-index:2;font-size:40px;
- filter:drop-shadow(0 3px 2px #000);transition:left .2s
-}
+.lane{position:absolute;left:0;right:0;top:84px;border-top:4px dashed #ffdf4e}
+.finish{position:absolute;right:8px;top:20px;height:132px;width:18px;background:repeating-conic-gradient(#fff 0 25%,#222 0 50%) 0/18px 18px}
+.racer{position:absolute;left:8px;z-index:2;font-size:40px;filter:drop-shadow(0 3px 2px #000);transition:left .2s}
 #playerCar{top:28px}
 #rivalCar{top:91px}
-.question{font-size:clamp(34px,8vw,52px);font-weight:900;margin:15px}
-.clock{color:#b21c68;font-weight:bold;min-height:24px}
+.question{font-size:clamp(34px,8vw,52px);font-weight:900;margin:15px;color:#ffe65c}
+.clock{color:#ff9fd8;font-weight:bold;min-height:24px}
 .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:500px;margin:12px auto}
-.choice{font-size:24px;background:#fff}
+.choice{font-size:24px;background:#301044;border-color:#a52bff;color:white}
 .answer-row{display:flex;gap:8px;max-width:500px;margin:12px auto}
-#answer{width:100%;min-width:0;border:3px solid #bba8d2;border-radius:12px;padding:12px;text-align:center;font-size:22px}
+#answer{width:100%;min-width:0;background:#241033;color:white;border:3px solid #a52bff;border-radius:12px;padding:12px;text-align:center;font-size:22px}
 .message{font-weight:bold;min-height:28px;margin:12px}
 .tools{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:12px}
-.secondary{background:#fff0d0}
+.secondary{background:#4b2161;border-color:#a52bff}
 .board-category{margin:20px 0;text-align:left;overflow-x:auto}
-.board-category h3{color:#7925a5}
-table{width:100%;border-collapse:collapse;background:#fffaf0;color:#281439}
-th,td{padding:9px 5px;border-bottom:2px solid #e5d9ed;text-align:center;font-size:14px}
-th{background:#ead8ff}
+.board-category h3{color:#e9a0ff}
+table{width:100%;border-collapse:collapse;background:#20072f;color:white}
+th,td{padding:9px 5px;border-bottom:2px solid #572070;text-align:center;font-size:14px}
+th{background:#60138a;color:#ffe65c}
+td{background:#2b0c40}
 footer{padding:20px}
 @media(max-width:620px){
  main{padding:10px}
@@ -101,13 +87,14 @@ footer{padding:20px}
 }
 </style>
 </head>
+
 <body>
 <main>
 <header>
 <p>🦇 🌕 🏚️ 🦇</p>
 <h1>HALLOWEEN<br>RACER</h1>
 <p>Solve times tables from 0 to 12, beat the spooky bots, earn candy, and unlock your Pumpkin Racer!</p>
-<div class="hero" aria-label="Pumpkin racer">🎃</div>
+<div class="hero">🎃</div>
 </header>
 
 <section class="panel" id="menu">
@@ -135,8 +122,8 @@ footer{padding:20px}
 <div class="garage">
 <h2>🎃 SPOOKY GARAGE</h2>
 <div class="garage-pumpkin" id="garageCar">🎃</div>
-<p id="garageStatus">Win races to earn candy. Your Pumpkin Racer costs 100 points!</p>
-<button class="action" id="pumpkinButton" type="button">Unlock Pumpkin Racer — 100 🍬</button>
+<p id="garageStatus">Win races to earn candy. Your Pumpkin Racer costs 500 points!</p>
+<button class="action" id="pumpkinButton" type="button">Unlock Pumpkin Racer — 500 🍬</button>
 </div>
 
 <button class="start" id="start" type="button">🏁 START RACE!</button>
@@ -151,7 +138,7 @@ footer{padding:20px}
 
 <div class="track">
 <div class="road"></div><div class="lane"></div><div class="finish"></div>
-<div class="racer" id="playerCar">🎃</div>
+<div class="racer" id="playerCar">🏎️</div>
 <div class="racer" id="rivalCar">🤖</div>
 </div>
 
@@ -194,321 +181,304 @@ footer{padding:20px}
 
 <footer>🎃 Halloween Racer • Beat the bots, collect candy, and race your pumpkin! 🦇</footer>
 </main>
-</body>
-</html>
 
 <script>
 (() => {
-  const $ = id => document.getElementById(id);
+"use strict";
+const $ = id => document.getElementById(id);
 
-  const modes = {
-    easy: { label: "Easy", goal: 10, points: 10, speed: 0.35 },
-    hard: { label: "Hard", goal: 12, points: 20, speed: 0.75 },
-    impossible: { label: "Impossible", goal: 15, points: 30, speed: 1.2 }
-  };
+const modes = {
+ easy:{label:"Easy",goal:10,points:10,speed:1.15},
+ hard:{label:"Hard",goal:12,points:20,speed:1.8},
+ impossible:{label:"Impossible",goal:15,points:30,speed:2.5}
+};
 
-  let mode = "easy";
-  let a = 0, b = 0, progress = 0, score = 0, rival = 0;
-  let active = false, clockId, botId, deadline, started;
-  let board = read("mrLeaderboard", {});
-  let rewards = read("mrHalloweenRewards", {
-    candy: 0, pumpkinUnlocked: false, pumpkinEquipped: false
+let mode="easy",a=0,b=0,progress=0,score=0,rival=0;
+let active=false,clockId=null,botId=null,deadline=0,started=0;
+let board=read("mrLeaderboard",{});
+let rewards=read("mrHalloweenRewards",{
+ candy:0,pumpkinUnlocked:false,pumpkinEquipped:false
+});
+
+function read(key,fallback){
+ try{
+  const value=JSON.parse(localStorage.getItem(key));
+  return value && typeof value==="object"?value:fallback;
+ }catch{return fallback;}
+}
+function save(){
+ try{
+  localStorage.setItem("mrLeaderboard",JSON.stringify(board));
+  localStorage.setItem("mrHalloweenRewards",JSON.stringify(rewards));
+ }catch{}
+}
+function message(text,good=false){
+ $("message").textContent=text;
+ $("message").style.color=good?"#26ff9b":"#ff9fd8";
+}
+function stopTimers(){
+ clearInterval(botId);
+ clearInterval(clockId);
+ botId=null;
+ clockId=null;
+}
+function garage(){
+ $("candyPoints").textContent=rewards.candy;
+ $("garageCar").textContent="🎃";
+ const button=$("pumpkinButton");
+ button.disabled=false;
+
+ if(rewards.pumpkinEquipped){
+  button.textContent="Pumpkin Racer Equipped! 🎃";
+  button.disabled=true;
+  $("garageStatus").textContent="Your pumpkin is ready to race!";
+ }else if(rewards.pumpkinUnlocked){
+  button.textContent="Equip Pumpkin Racer 🎃";
+  $("garageStatus").textContent="Your Pumpkin Racer is unlocked!";
+ }else{
+  button.textContent="Unlock Pumpkin Racer — 500 🍬";
+  button.disabled=rewards.candy<500;
+  $("garageStatus").textContent="Win races to earn candy. The pumpkin costs 500 points!";
+ }
+}
+function position(){
+ $("playerCar").textContent=rewards.pumpkinEquipped?"🎃":"🏎️";
+ $("playerCar").style.left=
+  `calc(${Math.min(progress/modes[mode].goal*88,88)}% - 4px)`;
+ $("rivalCar").style.left=`calc(${Math.min(rival,88)}% - 4px)`;
+}
+function hud(){
+ $("modeLabel").textContent=modes[mode].label;
+ $("progress").textContent=`${progress} / ${modes[mode].goal}`;
+ $("score").textContent=score;
+ position();
+}
+function question(){
+ if(!active)return;
+ a=Math.floor(Math.random()*13);
+ b=Math.floor(Math.random()*13);
+ $("question").textContent=`${a} × ${b} = ?`;
+ $("answer").value="";
+ $("choices").innerHTML="";
+
+ if(mode==="easy"){
+  $("choices").classList.remove("hidden");
+  $("answerForm").classList.add("hidden");
+  const options=new Set([a*b]);
+  while(options.size<4){
+   options.add(Math.floor(Math.random()*145));
+  }
+  const shuffled=[...options].sort(()=>Math.random()-.5);
+  shuffled.forEach(value=>{
+   const button=document.createElement("button");
+   button.type="button";
+   button.className="choice";
+   button.textContent=value;
+   button.addEventListener("click",()=>submit(value));
+   $("choices").appendChild(button);
   });
+ }else{
+  $("choices").classList.add("hidden");
+  $("answerForm").classList.remove("hidden");
+ }
 
-  function read(key, fallback) {
-    try {
-      return JSON.parse(localStorage.getItem(key)) || fallback;
-    } catch {
-      return fallback;
-    }
-  }
-
-  function save() {
-    try {
-      localStorage.setItem("mrLeaderboard", JSON.stringify(board));
-      localStorage.setItem("mrHalloweenRewards", JSON.stringify(rewards));
-    } catch {}
-  }
-
-  function message(text, good = false) {
-    $("message").textContent = text;
-    $("message").style.color = good ? "#087b50" : "#b51f65";
-  }
-
-  function garage() {
-    $("candyPoints").textContent = rewards.candy;
-    $("garageCar").textContent = "🎃";
-
-    const button = $("pumpkinButton");
-    button.disabled = false;
-
-    if (rewards.pumpkinEquipped) {
-      button.textContent = "Pumpkin Racer Equipped! 🎃";
-      button.disabled = true;
-      $("garageStatus").textContent = "Your pumpkin is ready to race!";
-    } else if (rewards.pumpkinUnlocked) {
-      button.textContent = "Equip Pumpkin Racer 🎃";
-      $("garageStatus").textContent = "Your Pumpkin Racer is unlocked!";
-    } else {
-      button.textContent = "Unlock Pumpkin Racer — 100 🍬";
-      button.disabled = rewards.candy < 100;
-      $("garageStatus").textContent =
-        "Win races to earn candy. The pumpkin costs 100 points!";
-    }
-  }
-
-  function position() {
-    $("playerCar").textContent = "🎃";
-    $("playerCar").style.left =
-      `calc(${Math.min(progress / modes[mode].goal * 88, 88)}% - 4px)`;
-    $("rivalCar").style.left = `calc(${Math.min(rival, 88)}% - 4px)`;
-  }
-
-  function hud() {
-    $("modeLabel").textContent = modes[mode].label;
-    $("progress").textContent = `${progress} / ${modes[mode].goal}`;
-    $("score").textContent = score;
+ clearInterval(clockId);
+ clockId=null;
+ if(mode==="impossible"){
+  deadline=Date.now()+4000;
+  clockId=setInterval(()=>{
+   if(!active)return;
+   const left=Math.max(0,(deadline-Date.now())/1000);
+   $("clock").textContent=`⏱ ${left.toFixed(1)} seconds`;
+   if(left<=0){
+    clearInterval(clockId);
+    clockId=null;
+    rival=Math.min(94,rival+8);
     position();
-  }
-
-  function question() {
-    a = Math.floor(Math.random() * 13);
-    b = Math.floor(Math.random() * 13);
-    $("question").textContent = `${a} × ${b} = ?`;
-    $("answer").value = "";
-
-    $("choices").innerHTML = "";
-
-    if (mode === "easy") {
-      $("choices").classList.remove("hidden");
-      $("answerForm").classList.add("hidden");
-
-      const options = new Set([a * b]);
-      while (options.size < 4) {
-        options.add(Math.floor(Math.random() * 145));
-      }
-
-      [...options].sort(() => Math.random() - 0.5).forEach(value => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "choice";
-        button.textContent = value;
-        button.addEventListener("click", () => submit(value));
-        $("choices").appendChild(button);
-      });
-    } else {
-      $("choices").classList.add("hidden");
-      $("answerForm").classList.remove("hidden");
-    }
-
-    clearInterval(clockId);
-
-    if (mode === "impossible") {
-      deadline = Date.now() + 4000;
-      clockId = setInterval(() => {
-        if (!active) return;
-        const left = Math.max(0, (deadline - Date.now()) / 1000);
-        $("clock").textContent = `⏱ ${left.toFixed(1)} seconds`;
-
-        if (left <= 0) {
-          clearInterval(clockId);
-          rival = Math.min(94, rival + 8);
-          position();
-          message("Time's up! The bot moved ahead.");
-          question();
-        }
-      }, 100);
-    } else {
-      $("clock").textContent = "";
-    }
-  }
-
-  function finish(win) {
-    active = false;
-    clearInterval(botId);
-    clearInterval(clockId);
-    $("choices").classList.add("hidden");
-    $("answerForm").classList.add("hidden");
-
-    if (!win) {
-      $("question").textContent = "🤖 BOT WINS!";
-      message("The bot finished first. Try again!");
-      return;
-    }
-
-    $("question").textContent = "🏆 YOU WIN!";
-    $("clock").textContent = "🏁 Finished!";
-    message("You beat the bot! +50 candy points!", true);
-
-    board[mode] ||= { wins: 0, times: [] };
-    board[mode].wins++;
-    board[mode].times ||= [];
-    board[mode].times.push((Date.now() - started) / 1000);
-    board[mode].times.sort((x, y) => x - y);
-    board[mode].times = board[mode].times.slice(0, 5);
-
-    rewards.candy += 50;
-    save();
-    garage();
-    renderBoard();
-    renderWins();
-  }
-
-  function submit(value) {
-    if (!active) return;
-
-    if (Number(value) !== a * b) {
-      if (mode === "impossible") {
-        progress = Math.max(0, progress - 1);
-        hud();
-        message("Wrong answer! You moved backward.");
-      } else {
-        message("Not quite! Try again.");
-      }
-      return;
-    }
-
-    clearInterval(clockId);
-    progress++;
-    score += modes[mode].points;
-    hud();
-
-    if (progress >= modes[mode].goal) {
-      finish(true);
-      return;
-    }
-
-    message("Correct! Your pumpkin zooms forward!", true);
+    message("Time's up! The bot moved ahead.");
     question();
+   }
+  },100);
+ }else{
+  $("clock").textContent="";
+ }
+}
+function finish(win){
+ if(!active)return;
+ active=false;
+ stopTimers();
+ $("choices").classList.add("hidden");
+ $("answerForm").classList.add("hidden");
+
+ if(!win){
+  $("question").textContent="🤖 BOT WINS!";
+  $("clock").textContent="Race over!";
+  message("The bot finished first. Try again!");
+  return;
+ }
+
+ $("question").textContent="🏆 YOU WIN!";
+ $("clock").textContent="🏁 Finished!";
+ message("You beat the bot! +50 candy points!",true);
+
+ board[mode] ||= {wins:0,times:[]};
+ board[mode].wins=(board[mode].wins||0)+1;
+ board[mode].times ||= [];
+ board[mode].times.push((Date.now()-started)/1000);
+ board[mode].times.sort((x,y)=>x-y);
+ board[mode].times=board[mode].times.slice(0,5);
+
+ rewards.candy+=50;
+ save();
+ garage();
+ renderBoard();
+ renderWins();
+}
+function submit(value){
+ if(!active)return;
+
+ if(Number(value)!==a*b){
+  if(mode==="impossible"){
+   progress=Math.max(0,progress-1);
+   hud();
+   message("Wrong answer! You moved backward.");
+  }else{
+   message("Not quite! Try again.");
+  }
+  return;
+ }
+
+ clearInterval(clockId);
+ clockId=null;
+ progress++;
+ score+=modes[mode].points;
+ hud();
+
+ if(progress>=modes[mode].goal){
+  finish(true);
+  return;
+ }
+ message("Correct! Your racer zooms forward!",true);
+ question();
+}
+function start(){
+ stopTimers();
+ progress=0;
+ score=0;
+ rival=0;
+ active=true;
+ started=Date.now();
+
+ $("menu").classList.add("hidden");
+ $("board").classList.add("hidden");
+ $("game").classList.remove("hidden");
+ hud();
+ message("Race started! Answer quickly!");
+ question();
+
+ let previous=Date.now();
+ botId=setInterval(()=>{
+  if(!active)return;
+  const now=Date.now();
+  rival+=modes[mode].speed*(now-previous)/1000;
+  previous=now;
+  position();
+  if(rival>=94)finish(false);
+ },100);
+}
+function renderBoard(){
+ ["easy","hard","impossible"].forEach(key=>{
+  const body=$("leader-"+key);
+  body.replaceChildren();
+  const entries=board[key]?.times||[];
+
+  if(!entries.length){
+   const row=body.insertRow();
+   const cell=row.insertCell();
+   cell.colSpan=4;
+   cell.textContent="No finishes yet — race to rank here!";
+   return;
   }
 
-  function start() {
-    clearInterval(botId);
-    clearInterval(clockId);
-
-    progress = 0;
-    score = 0;
-    rival = 0;
-    active = true;
-    started = Date.now();
-
-    $("menu").classList.add("hidden");
-    $("game").classList.remove("hidden");
-
-    hud();
-    message("Race started! Answer quickly!");
-    question();
-
-    let previous = Date.now();
-    botId = setInterval(() => {
-      if (!active) return;
-
-      const now = Date.now();
-      rival += modes[mode].speed * (now - previous) / 1000;
-      previous = now;
-      position();
-
-      if (rival >= 94) finish(false);
-    }, 100);
-  }
-
-  function renderBoard() {
-    ["easy", "hard", "impossible"].forEach(key => {
-      const body = $("leader-" + key);
-      body.innerHTML = "";
-
-      const entries = board[key]?.times || [];
-
-      if (!entries.length) {
-        const row = body.insertRow();
-        const cell = row.insertCell();
-        cell.colSpan = 4;
-        cell.textContent = "No finishes yet — race to rank here!";
-        return;
-      }
-
-      entries.forEach((time, index) => {
-        const row = body.insertRow();
-        [
-          index + 1,
-          "You",
-          Number(time).toFixed(2) + " sec",
-          board[key].wins || 1
-        ].forEach(value => {
-          row.insertCell().textContent = value;
-        });
-      });
-    });
-
-    $("boardNote").textContent =
-      "Each mode is ranked by fastest finish time. Scores are saved on this device.";
-  }
-
-  function renderWins() {
-    ["easy", "hard", "impossible"].forEach(key => {
-      const element = $("wins-" + key);
-      if (element) {
-        const wins = board[key]?.wins || 0;
-        element.textContent = wins ? `${wins} wins` : "No wins yet";
-      }
-    });
-  }
-
-  document.querySelectorAll(".mode").forEach(button => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".mode").forEach(item =>
-        item.classList.remove("active")
-      );
-      button.classList.add("active");
-      mode = button.dataset.mode;
-    });
+  entries.forEach((time,index)=>{
+   const row=body.insertRow();
+   [
+    index+1,
+    "You",
+    Number(time).toFixed(2)+" sec",
+    board[key].wins||1
+   ].forEach(value=>{
+    row.insertCell().textContent=value;
+   });
   });
+ });
+ $("boardNote").textContent=
+  "Each mode is ranked by fastest finish time. Scores are saved on this device.";
+}
+function renderWins(){
+ ["easy","hard","impossible"].forEach(key=>{
+  const wins=board[key]?.wins||0;
+  $("wins-"+key).textContent=wins?`${wins} wins`:"No wins yet";
+ });
+}
 
-  $("start").addEventListener("click", start);
-  $("restart").addEventListener("click", start);
+document.querySelectorAll(".mode").forEach(button=>{
+ button.addEventListener("click",()=>{
+  if(active)return;
+  document.querySelectorAll(".mode").forEach(item=>item.classList.remove("active"));
+  button.classList.add("active");
+  mode=button.dataset.mode;
+ });
+});
 
-  $("backMenu").addEventListener("click", () => {
-    active = false;
-    clearInterval(botId);
-    clearInterval(clockId);
-    $("game").classList.add("hidden");
-    $("menu").classList.remove("hidden");
-  });
+$("start").addEventListener("click",start);
+$("restart").addEventListener("click",start);
 
-  $("answerForm").addEventListener("submit", event => {
-    event.preventDefault();
-    if ($("answer").value.trim() !== "") {
-      submit(Number($("answer").value));
-    }
-  });
+$("backMenu").addEventListener("click",()=>{
+ active=false;
+ stopTimers();
+ $("game").classList.add("hidden");
+ $("menu").classList.remove("hidden");
+ $("board").classList.remove("hidden");
+});
 
-  $("pumpkinButton").addEventListener("click", () => {
-    if (rewards.pumpkinUnlocked) {
-      rewards.pumpkinEquipped = true;
-    } else if (rewards.candy >= 100) {
-      rewards.candy -= 100;
-      rewards.pumpkinUnlocked = true;
-      rewards.pumpkinEquipped = true;
-    } else {
-      message(`You need ${100 - rewards.candy} more candy points!`);
-      return;
-    }
-    save();
-    garage();
-  });
+$("answerForm").addEventListener("submit",event=>{
+ event.preventDefault();
+ if($("answer").value.trim()!==""){
+  submit(Number($("answer").value));
+ }
+});
 
-  $("resetScores").addEventListener("click", () => {
-    if (confirm("Reset all local leaderboard scores?")) {
-      board = {};
-      save();
-      renderBoard();
-      renderWins();
-    }
-  });
+$("pumpkinButton").addEventListener("click",()=>{
+ if(rewards.pumpkinUnlocked){
+  rewards.pumpkinEquipped=true;
+ }else if(rewards.candy>=500){
+  rewards.candy-=500;
+  rewards.pumpkinUnlocked=true;
+  rewards.pumpkinEquipped=true;
+ }else{
+  message(`You need ${500-rewards.candy} more candy points!`);
+  return;
+ }
+ save();
+ garage();
+ position();
+});
 
-  garage();
+$("resetScores").addEventListener("click",()=>{
+ if(confirm("Reset all local leaderboard scores?")){
+  board={};
+  save();
   renderBoard();
   renderWins();
+ }
+});
+
+garage();
+renderBoard();
+renderWins();
 })();
 </script>
-```
+</body>
+</html>
+
