@@ -196,3 +196,328 @@ footer{padding:20px}
 </main>
 </body>
 </html>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  const modes = {
+    easy: { label: "Easy", goal: 10, points: 10, speed: 0.35 },
+    hard: { label: "Hard", goal: 12, points: 20, speed: 0.75 },
+    impossible: { label: "Impossible", goal: 15, points: 30, speed: 1.2 }
+  };
+
+  let mode = "easy";
+  let a = 0, b = 0, progress = 0, score = 0, rival = 0;
+  let active = false, clockId, botId, deadline, started;
+  let board = read("mrLeaderboard", {});
+  let rewards = read("mrHalloweenRewards", {
+    candy: 0, pumpkinUnlocked: false, pumpkinEquipped: false
+  });
+
+  function read(key, fallback) {
+    try {
+      return JSON.parse(localStorage.getItem(key)) || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function save() {
+    try {
+      localStorage.setItem("mrLeaderboard", JSON.stringify(board));
+      localStorage.setItem("mrHalloweenRewards", JSON.stringify(rewards));
+    } catch {}
+  }
+
+  function message(text, good = false) {
+    $("message").textContent = text;
+    $("message").style.color = good ? "#087b50" : "#b51f65";
+  }
+
+  function garage() {
+    $("candyPoints").textContent = rewards.candy;
+    $("garageCar").textContent = "🎃";
+
+    const button = $("pumpkinButton");
+    button.disabled = false;
+
+    if (rewards.pumpkinEquipped) {
+      button.textContent = "Pumpkin Racer Equipped! 🎃";
+      button.disabled = true;
+      $("garageStatus").textContent = "Your pumpkin is ready to race!";
+    } else if (rewards.pumpkinUnlocked) {
+      button.textContent = "Equip Pumpkin Racer 🎃";
+      $("garageStatus").textContent = "Your Pumpkin Racer is unlocked!";
+    } else {
+      button.textContent = "Unlock Pumpkin Racer — 100 🍬";
+      button.disabled = rewards.candy < 100;
+      $("garageStatus").textContent =
+        "Win races to earn candy. The pumpkin costs 100 points!";
+    }
+  }
+
+  function position() {
+    $("playerCar").textContent = "🎃";
+    $("playerCar").style.left =
+      `calc(${Math.min(progress / modes[mode].goal * 88, 88)}% - 4px)`;
+    $("rivalCar").style.left = `calc(${Math.min(rival, 88)}% - 4px)`;
+  }
+
+  function hud() {
+    $("modeLabel").textContent = modes[mode].label;
+    $("progress").textContent = `${progress} / ${modes[mode].goal}`;
+    $("score").textContent = score;
+    position();
+  }
+
+  function question() {
+    a = Math.floor(Math.random() * 13);
+    b = Math.floor(Math.random() * 13);
+    $("question").textContent = `${a} × ${b} = ?`;
+    $("answer").value = "";
+
+    $("choices").innerHTML = "";
+
+    if (mode === "easy") {
+      $("choices").classList.remove("hidden");
+      $("answerForm").classList.add("hidden");
+
+      const options = new Set([a * b]);
+      while (options.size < 4) {
+        options.add(Math.floor(Math.random() * 145));
+      }
+
+      [...options].sort(() => Math.random() - 0.5).forEach(value => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice";
+        button.textContent = value;
+        button.addEventListener("click", () => submit(value));
+        $("choices").appendChild(button);
+      });
+    } else {
+      $("choices").classList.add("hidden");
+      $("answerForm").classList.remove("hidden");
+    }
+
+    clearInterval(clockId);
+
+    if (mode === "impossible") {
+      deadline = Date.now() + 4000;
+      clockId = setInterval(() => {
+        if (!active) return;
+        const left = Math.max(0, (deadline - Date.now()) / 1000);
+        $("clock").textContent = `⏱ ${left.toFixed(1)} seconds`;
+
+        if (left <= 0) {
+          clearInterval(clockId);
+          rival = Math.min(94, rival + 8);
+          position();
+          message("Time's up! The bot moved ahead.");
+          question();
+        }
+      }, 100);
+    } else {
+      $("clock").textContent = "";
+    }
+  }
+
+  function finish(win) {
+    active = false;
+    clearInterval(botId);
+    clearInterval(clockId);
+    $("choices").classList.add("hidden");
+    $("answerForm").classList.add("hidden");
+
+    if (!win) {
+      $("question").textContent = "🤖 BOT WINS!";
+      message("The bot finished first. Try again!");
+      return;
+    }
+
+    $("question").textContent = "🏆 YOU WIN!";
+    $("clock").textContent = "🏁 Finished!";
+    message("You beat the bot! +50 candy points!", true);
+
+    board[mode] ||= { wins: 0, times: [] };
+    board[mode].wins++;
+    board[mode].times ||= [];
+    board[mode].times.push((Date.now() - started) / 1000);
+    board[mode].times.sort((x, y) => x - y);
+    board[mode].times = board[mode].times.slice(0, 5);
+
+    rewards.candy += 50;
+    save();
+    garage();
+    renderBoard();
+    renderWins();
+  }
+
+  function submit(value) {
+    if (!active) return;
+
+    if (Number(value) !== a * b) {
+      if (mode === "impossible") {
+        progress = Math.max(0, progress - 1);
+        hud();
+        message("Wrong answer! You moved backward.");
+      } else {
+        message("Not quite! Try again.");
+      }
+      return;
+    }
+
+    clearInterval(clockId);
+    progress++;
+    score += modes[mode].points;
+    hud();
+
+    if (progress >= modes[mode].goal) {
+      finish(true);
+      return;
+    }
+
+    message("Correct! Your pumpkin zooms forward!", true);
+    question();
+  }
+
+  function start() {
+    clearInterval(botId);
+    clearInterval(clockId);
+
+    progress = 0;
+    score = 0;
+    rival = 0;
+    active = true;
+    started = Date.now();
+
+    $("menu").classList.add("hidden");
+    $("game").classList.remove("hidden");
+
+    hud();
+    message("Race started! Answer quickly!");
+    question();
+
+    let previous = Date.now();
+    botId = setInterval(() => {
+      if (!active) return;
+
+      const now = Date.now();
+      rival += modes[mode].speed * (now - previous) / 1000;
+      previous = now;
+      position();
+
+      if (rival >= 94) finish(false);
+    }, 100);
+  }
+
+  function renderBoard() {
+    ["easy", "hard", "impossible"].forEach(key => {
+      const body = $("leader-" + key);
+      body.innerHTML = "";
+
+      const entries = board[key]?.times || [];
+
+      if (!entries.length) {
+        const row = body.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 4;
+        cell.textContent = "No finishes yet — race to rank here!";
+        return;
+      }
+
+      entries.forEach((time, index) => {
+        const row = body.insertRow();
+        [
+          index + 1,
+          "You",
+          Number(time).toFixed(2) + " sec",
+          board[key].wins || 1
+        ].forEach(value => {
+          row.insertCell().textContent = value;
+        });
+      });
+    });
+
+    $("boardNote").textContent =
+      "Each mode is ranked by fastest finish time. Scores are saved on this device.";
+  }
+
+  function renderWins() {
+    ["easy", "hard", "impossible"].forEach(key => {
+      const element = $("wins-" + key);
+      if (element) {
+        const wins = board[key]?.wins || 0;
+        element.textContent = wins ? `${wins} wins` : "No wins yet";
+      }
+    });
+  }
+
+  document.querySelectorAll(".mode").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".mode").forEach(item =>
+        item.classList.remove("active")
+      );
+      button.classList.add("active");
+      mode = button.dataset.mode;
+    });
+  });
+
+  $("start").addEventListener("click", start);
+  $("restart").addEventListener("click", start);
+
+  $("backMenu").addEventListener("click", () => {
+    active = false;
+    clearInterval(botId);
+    clearInterval(clockId);
+    $("game").classList.add("hidden");
+    $("menu").classList.remove("hidden");
+  });
+
+  $("answerForm").addEventListener("submit", event => {
+    event.preventDefault();
+    if ($("answer").value.trim() !== "") {
+      submit(Number($("answer").value));
+    }
+  });
+
+  $("pumpkinButton").addEventListener("click", () => {
+    if (rewards.pumpkinUnlocked) {
+      rewards.pumpkinEquipped = true;
+    } else if (rewards.candy >= 100) {
+      rewards.candy -= 100;
+      rewards.pumpkinUnlocked = true;
+      rewards.pumpkinEquipped = true;
+    } else {
+      message(`You need ${100 - rewards.candy} more candy points!`);
+      return;
+    }
+    save();
+    garage();
+  });
+
+  $("resetScores").addEventListener("click", () => {
+    if (confirm("Reset all local leaderboard scores?")) {
+      board = {};
+      save();
+      renderBoard();
+      renderWins();
+    }
+  });
+
+  garage();
+  renderBoard();
+  renderWins();
+})();
+</script>
+```
+
+## Then publish it
+
+1. Make sure this script is **above** `</body>`.
+2. Check that your file still ends with `</body>` and `</html>`.
+3. Tap **Commit changes**.
+4. Wait a few minutes, then refresh your website: [Multiplication Racer](https://jeremiah9875.github.io/Multiplication-racer/).
+
+This script expects the HTML and CSS from Part 1 to be present in the same file. If the page still appears unstyled, the first part was not saved correctly.
