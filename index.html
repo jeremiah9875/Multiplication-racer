@@ -1,26 +1,25 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Halloween Multiplication Racer</title>
 <style>
 *{box-sizing:border-box}
-:root{--purple:#281044;--mint:#2bd8a0;--gold:#ffdc58}
 body{margin:0;font-family:Arial,sans-serif;color:#281536;background:linear-gradient(145deg,#a72be8,#d43bcf 52%,#ff6688);min-height:100vh}
-button,input{font:inherit}button{cursor:pointer}
-.app{max-width:1000px;margin:auto;padding:15px}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:950px;margin:auto;padding:15px}
 header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:white;font-weight:1000}
-.candy{background:var(--purple);padding:12px 16px;border-radius:25px}
-.hero{text-align:center;color:white;padding:25px 5px}
-.hero h1{font-size:clamp(35px,8vw,72px);line-height:1;margin:14px 0;text-shadow:0 5px #49205d}
+.candy{background:#241044;border-radius:30px;padding:12px 16px}
+.hero{text-align:center;color:white;padding:24px 5px}
+.hero h1{font-size:clamp(35px,8vw,70px);line-height:1;margin:12px 0;text-shadow:0 5px #49205d}
 .hero h1 span{display:block;color:#ffdc58}
 .hero p{line-height:1.6}
 .decor{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
 .decor span{position:absolute;font-size:35px;animation:float 4s infinite ease-in-out}
-.decor span:nth-child(1){top:4%;left:4%}
+.decor span:nth-child(1){top:5%;left:4%}
 .decor span:nth-child(2){top:15%;right:4%}
 .decor span:nth-child(3){top:45%;left:2%}
 .decor span:nth-child(4){top:65%;right:3%}
@@ -31,14 +30,14 @@ header{display:flex;justify-content:space-between;align-items:center;gap:10px;fl
 .track{position:relative;height:180px;padding:18px;background:linear-gradient(#251039,#42205d);overflow:hidden}
 .track-title{color:#e1b6ff;font-size:11px;letter-spacing:2px;font-weight:bold}
 .moon{position:absolute;right:12%;top:20px;background:#ffdc87;width:48px;height:48px;border-radius:50%}
-.road{position:absolute;bottom:18px;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#ffffff88 0 30px,transparent 30px 55px)}
-.pumpkin{position:relative;width:180px;height:120px;margin:4px auto 0;animation:bob 2s infinite ease-in-out}
+.road{position:absolute;bottom:18px;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#fff8 0 30px,transparent 30px 55px)}
+.pumpkin{position:relative;width:180px;height:125px;margin:4px auto 0;animation:bob 2s infinite ease-in-out}
 @keyframes bob{50%{transform:translateY(-5px)}}
 .pbody{position:absolute;top:28px;left:14px;right:14px;height:72px;border:4px solid #a64a0b;border-radius:48%;background:linear-gradient(90deg,#ff7800,#ffb52e,#e45b08)}
 .rib{position:absolute;top:-4px;bottom:-4px;width:35px;border-left:3px solid #ffd05b;border-right:3px solid #bd4d0a;border-radius:50%}
 .r1{left:25px}.r2{left:58px}.r3{left:87px}
-.stem{position:absolute;z-index:2;left:79px;top:8px;width:23px;height:27px;background:#66a83a;border:3px solid #315c24;border-radius:7px}
-.leaf{position:absolute;z-index:2;left:99px;top:15px;width:25px;height:12px;background:#86c64a;border-radius:100% 0}
+.stem{position:absolute;top:8px;left:79px;width:23px;height:27px;background:#66a83a;border:3px solid #315c24;border-radius:7px;z-index:2}
+.leaf{position:absolute;top:15px;left:99px;width:25px;height:12px;background:#86c64a;border-radius:100% 0;z-index:2}
 .face{position:absolute;z-index:3;top:49px;left:0;right:0;display:flex;justify-content:center;gap:20px}
 .eye{width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:19px solid #351027;transform:rotate(180deg)}
 .grin{position:absolute;z-index:3;left:57px;top:72px;width:65px;height:20px;background:#351027;clip-path:polygon(0 0,100% 0,85% 65%,70% 40%,58% 100%,43% 45%,28% 90%,15% 45%,5% 70%)}
@@ -80,12 +79,16 @@ header{display:flex;justify-content:space-between;align-items:center;gap:10px;fl
 .action{padding:12px 18px;background:#2bd8a0;border:2px solid #241044;border-radius:12px;font-weight:bold}
 .tabs{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
 table{width:100%;border-collapse:collapse;margin-top:15px}
-td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
+td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left;overflow-wrap:anywhere}
 .garage{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .garage button{background:white;border:2px solid #241044;border-radius:12px;padding:12px 3px;font-weight:bold}
 .garage span{display:block;font-size:30px;margin-bottom:7px}
+.name-form{display:flex;flex-direction:column;gap:12px;max-width:420px;margin:20px auto}
+.name-form label{font-weight:bold}
+.name-form input{width:100%;padding:14px;border:3px solid #241044;border-radius:12px;font-size:18px}
+.name-form button{padding:15px;background:#2bd8a0;border:3px solid #241044;border-radius:12px;font-weight:1000}
 footer{text-align:center;color:white;font-size:12px;padding:20px}
-#game{padding-bottom:155px}
+#game{padding-bottom:160px}
 #answerForm{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#fff7ff;border-top:3px solid #241044;box-shadow:0 -5px 18px #24104430;padding:12px 10px calc(12px + env(safe-area-inset-bottom))}
 #answers{display:flex;justify-content:center;align-items:stretch;gap:10px;flex-wrap:wrap;max-width:650px;margin:auto}
 #answerInput{width:min(55%,300px);min-width:120px;min-height:70px;border:7px solid #241044;border-radius:25px;background:white;color:#7228a0;font-size:30px;text-align:center}
@@ -170,21 +173,33 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 </div>
 </section>
 
-<section id="result" class="hidden card">
+<section id="result" class="hidden">
+<div class="card">
 <h2 id="resultTitle">🏁 RACE OVER!</h2>
 <p id="resultText" style="text-align:center"></p>
-<div class="options"><button class="action" id="again">Race Again</button><button class="action" id="menu">Main Menu</button></div>
+<h3 style="text-align:center">🏆 Add Your Name to the Leaderboard</h3>
+<form id="nameForm" class="name-form">
+<label for="playerName">Your racer name</label>
+<input id="playerName" type="text" maxlength="18" placeholder="Enter your name" required autocomplete="nickname">
+<button type="submit">SAVE SCORE</button>
+</form>
+<p class="message" id="saveMessage" aria-live="polite"></p>
+<div class="options">
+<button class="action" id="again" disabled>Race Again</button>
+<button class="action" id="menu">Main Menu</button>
+</div>
+</div>
 </section>
 
 <div class="card">
 <h2>🏆 SPEED LEADERBOARDS</h2>
-<p>Fastest completed races saved on this device.</p>
+<p>Named results saved on this device, separated by difficulty.</p>
 <div class="tabs">
 <button class="time selected" data-board="Easy">🐢 Easy</button>
 <button class="time" data-board="Hard">🔥 Hard</button>
 <button class="time" data-board="Impossible">💀 Impossible</button>
 </div>
-<table><thead><tr><th>#</th><th>Result</th><th>Time</th></tr></thead><tbody id="scores"></tbody></table>
+<table><thead><tr><th>#</th><th>Racer</th><th>Result</th><th>Time</th></tr></thead><tbody id="scores"></tbody></table>
 </div>
 
 <div class="card">
@@ -204,18 +219,30 @@ footer{text-align:center;color:white;font-size:12px;padding:20px}
 (()=>{
 "use strict";
 const $=id=>document.getElementById(id);
-const get=(key,fallback)=>{try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}};
-const put=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
+const get=(key,fallback)=>{
+ try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}
+ catch{return fallback}
+};
+const put=(key,value)=>{
+ try{localStorage.setItem(key,JSON.stringify(value))}catch{}
+};
 
-let mode="Easy",minutes=1,remaining=60,score=0,candy=get("hmrCandy",0);
-let player=0,ghost=0,bat=0,active=false,locked=false,answer=0,started=0;
+let mode="Easy",minutes=1,remaining=60,score=0;
+let candy=get("hmrCandy",0),player=0,ghost=0,bat=0;
+let active=false,locked=false,answer=0,started=0;
 let tick=null,qTick=null,qtime=4,boardMode="Easy";
-let boards=get("hmrBoards",{Easy:[],Hard:[],Impossible:[]});
+let pendingResult=null;
+let boards=get("hmrNamedBoards",{Easy:[],Hard:[],Impossible:[]});
 let unlocked=get("hmrUnlocked",["pumpkin"]);
 if(!boards||typeof boards!=="object")boards={Easy:[],Hard:[],Impossible:[]};
 ["Easy","Hard","Impossible"].forEach(m=>{if(!Array.isArray(boards[m]))boards[m]=[]});
+if(!Array.isArray(unlocked))unlocked=["pumpkin"];
 
-function saveCandy(){ $("candy").textContent=candy;$("gameCandy").textContent=candy;put("hmrCandy",candy) }
+function saveCandy(){
+$("candy").textContent=candy;
+$("gameCandy").textContent=candy;
+put("hmrCandy",candy);
+}
 function show(which){
 $("home").classList.toggle("hidden",which!=="home");
 $("game").classList.toggle("hidden",which!=="game");
@@ -231,38 +258,47 @@ document.querySelectorAll("[data-minutes]").forEach(b=>b.onclick=()=>{
 minutes=Number(b.dataset.minutes);
 document.querySelectorAll("[data-minutes]").forEach(x=>x.classList.toggle("selected",x===b));
 });
-function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+function fmt(s){
+s=Math.max(0,Math.ceil(s));
+return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+}
 function updateRace(){
 $("player").style.left=Math.min(90,player)+"%";
 $("ghost").style.left=Math.min(90,ghost)+"%";
 $("bat").style.left=Math.min(90,bat)+"%";
 $("bar").style.width=Math.min(100,player)+"%";
 }
-function stopClocks(){clearInterval(tick);clearInterval(qTick);tick=null;qTick=null}
-
+function stopClocks(){
+clearInterval(tick);clearInterval(qTick);
+tick=null;qTick=null;
+}
 function nextQuestion(){
-clearInterval(qTick);locked=false;
+clearInterval(qTick);
+locked=false;
 const a=Math.floor(Math.random()*13),b=Math.floor(Math.random()*13);
-answer=a*b;$("question").textContent=a+" × "+b+" = ?";
+answer=a*b;
+$("question").textContent=a+" × "+b+" = ?";
 $("answers").innerHTML="";
 if(mode==="Easy"){
 const opts=new Set([answer]);
 while(opts.size<4)opts.add(Math.floor(Math.random()*145));
 [...opts].sort(()=>Math.random()-.5).forEach(n=>{
 const btn=document.createElement("button");
-btn.type="button";btn.className="answer";btn.textContent=n;
-btn.onclick=()=>checkAnswer(n);$("answers").appendChild(btn);
+btn.type="button";btn.className="action";btn.textContent=n;
+btn.onclick=()=>checkAnswer(n);
+$("answers").appendChild(btn);
 });
 $("message").textContent="Choose the correct answer!";
 }else{
 const input=document.createElement("input");
-input.id="answerInput";input.type="number";input.inputMode="numeric";
-input.autocomplete="off";input.placeholder="Answer";input.required=true;
+input.id="answerInput";input.type="number";
+input.inputMode="numeric";input.autocomplete="off";
+input.placeholder="Answer";input.required=true;
 input.setAttribute("aria-label","Type your multiplication answer");
 const btn=document.createElement("button");
 btn.type="submit";btn.textContent="GO! 🏁";
 $("answers").append(input,btn);
-$("message").textContent=mode==="Impossible"?"Answer within 4 seconds!":"Solve it to speed up!";
+$("message").textContent=mode==="Impossible"?"⏳ Answer within 4 seconds!":"Solve it to speed up!";
 requestAnimationFrame(()=>input.focus({preventScroll:true}));
 }
 if(mode==="Impossible"){
@@ -270,9 +306,11 @@ qtime=4;
 qTick=setInterval(()=>{
 qtime--;
 if(qtime<=0&&active&&!locked){
-clearInterval(qTick);locked=true;ghost=Math.min(90,ghost+8);
+clearInterval(qTick);locked=true;
+ghost=Math.min(90,ghost+8);
 $("message").textContent="⏰ Time's up! The rival moves ahead!";
-updateRace();setTimeout(()=>{if(active)nextQuestion()},700);
+updateRace();
+setTimeout(()=>{if(active)nextQuestion()},700);
 }
 },1000);
 }
@@ -288,7 +326,8 @@ $("message").textContent="🎉 CORRECT! +5 candy!";
 if(mode==="Impossible")player=Math.max(0,player-5);
 $("message").textContent="❌ The answer was "+answer;
 }
-$("score").textContent=score;saveCandy();updateRace();
+$("score").textContent=score;
+saveCandy();updateRace();
 if(player>=100){finish(true);return}
 setTimeout(()=>{if(active)nextQuestion()},650);
 }
@@ -297,19 +336,22 @@ e.preventDefault();
 const input=$("answerInput");
 if(input)checkAnswer(input.value);
 });
-
 function start(){
-stopClocks();score=0;player=0;ghost=0;bat=0;
+stopClocks();
+score=0;player=0;ghost=0;bat=0;
 remaining=minutes*60;started=Date.now();active=true;
-$("score").textContent=0;$("timer").textContent=fmt(remaining);
+$("score").textContent="0";
+$("timer").textContent=fmt(remaining);
 $("modeLabel").textContent=mode.toUpperCase()+" MODE";
+$("saveMessage").textContent="";
 show("game");updateRace();nextQuestion();
 tick=setInterval(()=>{
 if(!active)return;
 remaining=Math.max(0,remaining-1);
 ghost=Math.min(95,ghost+(mode==="Easy"?.6:mode==="Hard"?1.1:1.6));
 bat=Math.min(95,bat+(mode==="Easy"?.4:mode==="Hard"?.8:1.3));
-$("timer").textContent=fmt(remaining);updateRace();
+$("timer").textContent=fmt(remaining);
+updateRace();
 if(remaining<=0)finish(false);
 },1000);
 }
@@ -317,32 +359,61 @@ function finish(won){
 if(!active)return;
 active=false;stopClocks();
 const elapsed=Math.round((Date.now()-started)/1000);
-if(won){
-const wins=get("hmrWins",{Easy:0,Hard:0,Impossible:0});
-wins[mode]=(wins[mode]||0)+1;put("hmrWins",wins);
-}
-if(won||score>0){
-boards[mode].push({score,time:elapsed,won});
-boards[mode].sort((a,b)=>Number(b.won)-Number(a.won)||a.time-b.time);
-boards[mode]=boards[mode].slice(0,10);put("hmrBoards",boards);
-}
+pendingResult={mode,score,time:elapsed,won};
 $("resultTitle").textContent=won?"🏆 YOU WON!":"🏁 TIME'S UP!";
 $("resultText").textContent=mode+" · "+score+" correct · "+fmt(elapsed);
-show("result");renderBoards();renderWins();
+$("playerName").value="";
+$("again").disabled=true;
+$("saveMessage").textContent="Enter a name and save your score before racing again.";
+show("result");
+setTimeout(()=>$("playerName").focus({preventScroll:true}),100);
 }
+$("nameForm").addEventListener("submit",e=>{
+e.preventDefault();
+if(!pendingResult)return;
+const name=$("playerName").value.trim().replace(/\s+/g," ").slice(0,18);
+if(!name){$("saveMessage").textContent="Please enter a racer name.";return}
+const r=pendingResult;
+boards[r.mode].push({name,score:r.score,time:r.time,won:r.won,date:Date.now()});
+boards[r.mode].sort((a,b)=>{
+if(a.won!==b.won)return a.won?-1:1;
+return a.time-b.time;
+});
+boards[r.mode]=boards[r.mode].slice(0,10);
+put("hmrNamedBoards",boards);
+if(r.won){
+const wins=get("hmrWins",{Easy:0,Hard:0,Impossible:0});
+wins[r.mode]=(wins[r.mode]||0)+1;
+put("hmrWins",wins);
+}
+pendingResult=null;
+$("saveMessage").textContent="✅ Score saved! You can play again now.";
+$("again").disabled=false;
+renderBoards();
+renderWins();
+});
 $("startBtn").onclick=start;
-$("again").onclick=start;
-$("quit").onclick=()=>{active=false;stopClocks();show("home")};
+$("again").onclick=()=>{
+if(!pendingResult)start();
+};
+$("quit").onclick=()=>{
+active=false;stopClocks();show("home");
+};
 $("menu").onclick=()=>show("home");
 
 function renderBoards(){
 $("scores").innerHTML="";
 const list=boards[boardMode]||[];
-if(!list.length){$("scores").innerHTML='<tr><td colspan="3">No finishes yet. Be the first!</td></tr>';return}
+if(!list.length){
+$("scores").innerHTML='<tr><td colspan="4">No saved scores yet. Be the first!</td></tr>';
+return;
+}
 list.forEach((r,i)=>{
 const tr=document.createElement("tr");
-[i+1,r.won?"🏆 Won · "+r.score+" correct":"Finished · "+r.score+" correct",fmt(r.time)].forEach(v=>{
-const td=document.createElement("td");td.textContent=v;tr.appendChild(td);
+[i+1,r.name,r.won?"🏆 Won · "+r.score+" correct":r.score+" correct",fmt(r.time)].forEach(v=>{
+const td=document.createElement("td");
+td.textContent=v;
+tr.appendChild(td);
 });
 $("scores").appendChild(tr);
 });
@@ -354,17 +425,29 @@ renderBoards();
 });
 function renderWins(){
 const wins=get("hmrWins",{Easy:0,Hard:0,Impossible:0});
-["Easy","Hard","Impossible"].forEach(m=>$("wins"+m).textContent=(wins[m]||0)+" wins");
+["Easy","Hard","Impossible"].forEach(m=>{
+$("wins"+m).textContent=(wins[m]||0)+" wins";
+});
 }
 document.querySelectorAll("[data-car]").forEach(btn=>btn.onclick=()=>{
-const name=btn.dataset.car,cost={pumpkin:0,ghost:50,bat:100}[name];
-if(unlocked.includes(name)){ $("garageMessage").textContent="You already own this racer!";return}
-if(candy<cost){$("garageMessage").textContent="You need "+(cost-candy)+" more candy.";return}
-candy-=cost;unlocked.push(name);put("hmrUnlocked",unlocked);
-$("garageMessage").textContent="🎉 You unlocked "+name+"!";
+const name=btn.dataset.car;
+const cost={pumpkin:0,ghost:50,bat:100}[name];
+if(unlocked.includes(name)){
+$("garageMessage").textContent="You already own this racer!";
+return;
+}
+if(candy<cost){
+$("garageMessage").textContent="You need "+(cost-candy)+" more candy.";
+return;
+}
+candy-=cost;unlocked.push(name);
+put("hmrUnlocked",unlocked);
+$("garageMessage").textContent="🎉 Unlocked "+name+"!";
 saveCandy();
 });
-saveCandy();renderBoards();renderWins();
+saveCandy();
+renderBoards();
+renderWins();
 })();
 </script>
 </body>
