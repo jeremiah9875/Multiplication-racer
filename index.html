@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
 :root{--ink:#201331;--orange:#ff9d28;--cream:#fff4dc}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font-family:system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 8%,#643a9b 0 5%,transparent 6%),linear-gradient(145deg,#170c2d,#3c145d 42%,#a63d12)}
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer;touch-action:manipulation}
 .wrap{width:min(980px,100%);margin:auto;padding:18px 12px 40px}
 .hero{text-align:center;color:#fff2d6}
@@ -18,11 +17,11 @@ h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:8px 0 12px;color:var(--
 .subtitle{font-weight:800;max-width:650px;margin:0 auto 15px}
 .hero-car{font-size:76px;filter:drop-shadow(0 5px 0 #311643)}
 .spooky-bats{font-size:28px}
-.panel{background:#fff4dc;border:4px solid #20102d;border-radius:25px;padding:16px;box-shadow:0 8px 0 #10091b;margin:15px 0}
+.panel{background:var(--cream);border:4px solid #20102d;border-radius:25px;padding:16px;box-shadow:0 8px 0 #10091b;margin:15px 0}
 .section-title{text-align:center;font-weight:1000;font-size:21px;margin:5px 0 14px}
 .modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .mode{border:4px solid #241333;border-radius:22px;background:#fffaf5;min-height:155px;padding:12px;color:var(--ink);box-shadow:0 5px 0 #21102e}
-.mode.active{background:#ff9d28;transform:translateY(-2px)}
+.mode.active{background:var(--orange);transform:translateY(-2px)}
 .mode .emoji{font-size:32px;display:block}
 .mode strong{display:block;font-size:20px;font-weight:1000}
 .mode small{display:block;font-weight:700;font-size:13px;margin-top:5px}
@@ -50,7 +49,7 @@ h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:8px 0 12px;color:var(--
 .clock{text-align:center;font-weight:1000;color:#b21c68;margin-bottom:8px}
 .answer-row{display:flex;gap:9px;max-width:540px;margin:0 auto}
 #answer{width:100%;min-width:0;border:3px solid #bca9d1;border-radius:14px;padding:12px;text-align:center;font-size:23px;font-weight:900;background:#fff}
-.choices{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:540px;margin:10px auto}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:540px;margin:10px auto}
 .choice{border:3px solid #251333;border-radius:14px;background:#fff;font-size:23px;font-weight:1000;padding:12px 4px;box-shadow:0 4px 0 #3a174d}
 .message{text-align:center;min-height:27px;font-weight:900;margin:12px 0}
 .tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
@@ -63,19 +62,23 @@ h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:8px 0 12px;color:var(--
 .empty{text-align:center;font-weight:700;color:#5d5068;padding:12px}
 .name-form{max-width:480px;margin:14px auto;display:grid;gap:8px}
 .name-form label{font-weight:900}
-.name-form input{width:100%;border:3px solid #bca9d1;border-radius:14px;padding:12px;font-size:18px;font-weight:800}
-.save-message{text-align:center;font-weight:900;min-height:24px}
+.name-form input,.admin-input,.admin-select{width:100%;border:3px solid #bca9d1;border-radius:14px;padding:12px;font-size:16px;font-weight:800}
+.save-message{text-align:center;font-weight:900;min-height:24px;overflow-wrap:anywhere}
+#adminPanel{border-color:#ff9d28}
+.admin-help{font-size:13px;text-align:center;line-height:1.5}
+.admin-controls{background:#f4e5ff;border:2px solid #57316e;border-radius:15px;padding:12px;margin-top:12px}
 .footer{text-align:center;color:#ffe7c1;font-size:12px;font-weight:700;margin-top:18px}
 @media(max-width:620px){
  .wrap{padding:12px 9px 28px}.panel{padding:12px}
  .modes{grid-template-columns:1fr}
  .mode{min-height:0;display:grid;grid-template-columns:45px 1fr;text-align:left;column-gap:8px}
- .mode .emoji{grid-row:1/3;align-self:center}
+ .mode .emoji{grid-row:1/4;align-self:center}
  .mode .wins{grid-column:2;justify-self:start}
  .stat b{font-size:18px}.track{height:160px}
  .road{height:112px}.lane{top:77px}.finish{height:112px}
  #playerCar{top:34px}#rivalCar{top:88px}
- .choices{grid-template-columns:repeat(2,1fr)}
+ .choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .choice{font-size:21px;padding:13px 5px}
 }
 </style>
 </head>
@@ -91,9 +94,9 @@ h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:8px 0 12px;color:var(--
 <section class="panel" id="menu">
 <div class="section-title">🎃 PICK YOUR MODE 🎃</div>
 <div class="modes">
-<button class="mode active" data-mode="easy"><span class="emoji">🧟</span><strong>EASY</strong><small>Pick from 4 answers. 10 correct to win.</small><span class="wins" id="wins-easy">No wins yet</span></button>
-<button class="mode" data-mode="hard"><span class="emoji">🔥</span><strong>HARD</strong><small>Type answers. 12 correct to win.</small><span class="wins" id="wins-hard">No wins yet</span></button>
-<button class="mode" data-mode="impossible"><span class="emoji">💀</span><strong>IMPOSSIBLE</strong><small>4-second clock. Wrong answers push you back. 15 to win.</small><span class="wins" id="wins-impossible">No wins yet</span></button>
+<button class="mode active" data-mode="easy" type="button"><span class="emoji">🧟</span><strong>EASY</strong><small>Pick from 4 answers. 10 correct to win.</small><span class="wins" id="wins-easy">No wins yet</span></button>
+<button class="mode" data-mode="hard" type="button"><span class="emoji">🔥</span><strong>HARD</strong><small>Type answers. 12 correct to win.</small><span class="wins" id="wins-hard">No wins yet</span></button>
+<button class="mode" data-mode="impossible" type="button"><span class="emoji">💀</span><strong>IMPOSSIBLE</strong><small>4-second clock. Wrong answers push you back. 15 to win.</small><span class="wins" id="wins-impossible">No wins yet</span></button>
 </div>
 <div class="wallet">🍬 Candy points: <b id="candyPoints">0</b></div>
 <div class="garage">
@@ -154,6 +157,36 @@ h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:8px 0 12px;color:var(--
 <div class="board-category"><h3>💀 IMPOSSIBLE — Fastest Finishes</h3><table class="leaderboard"><thead><tr><th>Rank</th><th>Racer</th><th>Time</th><th>Wins</th></tr></thead><tbody id="leader-impossible"></tbody></table></div>
 <div class="tools"><button class="secondary" id="resetScores" type="button">Reset local scores</button></div>
 </section>
+
+<section class="panel" id="adminPanel">
+<div class="section-title">🔐 OWNER ADMIN PANEL</div>
+<p class="admin-help">Enter the special owner code to unlock candy reward controls.</p>
+<form id="adminLogin" class="name-form">
+<label for="ownerCode">Owner access code</label>
+<input id="ownerCode" class="admin-input" type="password" placeholder="Enter owner code" required autocomplete="off">
+<button class="action" type="submit">UNLOCK PANEL 🔑</button>
+</form>
+
+<div id="adminControls" class="admin-controls hidden">
+<p style="text-align:center;font-weight:1000;color:#16804b">✅ Owner panel unlocked</p>
+<label for="rewardType"><b>Who gets the reward?</b></label>
+<select id="rewardType" class="admin-select">
+<option value="everyone">Everyone on this browser</option>
+<option value="player">Specific player (demo record only)</option>
+</select>
+<input id="rewardPlayer" class="admin-input hidden" style="margin-top:8px" placeholder="Enter player's name">
+<p style="text-align:center;font-weight:900">Choose a candy reward</p>
+<div class="tools">
+<button type="button" class="action" data-reward="100">🍬 +100</button>
+<button type="button" class="action" data-reward="500">🍬 +500</button>
+<button type="button" class="action" data-reward="1000">🍬 +1,000</button>
+</div>
+<p id="adminMessage" class="save-message" aria-live="polite"></p>
+<button type="button" class="secondary" id="adminLock">🔒 Lock Panel</button>
+</div>
+<p class="admin-help">Demo note: GitHub Pages stores rewards only in the current browser. A shared database is needed to reward other players on their devices.</p>
+</section>
+
 <p class="footer">🎃 Halloween Racer • Beat the bots, collect candy, and race in your Pumpkin Car! 🦇</p>
 </main>
 
@@ -172,17 +205,29 @@ let active=false,clockId=null,deadline=0,botId=null,raceStartedAt=0;
 let pendingResult=null;
 let board=loadBoard();
 let rewards=loadRewards();
+let adminUnlocked=false;
+const OWNER_CODE='Owner is himothy';
 
 function loadRewards(){
- try{return JSON.parse(localStorage.getItem('mrHalloweenRewards')||'{"candy":0,"pumpkinUnlocked":false,"pumpkinEquipped":false}')}
- catch(e){return {candy:0,pumpkinUnlocked:false,pumpkinEquipped:false}}
+ try {
+  const saved=JSON.parse(localStorage.getItem('mrHalloweenRewards')||'{}');
+  return {
+   candy:Math.max(0,Number(saved.candy)||0),
+   pumpkinUnlocked:!!saved.pumpkinUnlocked,
+   pumpkinEquipped:!!saved.pumpkinEquipped
+  };
+ } catch(e) {
+  return {candy:0,pumpkinUnlocked:false,pumpkinEquipped:false};
+ }
 }
 function saveRewards(){
  try{localStorage.setItem('mrHalloweenRewards',JSON.stringify(rewards))}catch(e){}
 }
 function loadBoard(){
- try{return JSON.parse(localStorage.getItem('hmrNamedBoards')||'{}')}
- catch(e){return {}}
+ try {
+  const saved=JSON.parse(localStorage.getItem('hmrNamedBoards')||'{}');
+  return saved&&typeof saved==='object'?saved:{};
+ } catch(e){return {}}
 }
 function saveBoard(){
  try{localStorage.setItem('hmrNamedBoards',JSON.stringify(board))}catch(e){}
@@ -191,7 +236,7 @@ function rand(n){return Math.floor(Math.random()*(n+1))}
 function correctAnswer(){return a*b}
 
 function updateGarage(){
- $('candyPoints').textContent=rewards.candy;
+ $('candyPoints').textContent=rewards.candy.toLocaleString();
  $('garageCar').textContent=rewards.pumpkinEquipped?'🎃🏎️':'🏎️';
  $('heroCar').textContent=rewards.pumpkinEquipped?'🎃🏎️':'🏎️';
  $('playerCar').textContent=rewards.pumpkinEquipped?'🎃':'🏎️';
@@ -233,13 +278,18 @@ function makeQuestion(){
  $('question').textContent=`${a} × ${b} = ?`;
  $('answer').value='';
 
+ // Clear old choices FIRST, so Easy mode never grows extra buttons.
+ $('choices').replaceChildren();
+
  if(mode==='easy'){
   $('answerForm').classList.add('hidden');
   $('choices').classList.remove('hidden');
   const correct=correctAnswer();
   const opts=new Set([correct]);
   while(opts.size<4)opts.add(rand(144));
-  [...opts].sort(()=>Math.random()-.5).forEach(value=>{
+
+  const shuffled=[...opts].sort(()=>Math.random()-.5);
+  shuffled.forEach(value=>{
    const btn=document.createElement('button');
    btn.type='button';
    btn.className='choice';
@@ -252,6 +302,7 @@ function makeQuestion(){
   $('answerForm').classList.remove('hidden');
   $('answer').focus();
  }
+
  if(mode==='impossible')startClock();
  else{
   clearInterval(clockId);
@@ -292,6 +343,13 @@ function startBot(){
 
 function submit(value){
  if(!active)return;
+
+ // Prevent double taps on a question that was already answered.
+ if(mode==='easy' && !$('choices').classList.contains('hidden') &&
+    !$('choices').contains(document.activeElement)) {
+  // Clicks are handled by each current button; the next question replaces them.
+ }
+
  if(Number(value)===correctAnswer()){
   progress++;
   score+=cfg[mode].points;
@@ -319,12 +377,7 @@ function finishRace(won){
  clearInterval(botId);
 
  const finishSeconds=(Date.now()-raceStartedAt)/1000;
- pendingResult={
-  mode:mode,
-  score:score,
-  time:finishSeconds,
-  won:won
- };
+ pendingResult={mode,score,time:finishSeconds,won};
 
  $('choices').classList.add('hidden');
  $('answerForm').classList.add('hidden');
@@ -352,9 +405,7 @@ function startRace(){
  clearInterval(clockId);
  clearInterval(botId);
  pendingResult=null;
- progress=0;
- score=0;
- rival=0;
+ progress=0;score=0;rival=0;
  active=true;
  raceStartedAt=Date.now();
  $('menu').classList.add('hidden');
@@ -369,35 +420,27 @@ function startRace(){
 function renderBoard(){
  ['easy','hard','impossible'].forEach(key=>{
   const tbody=$('leader-'+key);
-  tbody.innerHTML='';
+  tbody.replaceChildren();
   const entries=board[key]&&Array.isArray(board[key].times)
    ?board[key].times.slice().sort((x,y)=>
      Number(y.won)-Number(x.won)||Number(x.time)-Number(y.time)
-    ).slice(0,10)
-   :[];
+    ).slice(0,10):[];
 
   if(!entries.length){
    const tr=document.createElement('tr');
    const td=document.createElement('td');
    td.colSpan=4;
    td.textContent='No scores yet. Finish a race to appear here!';
-   tr.appendChild(td);
-   tbody.appendChild(tr);
-   return;
+   tr.appendChild(td);tbody.appendChild(tr);return;
   }
 
   entries.forEach((entry,index)=>{
    const tr=document.createElement('tr');
-   const values=[
-    index+1,
-    entry.name||'Racer',
-    `${Number(entry.time||0).toFixed(2)} sec`,
-    entry.won?'1':'0'
-   ];
+   const values=[index+1,entry.name||'Racer',
+    `${Number(entry.time||0).toFixed(2)} sec`,entry.won?'1':'0'];
    values.forEach(value=>{
     const td=document.createElement('td');
-    td.textContent=value;
-    tr.appendChild(td);
+    td.textContent=value;tr.appendChild(td);
    });
    tbody.appendChild(tr);
   });
@@ -419,108 +462,122 @@ document.querySelectorAll('.mode').forEach(btn=>{
   mode=btn.dataset.mode;
  });
 });
-
 $('start').addEventListener('click',startRace);
 $('restart').addEventListener('click',startRace);
 
 $('backMenu').addEventListener('click',()=>{
  active=false;
- clearInterval(clockId);
- clearInterval(botId);
+ clearInterval(clockId);clearInterval(botId);
  $('game').classList.add('hidden');
  $('menu').classList.remove('hidden');
+ $('choices').replaceChildren();
 });
-
 $('answerForm').addEventListener('submit',event=>{
  event.preventDefault();
  if($('answer').value.trim()===''){
-  setMessage('Type an answer first!');
-  return;
+  setMessage('Type an answer first!');return;
  }
  submit(Number($('answer').value));
 });
-
 $('nameForm').addEventListener('submit',event=>{
  event.preventDefault();
  if(!pendingResult)return;
-
  const name=$('playerName').value.trim().slice(0,18);
- if(!name){
-  $('saveMessage').textContent='Please enter a racer name.';
-  return;
- }
+ if(!name){$('saveMessage').textContent='Please enter a racer name.';return;}
 
- const entry={
-  name:name,
-  score:pendingResult.score,
-  time:pendingResult.time,
-  won:pendingResult.won,
-  date:Date.now()
- };
+ const entry={name,score:pendingResult.score,time:pendingResult.time,won:pendingResult.won,date:Date.now()};
  const key=pendingResult.mode;
-
- if(!board[key]||typeof board[key]!=='object'){
-  board[key]={wins:0,best:0,times:[]};
- }
+ if(!board[key]||typeof board[key]!=='object')board[key]={wins:0,best:0,times:[]};
  if(!Array.isArray(board[key].times))board[key].times=[];
  board[key].times.push(entry);
- board[key].times.sort((x,y)=>
-  Number(y.won)-Number(x.won)||Number(x.time)-Number(y.time)
- );
+ board[key].times.sort((x,y)=>Number(y.won)-Number(x.won)||Number(x.time)-Number(y.time));
  board[key].times=board[key].times.slice(0,10);
 
  if(entry.won){
   board[key].wins=(board[key].wins||0)+1;
   board[key].best=Math.max(board[key].best||0,entry.score);
  }
-
- saveBoard();
- renderBoard();
- renderWins();
+ saveBoard();renderBoard();renderWins();
  pendingResult=null;
  $('saveMessage').textContent=`Score saved for ${name}! You can race again now.`;
  $('again').disabled=false;
 });
-
-$('again').addEventListener('click',()=>{
- if(!pendingResult)startRace();
-});
-
+$('again').addEventListener('click',()=>{if(!pendingResult)startRace()});
 $('resultMenu').addEventListener('click',()=>{
  pendingResult=null;
  $('result').classList.add('hidden');
  $('game').classList.add('hidden');
  $('menu').classList.remove('hidden');
 });
-
 $('resetScores').addEventListener('click',()=>{
  if(confirm('Reset the leaderboard on this device?')){
-  board={};
-  saveBoard();
-  renderBoard();
-  renderWins();
+  board={};saveBoard();renderBoard();renderWins();
  }
 });
-
 $('pumpkinButton').addEventListener('click',()=>{
  if(rewards.pumpkinEquipped)return;
-
  if(rewards.pumpkinUnlocked){
-  rewards.pumpkinEquipped=true;
-  saveRewards();
-  updateGarage();
-  return;
+  rewards.pumpkinEquipped=true;saveRewards();updateGarage();return;
  }
-
  if(rewards.candy>=100){
-  rewards.candy-=100;
-  rewards.pumpkinUnlocked=true;
-  rewards.pumpkinEquipped=true;
-  saveRewards();
-  updateGarage();
+  rewards.candy-=100;rewards.pumpkinUnlocked=true;rewards.pumpkinEquipped=true;
+  saveRewards();updateGarage();
  }else{
   $('garageStatus').textContent=`You need ${100-rewards.candy} more candy points!`;
  }
+});
+
+// Admin login: client-side demo only, not secure authentication.
+$('adminLogin').addEventListener('submit',event=>{
+ event.preventDefault();
+ if($('ownerCode').value===OWNER_CODE){
+  adminUnlocked=true;
+  $('adminControls').classList.remove('hidden');
+  $('adminLogin').classList.add('hidden');
+  $('adminMessage').textContent='Owner access granted! 🎃';
+ }else{
+  alert('Incorrect owner code!');
+ }
+ $('ownerCode').value='';
+});
+$('rewardType').addEventListener('change',()=>{
+ $('rewardPlayer').classList.toggle('hidden',$('rewardType').value!=='player');
+});
+document.querySelectorAll('[data-reward]').forEach(button=>{
+ button.addEventListener('click',()=>{
+  if(!adminUnlocked)return;
+  const amount=Number(button.dataset.reward);
+  if(![100,500,1000].includes(amount))return;
+
+  if($('rewardType').value==='everyone'){
+   rewards.candy+=amount;
+   saveRewards();updateGarage();
+   $('adminMessage').textContent=`Added ${amount.toLocaleString()} candy to this browser's balance! 🍬`;
+  }else{
+   const player=$('rewardPlayer').value.trim();
+   if(!player){
+    $('adminMessage').textContent="Enter the player's name first!";return;
+   }
+   let awards=[];
+   try{
+    const saved=JSON.parse(localStorage.getItem('hmrAdminAwards')||'[]');
+    if(Array.isArray(saved))awards=saved;
+   }catch(e){}
+   awards.push({player,amount,date:new Date().toISOString()});
+   try{
+    localStorage.setItem('hmrAdminAwards',JSON.stringify(awards));
+    $('adminMessage').textContent=`Recorded ${amount} candy for ${player}. This does not change their actual balance.`;
+   }catch(e){
+    $('adminMessage').textContent='Could not save the demo reward.';
+   }
+  }
+ });
+});
+$('adminLock').addEventListener('click',()=>{
+ adminUnlocked=false;
+ $('adminControls').classList.add('hidden');
+ $('adminLogin').classList.remove('hidden');
+ $('adminMessage').textContent='Panel locked.';
 });
 
 renderBoard();
