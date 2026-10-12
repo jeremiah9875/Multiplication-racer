@@ -1,438 +1,198 @@
 
-<div class="garage-pumpkin">🎃</div>
-<p id="garageStatus">Win races against the bots to earn candy points. The Pumpkin Car costs 100 points!</p>
-<button class="action" id="pumpkinButton" type="button">Unlock Pumpkin Car — 100 🍬</button>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halloween Multiplication Racer</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;color:#fff4df;text-align:center;
+ background:linear-gradient(180deg,#210936,#50105d 50%,#a52b32);
+ min-height:100vh
+}
+main{width:min(100%,1000px);margin:auto;padding:16px}
+h1{font-size:clamp(36px,8vw,68px);line-height:1;margin:16px 0;color:#ff9e28;text-shadow:3px 4px #46102f}
+h2{margin:8px 0 16px}
+p{line-height:1.5}
+header p{font-weight:bold}
+.hero{font-size:90px;filter:drop-shadow(0 0 15px #ff8b00)}
+.panel{
+ background:#fff3dc;color:#281439;border:4px solid #261035;
+ border-radius:22px;padding:16px;margin:16px 0;
+ box-shadow:0 7px 0 #160820
+}
+.hidden{display:none!important}
+button,input{font:inherit}
+button{cursor:pointer;touch-action:manipulation;font-weight:bold}
+button:focus-visible,input:focus-visible{outline:4px solid #ff9e28;outline-offset:3px}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mode{
+ display:flex;flex-direction:column;align-items:center;gap:7px;
+ background:#fffaf0;color:#281439;border:3px solid #39204b;
+ border-radius:16px;padding:13px;min-height:150px
+}
+.mode.active{background:#b8ffd7;border-color:#148b60}
+.mode .emoji{font-size:34px}
+.mode strong{font-size:20px}
+.mode small{line-height:1.4}
+.wins{background:#eadcf6;border-radius:20px;padding:5px 10px}
+.wallet{
+ margin:15px auto;padding:12px;background:#ffe6a0;color:#713000;
+ border:3px solid #281439;border-radius:14px;font-size:21px;font-weight:bold
+}
+.garage{background:#281439;color:white;border:3px dashed #ff9e28;border-radius:18px;padding:14px}
+.garage h2{color:#ffb74e}
+.garage-pumpkin{font-size:76px;filter:drop-shadow(0 0 12px #ff7b00)}
+.action,.start,.secondary,.choice{
+ border:3px solid #281439;border-radius:13px;padding:12px;
+ color:#281439;background:#ff9e28;font-weight:bold
+}
+.action:disabled{opacity:.5;cursor:not-allowed}
+.start{width:100%;font-size:clamp(22px,5vw,32px);margin-top:14px;background:#ffdf4e}
+.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#f1e8f8;border:2px solid #281439;border-radius:12px;padding:8px}
+.stat span,.stat b{display:block}
+.stat b{font-size:22px;margin-top:4px}
+.track{
+ position:relative;height:180px;overflow:hidden;border:4px solid #281439;
+ border-radius:18px;margin:16px 0;background:#5b9a42
+}
+.road{position:absolute;left:0;right:0;top:20px;height:132px;background:#393341}
+.lane{position:absolute;left:0;right:0;top:84px;border-top:4px dashed white}
+.finish{
+ position:absolute;right:8px;top:20px;height:132px;width:18px;
+ background:repeating-conic-gradient(#fff 0 25%,#222 0 50%) 0/18px 18px
+}
+.racer{
+ position:absolute;left:8px;z-index:2;font-size:40px;
+ filter:drop-shadow(0 3px 2px #000);transition:left .2s
+}
+#playerCar{top:28px}
+#rivalCar{top:91px}
+.question{font-size:clamp(34px,8vw,52px);font-weight:900;margin:15px}
+.clock{color:#b21c68;font-weight:bold;min-height:24px}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:500px;margin:12px auto}
+.choice{font-size:24px;background:#fff}
+.answer-row{display:flex;gap:8px;max-width:500px;margin:12px auto}
+#answer{width:100%;min-width:0;border:3px solid #bba8d2;border-radius:12px;padding:12px;text-align:center;font-size:22px}
+.message{font-weight:bold;min-height:28px;margin:12px}
+.tools{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:12px}
+.secondary{background:#fff0d0}
+.board-category{margin:20px 0;text-align:left;overflow-x:auto}
+.board-category h3{color:#7925a5}
+table{width:100%;border-collapse:collapse;background:#fffaf0;color:#281439}
+th,td{padding:9px 5px;border-bottom:2px solid #e5d9ed;text-align:center;font-size:14px}
+th{background:#ead8ff}
+footer{padding:20px}
+@media(max-width:620px){
+ main{padding:10px}
+ .modes{grid-template-columns:1fr}
+ .mode{min-height:0}
+ .track{height:160px}
+ .road,.finish{height:116px}
+ .lane{top:76px}
+ #playerCar{top:24px}
+ #rivalCar{top:83px}
+ .panel{padding:11px}
+ th,td{font-size:12px;padding:8px 3px}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+<p>🦇 🌕 🏚️ 🦇</p>
+<h1>HALLOWEEN<br>RACER</h1>
+<p>Solve times tables from 0 to 12, beat the spooky bots, earn candy, and unlock your Pumpkin Racer!</p>
+<div class="hero" aria-label="Pumpkin racer">🎃</div>
+</header>
+
+<section class="panel" id="menu">
+<h2>PICK YOUR MODE</h2>
+<div class="modes">
+<button class="mode active" data-mode="easy">
+<span class="emoji">🧟</span><strong>EASY</strong>
+<small>Choose from 4 answers. Slow bot. 10 correct to win.</small>
+<span class="wins" id="wins-easy">No wins yet</span>
+</button>
+<button class="mode" data-mode="hard">
+<span class="emoji">🔥</span><strong>HARD</strong>
+<small>Type your answer. Faster bot. 12 correct to win.</small>
+<span class="wins" id="wins-hard">No wins yet</span>
+</button>
+<button class="mode" data-mode="impossible">
+<span class="emoji">💀</span><strong>IMPOSSIBLE</strong>
+<small>4-second clock. Wrong answers push you back. 15 to win.</small>
+<span class="wins" id="wins-impossible">No wins yet</span>
+</button>
 </div>
-<button class="start" id="start">🏁 START RACE!</button>
+
+<div class="wallet">🍬 Candy points: <b id="candyPoints">0</b></div>
+
+<div class="garage">
+<h2>🎃 SPOOKY GARAGE</h2>
+<div class="garage-pumpkin" id="garageCar">🎃</div>
+<p id="garageStatus">Win races to earn candy. Your Pumpkin Racer costs 100 points!</p>
+<button class="action" id="pumpkinButton" type="button">Unlock Pumpkin Racer — 100 🍬</button>
+</div>
+
+<button class="start" id="start" type="button">🏁 START RACE!</button>
 </section>
 
 <section class="panel hidden" id="game">
 <div class="hud">
-<div class="stat"><span>Mode</span><b id="modeLabel">Easy</b></div>
-<div class="stat"><span>Progress</span><b id="progress">0 / 10</b></div>
-<div class="stat"><span>Score</span><b id="score">0</b></div>
+<div class="stat"><span>MODE</span><b id="modeLabel">Easy</b></div>
+<div class="stat"><span>PROGRESS</span><b id="progress">0 / 10</b></div>
+<div class="stat"><span>SCORE</span><b id="score">0</b></div>
 </div>
+
 <div class="track">
 <div class="road"></div><div class="lane"></div><div class="finish"></div>
 <div class="racer" id="playerCar">🎃</div>
 <div class="racer" id="rivalCar">🤖</div>
 </div>
+
 <div class="question" id="question">7 × 8 = ?</div>
 <div class="clock" id="clock"></div>
 <div class="choices hidden" id="choices"></div>
+
 <form class="answer-row hidden" id="answerForm">
 <input id="answer" type="number" inputmode="numeric" autocomplete="off" placeholder="Type your answer" aria-label="Your answer">
 <button class="action" type="submit">GO!</button>
 </form>
+
 <div class="message" id="message" aria-live="polite">Ready, racer?</div>
 <div class="tools">
-<button class="secondary" id="backMenu">← Modes</button>
-<button class="secondary" id="restart">↻ Restart</button>
+<button class="secondary" id="backMenu" type="button">← Modes</button>
+<button class="secondary" id="restart" type="button">↻ Restart</button>
 </div>
 </section>
 
 <section class="panel" id="board">
-<div class="section-title">🏆 Leaderboard</div>
-<p class="empty" id="boardNote">Each mode has its own leaderboard. Fastest finish time ranks first.</p>
+<h2>🏆 FASTEST FINISH LEADERBOARDS</h2>
+<p id="boardNote">Each mode has its own leaderboard. Faster times rank higher!</p>
 
 <div class="board-category">
 <h3>🧟 EASY — Fastest Finishes</h3>
-<table class="leaderboard">
-<thead><tr><th>Rank</th><th>Racer</th><th>Finish time</th><th>Wins</th></tr></thead>
-<tbody id="leader-easy"></tbody>
-</table>
+<table><thead><tr><th>Rank</th><th>Racer</th><th>Time</th><th>Wins</th></tr></thead><tbody id="leader-easy"></tbody></table>
 </div>
-
 <div class="board-category">
 <h3>🔥 HARD — Fastest Finishes</h3>
-<table class="leaderboard">
-<thead><tr><th>Rank</th><th>Racer</th><th>Finish time</th><th>Wins</th></tr></thead>
-<tbody id="leader-hard"></tbody>
-</table>
+<table><thead><tr><th>Rank</th><th>Racer</th><th>Time</th><th>Wins</th></tr></thead><tbody id="leader-hard"></tbody></table>
 </div>
-
 <div class="board-category">
 <h3>💀 IMPOSSIBLE — Fastest Finishes</h3>
-<table class="leaderboard">
-<thead><tr><th>Rank</th><th>Racer</th><th>Finish time</th><th>Wins</th></tr></thead>
-<tbody id="leader-impossible"></tbody>
-</table>
+<table><thead><tr><th>Rank</th><th>Racer</th><th>Time</th><th>Wins</th></tr></thead><tbody id="leader-impossible"></tbody></table>
 </div>
-
 <div class="tools">
-<button class="secondary" id="resetScores">Reset local scores</button>
+<button class="secondary" id="resetScores" type="button">Reset local scores</button>
 </div>
 </section>
 
-<footer>🎃 Halloween Racer • Roll your pumpkin, beat the bots, and collect candy! 🦇</footer>
+<footer>🎃 Halloween Racer • Beat the bots, collect candy, and race your pumpkin! 🦇</footer>
 </main>
-
-<script>
-'use strict';
-
-const $ = id => document.getElementById(id);
-
-const cfg = {
-  easy: {label:'Easy', goal:10, points:10, botSpeed:0.45},
-  hard: {label:'Hard', goal:12, points:20, botSpeed:1.0},
-  impossible: {label:'Impossible', goal:15, points:30, botSpeed:2.2}
-};
-
-let mode = 'easy';
-let a = 0, b = 0, progress = 0, score = 0, rival = 0;
-let active = false, clockId = null, deadline = 0;
-let botId = null, lastBotTick = 0, raceStartedAt = 0;
-
-function loadBoard() {
-  try { return JSON.parse(localStorage.getItem('mrLeaderboard') || '{}'); }
-  catch (e) { return {}; }
-}
-
-function saveBoard() {
-  try { localStorage.setItem('mrLeaderboard', JSON.stringify(board)); }
-  catch (e) {}
-}
-
-let board = loadBoard();
-
-function loadRewards() {
-  try {
-    return JSON.parse(localStorage.getItem('mrHalloweenRewards') ||
-      '{"candy":0,"pumpkinUnlocked":false,"pumpkinEquipped":false}');
-  } catch (e) {
-    return {candy:0,pumpkinUnlocked:false,pumpkinEquipped:false};
-  }
-}
-
-let rewards = loadRewards();
-
-function saveRewards() {
-  try { localStorage.setItem('mrHalloweenRewards', JSON.stringify(rewards)); }
-  catch (e) {}
-}
-
-function updateGarage() {
-  $('candyPoints').textContent = rewards.candy;
-  $('garageCar').textContent = '🎃';
-  $('heroCar').textContent = '🎃';
-  $('playerCar').textContent = '🎃';
-
-  const btn = $('pumpkinButton');
-
-  if (rewards.pumpkinEquipped) {
-    btn.textContent = 'Pumpkin Equipped! 🎃';
-    btn.disabled = true;
-    $('garageStatus').textContent = 'Your pumpkin is ready to race!';
-  } else if (rewards.pumpkinUnlocked) {
-    btn.textContent = 'Equip Pumpkin 🎃';
-    btn.disabled = false;
-    $('garageStatus').textContent = 'You unlocked your Pumpkin Racer!';
-  } else {
-    btn.textContent = 'Unlock Pumpkin — 100 🍬';
-    btn.disabled = rewards.candy < 100;
-    $('garageStatus').textContent = 'Win races to earn candy. The pumpkin costs 100 points!';
-  }
-}
-
-function rand(n) {
-  return Math.floor(Math.random() * (n + 1));
-}
-
-function answer() {
-  return a * b;
-}
-
-function positionCars() {
-  $('playerCar').style.left =
-    `calc(${Math.min(progress / cfg[mode].goal * 88, 88)}% - 4px)`;
-  $('rivalCar').style.left =
-    `calc(${Math.min(rival, 88)}% - 4px)`;
-}
-
-function setMessage(text, good = false) {
-  $('message').textContent = text;
-  $('message').style.color = good ? '#087b50' : '#b51f65';
-}
-
-function updateHUD() {
-  $('modeLabel').textContent = cfg[mode].label;
-  $('progress').textContent = `${progress} / ${cfg[mode].goal}`;
-  $('score').textContent = score;
-  positionCars();
-}
-
-function makeQuestion() {
-  a = rand(12);
-  b = rand(12);
-  $('question').textContent = `${a} × ${b} = ?`;
-  $('answer').value = '';
-
-  if (mode === 'easy') {
-    $('answerForm').classList.add('hidden');
-    $('choices').classList.remove('hidden');
-
-    const correct = answer();
-    const opts = new Set([correct]);
-
-    while (opts.size < 4) opts.add(rand(144));
-
-    const arr = [...opts].sort(() => Math.random() - 0.5);
-    $('choices').innerHTML = '';
-
-    arr.forEach(v => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'choice';
-      btn.textContent = v;
-      btn.addEventListener('click', () => submit(v));
-      $('choices').appendChild(btn);
-    });
-  } else {
-    $('choices').classList.add('hidden');
-    $('answerForm').classList.remove('hidden');
-  }
-
-  if (mode === 'impossible') {
-    startClock();
-  } else {
-    $('clock').textContent = '';
-    clearInterval(clockId);
-  }
-}
-
-function startClock() {
-  clearInterval(clockId);
-  deadline = Date.now() + 4000;
-  tickClock();
-  clockId = setInterval(tickClock, 100);
-}
-
-function startBot() {
-  clearInterval(botId);
-  lastBotTick = Date.now();
-
-  botId = setInterval(() => {
-    if (!active) return;
-
-    const now = Date.now();
-    const elapsed = (now - lastBotTick) / 1000;
-    lastBotTick = now;
-
-    rival = Math.min(94, rival + cfg[mode].botSpeed * elapsed);
-    positionCars();
-
-    if (rival >= 94) {
-      clearInterval(botId);
-      active = false;
-      clearInterval(clockId);
-      $('question').textContent = '🤖 BOT WINS!';
-      $('choices').classList.add('hidden');
-      $('answerForm').classList.add('hidden');
-      setMessage('The bot finished first! Try another race.');
-    }
-  }, 100);
-}
-
-function tickClock() {
-  if (!active || mode !== 'impossible') return;
-
-  const left = Math.max(0, (deadline - Date.now()) / 1000);
-  $('clock').textContent = `⏱ ${left.toFixed(1)} seconds`;
-
-  if (left <= 0) {
-    clearInterval(clockId);
-    rival = Math.min(92, rival + 9);
-    setMessage('Time up! The rival zoomed ahead.');
-    positionCars();
-    makeQuestion();
-  }
-}
-
-function submit(value) {
-  if (!active) return;
-
-  if (Number(value) === answer()) {
-    progress++;
-    score += cfg[mode].points;
-    clearInterval(clockId);
-    updateHUD();
-
-    if (progress >= cfg[mode].goal) {
-      winRace();
-      return;
-    }
-
-    setMessage('✅ Correct! Your pumpkin rolls forward!', true);
-    makeQuestion();
-  } else {
-    if (mode === 'impossible') {
-      progress = Math.max(0, progress - 1);
-      setMessage('❌ Wrong! You got pushed back!');
-      updateHUD();
-    } else {
-      setMessage('❌ Not quite—try again!');
-    }
-  }
-}
-
-function winRace() {
-  active = false;
-  clearInterval(clockId);
-  clearInterval(botId);
-
-  const key = mode;
-  board[key] = board[key] || {wins:0,best:0,times:[]};
-  board[key].wins++;
-
-  const finishSeconds = (Date.now() - raceStartedAt) / 1000;
-  board[key].times = Array.isArray(board[key].times) ? board[key].times : [];
-  board[key].times.push({
-    time: finishSeconds,
-    score: score,
-    date: Date.now()
-  });
-
-  board[key].times.sort((x,y) => x.time - y.time);
-  board[key].times = board[key].times.slice(0,5);
-
-  saveBoard();
-  renderBoard();
-  renderWins();
-
-  rewards.candy += 50;
-  saveRewards();
-  updateGarage();
-
-  $('clock').textContent = '🏁 FINISH!';
-  $('question').textContent = '🏆 YOU WIN!';
-  $('choices').classList.add('hidden');
-  $('answerForm').classList.add('hidden');
-  setMessage('🏆 You beat the bot! +50 candy points!', true);
-}
-
-function startRace() {
-  clearInterval(clockId);
-  clearInterval(botId);
-
-  progress = 0;
-  score = 0;
-  rival = 0;
-  active = true;
-  raceStartedAt = Date.now();
-
-  $('menu').classList.add('hidden');
-  $('game').classList.remove('hidden');
-
-  updateHUD();
-  setMessage('🏁 Go, racer! Beat the bot!');
-  makeQuestion();
-  startBot();
-}
-
-function renderBoard() {
-  ['easy','hard','impossible'].forEach(k => {
-    const tbody = $('leader-' + k);
-    tbody.innerHTML = '';
-
-    const entries = board[k] && Array.isArray(board[k].times)
-      ? board[k].times.slice().sort((x,y) => x.time - y.time).slice(0,5)
-      : [];
-
-    if (!entries.length) {
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.colSpan = 4;
-      td.textContent = 'No finishes yet — complete this mode to rank here!';
-      tr.appendChild(td);
-      tbody.appendChild(tr);
-      return;
-    }
-
-    entries.forEach((entry, i) => {
-      const tr = document.createElement('tr');
-
-      [i + 1, 'You', `${entry.time.toFixed(2)} sec`, board[k].wins || 1]
-        .forEach(v => {
-          const td = document.createElement('td');
-          td.textContent = v;
-          tr.appendChild(td);
-        });
-
-      tbody.appendChild(tr);
-    });
-  });
-
-  $('boardNote').textContent =
-    'Each mode is ranked by fastest finish time. Scores are saved on this device.';
-}
-
-function renderWins() {
-  ['easy','hard','impossible'].forEach(k => {
-    $('wins-' + k).textContent =
-      board[k] && board[k].wins
-        ? `${board[k].wins} wins`
-        : 'No wins yet';
-  });
-}
-
-document.querySelectorAll('.mode').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.mode').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    mode = btn.dataset.mode;
-  });
-});
-
-$('start').addEventListener('click', startRace);
-$('restart').addEventListener('click', startRace);
-
-$('backMenu').addEventListener('click', () => {
-  active = false;
-  clearInterval(clockId);
-  clearInterval(botId);
-  $('game').classList.add('hidden');
-  $('menu').classList.remove('hidden');
-});
-
-$('answerForm').addEventListener('submit', e => {
-  e.preventDefault();
-  if ($('answer').value.trim() === '') {
-    setMessage('Type an answer first!');
-    return;
-  }
-  submit(Number($('answer').value));
-});
-
-$('resetScores').addEventListener('click', () => {
-  if (confirm('Reset the leaderboard on this device?')) {
-    board = {};
-    saveBoard();
-    renderBoard();
-    renderWins();
-  }
-});
-
-$('pumpkinButton').addEventListener('click', () => {
-  if (rewards.pumpkinEquipped) return;
-
-  if (rewards.pumpkinUnlocked) {
-    rewards.pumpkinEquipped = true;
-  } else if (rewards.candy >= 100) {
-    rewards.candy -= 100;
-    rewards.pumpkinUnlocked = true;
-    rewards.pumpkinEquipped = true;
-  } else {
-    setMessage(`You need ${100 - rewards.candy} more candy points!`);
-    return;
-  }
-
-  saveRewards();
-  updateGarage();
-});
-
-renderBoard();
-renderWins();
-updateGarage();
-</script>
 </body>
 </html>
