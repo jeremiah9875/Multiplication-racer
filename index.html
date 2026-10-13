@@ -10,7 +10,8 @@
 :root{--ink:#281637;--cream:#fffaf0;--green:#20d9a0;--gold:#ffdc49}
 body{margin:0;padding:12px;font-family:Arial,sans-serif;color:var(--ink);
 background:radial-gradient(circle at 12% 10%,#a75af3 0 7%,transparent 25%),linear-gradient(145deg,#8225e7,#e43cba 58%,#ff658c);min-height:100vh}
-button,input{font:inherit}button{font-weight:bold;color:var(--ink);cursor:pointer}
+button,input{font:inherit}
+button{font-weight:bold;color:var(--ink);cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid #ffdc49;outline-offset:3px}
 .wrap{max-width:1000px;margin:auto}
 header{text-align:center;color:white;padding:12px 4px 20px}
@@ -24,7 +25,8 @@ h1{font-size:clamp(40px,8vw,76px);line-height:.9;margin:15px 0;text-shadow:0 5px
 .mode{position:relative;min-height:190px;background:#fffdf8;border:5px solid var(--ink);border-radius:25px;box-shadow:0 6px 0 var(--ink);padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .mode.selected{background:var(--green)}
 .mode.selected:after{content:"";position:absolute;right:-8px;top:-12px;width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;background:var(--gold)}
-.mode .emoji{font-size:34px}.mode h3{font-size:22px;margin:8px 0}
+.mode .emoji{font-size:34px}
+.mode h3{font-size:22px;margin:8px 0}
 .mode p{font-size:13px;line-height:1.5;margin:4px 0 10px}
 .wins{background:#eee8f1;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:bold}
 .primary{background:var(--gold);border:4px solid var(--ink);border-radius:16px;padding:14px 20px;box-shadow:0 4px var(--ink)}
@@ -35,11 +37,14 @@ h1{font-size:clamp(40px,8vw,76px);line-height:.9;margin:15px 0;text-shadow:0 5px
 .garage h2{text-align:center;color:#ffb044}
 .cars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .carCard{background:#fff8ed;color:var(--ink);border:3px solid #9256b9;border-radius:17px;padding:12px 8px}
-.carEmoji{font-size:45px}.carCard p{font-size:13px;min-height:28px}
+.carEmoji{font-size:45px}
+.carCard p{font-size:13px;min-height:28px}
 .carCard button{background:var(--gold);border:2px solid var(--ink);border-radius:10px;padding:10px 4px;width:100%}
 .row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px}
 .purple,.green,.red{border:2px solid var(--ink);border-radius:11px;padding:10px}
-.purple{background:#dfc1ff}.green{background:#20d9a0}.red{background:#ffb5c3}
+.purple{background:#dfc1ff}
+.green{background:#20d9a0}
+.red{background:#ffb5c3}
 .hidden{display:none!important}
 .stat{background:#eee5fa;padding:10px 13px;border-radius:13px;font-weight:bold}
 .track{height:20px;border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#eadff1;margin:14px 0}
@@ -54,15 +59,25 @@ h1{font-size:clamp(40px,8vw,76px);line-height:.9;margin:15px 0;text-shadow:0 5px
 #answer{width:145px;max-width:100%;padding:12px;border:3px solid var(--ink);border-radius:12px;font-size:23px}
 #feedback{min-height:25px;font-weight:bold}
 input[type=text],input[type=number],input[type=password]{padding:11px;border:2px solid var(--ink);border-radius:10px;max-width:100%}
-.field{margin:12px 0}.field label{display:block;font-weight:bold;margin-bottom:6px}
+.field{margin:12px 0}
+.field label{display:block;font-weight:bold;margin-bottom:6px}
 .note{font-size:13px;line-height:1.5}
 table{border-collapse:collapse;width:100%;margin-top:12px}
 th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
-@media(max-width:650px){body{padding:7px}.panel{padding:12px}.modes{grid-template-columns:1fr}.mode{min-height:140px}.mode p{font-size:14px;max-width:290px}.cars{grid-template-columns:repeat(2,minmax(0,1fr))}.icons{letter-spacing:7px}}
+@media(max-width:650px){
+ body{padding:7px}
+ .panel{padding:12px}
+ .modes{grid-template-columns:1fr}
+ .mode{min-height:140px}
+ .mode p{font-size:14px;max-width:290px}
+ .cars{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .icons{letter-spacing:7px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
+
 <header>
  <div class="icons">🦇 🎃 🕸️</div>
  <h1>HALLOWEEN<br>RACER</h1>
@@ -73,33 +88,71 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
 <main id="home">
  <section class="panel">
   <h2 class="sectionTitle">🎃 PICK YOUR MODE 🎃</h2>
+
   <div class="modes">
    <button class="mode selected" data-mode="Easy" onclick="chooseMode('Easy')">
-    <div class="emoji">🧟</div><h3>EASY</h3>
-    <p>Pick from 4 answers. Slow rival. 10 to win.</p><span class="wins" id="easyWins">No wins yet</span>
+    <div class="emoji">🧟</div>
+    <h3>EASY</h3>
+    <p>Pick from 4 answers. Slow rival. 10 to win.</p>
+    <span class="wins" id="easyWins">No wins yet</span>
    </button>
+
    <button class="mode" data-mode="Hard" onclick="chooseMode('Hard')">
-    <div class="emoji">🔥</div><h3>HARD</h3>
-    <p>Type the answer. Speedy rival. 12 to win.</p><span class="wins" id="hardWins">No wins yet</span>
+    <div class="emoji">🔥</div>
+    <h3>HARD</h3>
+    <p>Type the answer. Speedy rival. 12 to win.</p>
+    <span class="wins" id="hardWins">No wins yet</span>
    </button>
+
    <button class="mode" data-mode="Impossible" onclick="chooseMode('Impossible')">
-    <div class="emoji">💀</div><h3>IMPOSSIBLE</h3>
-    <p>4-second clock. Wrong answers push you back. 15 to win.</p><span class="wins" id="impossibleWins">No wins yet</span>
+    <div class="emoji">💀</div>
+    <h3>IMPOSSIBLE</h3>
+    <p>4-second clock. Wrong answers push you back. 15 to win.</p>
+    <span class="wins" id="impossibleWins">No wins yet</span>
    </button>
   </div>
-  <div class="startRow"><button class="primary" style="font-size:24px;width:min(100%,440px)" onclick="startRace()">🏁 START RACE!</button></div>
+
+  <div class="startRow">
+   <button class="primary" style="font-size:24px;width:min(100%,440px)" onclick="startRace()">🏁 START RACE!</button>
+  </div>
+
   <div class="candyBar">🍬 Candy points: <span id="candy">0</span></div>
 
   <section class="garage">
    <h2>🎃 SPOOKY GARAGE</h2>
    <p class="row">Selected car: <b id="selectedCarName">Classic Car</b></p>
+
    <div class="cars">
-    <div class="carCard"><div class="carEmoji">🚕</div><b>Classic Car</b><p>Free starter car</p><button onclick="selectCar('Classic Car')">Select</button></div>
-    <div class="carCard"><div class="carEmoji">🎃</div><b>Pumpkin Car</b><p>🍬 1,000 candy</p><button onclick="buyCar('Pumpkin Car')">Buy / Select</button></div>
-    <div class="carCard"><div class="carEmoji">🦇</div><b>Bat Car</b><p>🍬 1,000 candy</p><button onclick="buyCar('Bat Car')">Buy / Select</button></div>
-    <div class="carCard"><div class="carEmoji">👻</div><b>Ghost Car</b><p>🍬 1,000 candy</p><button onclick="buyCar('Ghost Car')">Buy / Select</button></div>
+    <div class="carCard">
+     <div class="carEmoji">🚕</div>
+     <b>Classic Car</b>
+     <p>Free starter car</p>
+     <button onclick="selectCar('Classic Car')">Select</button>
+    </div>
+
+    <div class="carCard">
+     <div class="carEmoji">🎃</div>
+     <b>Pumpkin Car</b>
+     <p>🍬 500 candy</p>
+     <button onclick="buyCar('Pumpkin Car')">Buy / Select</button>
+    </div>
+
+    <div class="carCard">
+     <div class="carEmoji">🦇</div>
+     <b>Bat Car</b>
+     <p>🍬 1,000 candy</p>
+     <button onclick="buyCar('Bat Car')">Buy / Select</button>
+    </div>
+
+    <div class="carCard">
+     <div class="carEmoji">👻</div>
+     <b>Ghost Car</b>
+     <p>🍬 1,000 candy</p>
+     <button onclick="buyCar('Ghost Car')">Buy / Select</button>
+    </div>
    </div>
-   <p class="note">Each special car costs 1,000 candy one time. Win races to earn candy!</p>
+
+   <p class="note">Win races to earn candy! Each special car can be purchased once.</p>
   </section>
 
   <section class="panel">
@@ -115,33 +168,46 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
   <section class="panel">
    <h2 class="sectionTitle">🔐 OWNER PANEL</h2>
    <p>Enter your owner code to unlock candy rewards.</p>
+
    <div class="row">
     <input id="ownerCode" type="password" placeholder="Owner code" autocomplete="off">
     <button class="primary" onclick="ownerLogin()">Unlock</button>
    </div>
+
    <p id="ownerStatus" role="status"></p>
+
    <div id="ownerControls" class="hidden">
-    <hr><h3>🍬 Custom Candy Rewards</h3>
-    <p>Type the amount you want to give.</p>
-    <div class="field"><label for="rewardAmount">Candy amount</label>
+    <hr>
+    <h3>🍬 Custom Candy Rewards</h3>
+    <p>Choose the amount of candy to award.</p>
+
+    <div class="field">
+     <label for="rewardAmount">Candy amount</label>
      <input id="rewardAmount" type="number" min="1" max="1000000000" step="1" value="100" inputmode="numeric">
     </div>
-    <div class="field"><label for="playerName">Player name (for one player)</label>
-     <input id="playerName" type="text" maxlength="30" placeholder="Enter exact player name">
+
+    <div class="field">
+     <label for="playerName">Player name</label>
+     <input id="playerName" type="text" maxlength="30" placeholder="Enter player name">
     </div>
+
     <div class="row">
      <button class="green" onclick="rewardOne()">👤 Give to One Player</button>
      <button class="green" onclick="rewardEveryone()">🌎 Give to Everyone</button>
     </div>
+
     <p id="rewardMessage" role="status"></p>
+
     <div class="panel" style="box-shadow:none">
-     <h3>📋 Local Demo Award Log</h3>
-     <p class="note">This records reward attempts on this browser only. It does not deliver candy to other devices.</p>
+     <h3>📋 Award Log</h3>
+     <p class="note">The log is saved in this browser. It does not confirm delivery to other players.</p>
      <div id="awardLog"></div>
     </div>
+
     <button class="red" onclick="ownerLogout()">Lock Owner Panel</button>
    </div>
-   <p class="note">Online note: shared rewards need a database, player accounts, and secure owner permissions. This demo's owner code is visible in the page source.</p>
+
+   <p class="note">Online rewards require Firebase, player identification, and secure owner permissions. A code stored in HTML is not secure.</p>
   </section>
 </main>
 
@@ -151,238 +217,578 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left}
   <span class="stat" id="modeLabel">EASY MODE</span>
   <span class="stat">🍬 <b id="raceCandy">0</b></span>
  </div>
+
  <h2 class="sectionTitle">🏁 SPOOKY RACE 🏁</h2>
+
  <div class="row">
   <span class="stat">Correct: <b id="correctCount">0</b></span>
   <span class="stat">Goal: <b id="goalCount">10</b></span>
   <span class="stat">⏱️ <b id="timer">—</b></span>
  </div>
+
  <div class="track"><div id="progress"></div></div>
+
  <div class="raceLanes">
   <div class="lane">YOU: <span id="playerCar" class="laneCar">🚕</span></div>
   <div class="lane">RIVAL: <span id="rivalCar" class="laneCar">🏎️</span></div>
  </div>
+
  <div class="questionBox">
-  <p>What is...</p><div id="question">7 × 8 = ?</div>
+  <p>What is...</p>
+  <div id="question">7 × 8 = ?</div>
   <div id="choiceArea" class="choices"></div>
+
   <div id="typedArea" class="hidden">
    <input id="answer" type="number" inputmode="numeric" placeholder="Answer">
    <button class="primary" onclick="submitTyped()">ANSWER</button>
   </div>
+
   <p id="feedback" role="status"></p>
  </div>
- <div class="startRow"><button class="red" onclick="quitRace()">Quit Race</button></div>
+
+ <div class="startRow">
+  <button class="red" onclick="quitRace()">Quit Race</button>
+ </div>
 </section>
 </div>
 
 <script>
 'use strict';
-const OWNER_CODE='Owner is himothy';
-const $=id=>document.getElementById(id);
-function load(key,fallback){
- try{const value=localStorage.getItem(key);return value===null?fallback:JSON.parse(value)}
- catch(e){return fallback}
-}
-let rewards=load('mrHalloweenRewards',{candy:0,owned:[]});
-if(!Number.isFinite(rewards.candy))rewards.candy=0;
-if(!Array.isArray(rewards.owned))rewards.owned=[];
-let boards=load('hmrNamedBoards',{Easy:[],Hard:[],Impossible:[]});
-let wins=load('hmrModeWins',{Easy:0,Hard:0,Impossible:0});
-let selectedCar=load('hmrSelectedCar','Classic Car');
-let awardLog=load('hmrAwardLog',[]);
-if(!Array.isArray(awardLog))awardLog=[];
-let mode='Easy',goal=10,correct=0,answerValue=0,seconds=4;
-let playerProgress=0,rivalProgress=0,clock=null,raceActive=false,questionLock=false;
-const cars={'Classic Car':'🚕','Pumpkin Car':'🎃','Bat Car':'🦇','Ghost Car':'👻'};
 
-function save(){
- try{
-  localStorage.setItem('mrHalloweenRewards',JSON.stringify(rewards));
-  localStorage.setItem('hmrNamedBoards',JSON.stringify(boards));
-  localStorage.setItem('hmrModeWins',JSON.stringify(wins));
-  localStorage.setItem('hmrSelectedCar',JSON.stringify(selectedCar));
-  localStorage.setItem('hmrAwardLog',JSON.stringify(awardLog));
- }catch(e){console.warn('Browser storage is unavailable.')}
-}
-function render(){
- $('candy').textContent=rewards.candy;
- $('raceCandy').textContent=rewards.candy;
- $('selectedCarName').textContent=selectedCar;
- // The top of the page always displays a pumpkin, never the selected car.
- for(const m of ['Easy','Hard','Impossible']){
-  const count=wins[m]||0;
-  $(m.toLowerCase()+'Wins').textContent=count?count+' win'+(count===1?'':'s'):'No wins yet';
- }
- renderAwardLog();
-}
-function chooseMode(m){
- mode=m;
- document.querySelectorAll('.mode').forEach(button=>button.classList.toggle('selected',button.dataset.mode===m));
-}
-function selectCar(name){
- if(name!=='Classic Car'&&!rewards.owned.includes(name)){alert('Buy this car first for 1,000 candy!');return}
- selectedCar=name;save();render();
-}
-function buyCar(name){
- if(!rewards.owned.includes(name)){
-  if(rewards.candy<1000){alert('You need 1,000 candy to buy the '+name+'!');return}
-  rewards.candy-=1000;rewards.owned.push(name);
- }else{selectedCar=name;save();render();alert('You already own this car!');return}
- selectedCar=name;save();render();alert('You unlocked the '+name+'!');
-}
-function beep(){
- try{
-  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-  const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=850;gain.gain.value=.06;
-  osc.start();osc.stop(ctx.currentTime+.12);osc.onended=()=>ctx.close();
- }catch(e){}
-}
-function startRace(){
- clearInterval(clock);raceActive=true;questionLock=false;correct=0;playerProgress=0;rivalProgress=0;
- goal=mode==='Easy'?10:mode==='Hard'?12:15;
- $('home').classList.add('hidden');$('game').classList.remove('hidden');
- $('modeLabel').textContent=mode.toUpperCase()+' MODE';$('goalCount').textContent=goal;
- $('correctCount').textContent='0';$('progress').style.width='0%';
- $('playerCar').style.marginLeft='0%';$('rivalCar').style.marginLeft='0%';
- $('playerCar').textContent=cars[selectedCar]||'🚕';$('rivalCar').textContent='🏎️';
- $('typedArea').classList.toggle('hidden',mode==='Easy');
- $('choiceArea').classList.toggle('hidden',mode!=='Easy');
- nextQuestion();
-}
-function nextQuestion(){
- if(!raceActive)return;
- clearInterval(clock);questionLock=false;
- const a=Math.floor(Math.random()*13),b=Math.floor(Math.random()*13);
- answerValue=a*b;$('question').textContent=a+' × '+b+' = ?';$('feedback').textContent='';
- if(mode==='Easy'){
-  const choices=new Set([answerValue]);
-  while(choices.size<4)choices.add(Math.floor(Math.random()*145));
-  const area=$('choiceArea');area.replaceChildren();
-  [...choices].sort(()=>Math.random()-.5).forEach(value=>{
-   const button=document.createElement('button');button.textContent=value;
-   button.onclick=()=>submitAnswer(value);area.appendChild(button);
-  });
- }else{$('answer').value=''}
- if(mode==='Impossible'){
-  seconds=4;$('timer').textContent=seconds;
-  clock=setInterval(()=>{
-   if(!raceActive){clearInterval(clock);return}
-   seconds--;$('timer').textContent=seconds;
-   if(seconds<=0){clearInterval(clock);wrongAnswer('Time is up! ⏰')}
-  },1000);
- }else $('timer').textContent='—';
-}
-$('answer').addEventListener('keydown',event=>{if(event.key==='Enter')submitTyped()});
-function submitTyped(){
- if(!raceActive||mode==='Easy'||questionLock)return;
- const value=$('answer').value.trim();if(value==='')return;
- submitAnswer(Number(value));
-}
-function submitAnswer(value){
- if(!raceActive||questionLock)return;
- questionLock=true;clearInterval(clock);
- if(Number(value)===answerValue){
-  correct++;playerProgress+=100/goal;rewards.candy+=10;save();render();beep();
-  $('correctCount').textContent=correct;$('progress').style.width=Math.min(100,playerProgress)+'%';
-  $('playerCar').style.marginLeft=Math.min(65,playerProgress*.65)+'%';
-  $('feedback').textContent='Correct! +10 candy! 🍬';
-  if(correct>=goal){finishRace();return}
-  rivalProgress+=mode==='Easy'?5:mode==='Hard'?8:11;
-  $('rivalCar').style.marginLeft=Math.min(65,rivalProgress*.65)+'%';
-  setTimeout(nextQuestion,550);
- }else{questionLock=false;wrongAnswer('Not quite! Keep racing! 🎃')}
-}
-function wrongAnswer(message){
- if(!raceActive)return;
- questionLock=true;clearInterval(clock);
- if(mode==='Impossible'){
-  playerProgress=Math.max(0,playerProgress-10);$('progress').style.width=playerProgress+'%';
-  $('playerCar').style.marginLeft=Math.min(65,playerProgress*.65)+'%';
- }
- rivalProgress+=mode==='Easy'?6:mode==='Hard'?9:13;
- $('rivalCar').style.marginLeft=Math.min(65,rivalProgress*.65)+'%';
- $('feedback').textContent=message;
- setTimeout(()=>{if(raceActive)nextQuestion()},750);
-}
-function finishRace(){
- raceActive=false;clearInterval(clock);rewards.candy+=100;wins[mode]=(wins[mode]||0)+1;
- $('feedback').textContent='🏆 YOU WON! +100 bonus candy!';save();render();
- setTimeout(()=>{
-  const name=prompt('You won! Enter a leaderboard name:','Player');
-  if(name&&name.trim()){
-   if(!Array.isArray(boards[mode]))boards[mode]=[];
-   boards[mode].push({name:name.trim().slice(0,18),score:correct});
-   boards[mode].sort((a,b)=>b.score-a.score);boards[mode]=boards[mode].slice(0,10);save();
+const OWNER_CODE = 'Owner is himothy';
+const $ = id => document.getElementById(id);
+
+function load(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch (e) {
+    return fallback;
   }
-  showBoard(mode);alert('Race complete! You earned 100 bonus candy!');
- },100);
 }
-function quitRace(){
- raceActive=false;clearInterval(clock);$('game').classList.add('hidden');$('home').classList.remove('hidden');render();
+
+let rewards = load('mrHalloweenRewards', {candy:0, owned:[]});
+
+if (!rewards || typeof rewards !== 'object') {
+  rewards = {candy:0, owned:[]};
 }
-function showBoard(m){
- const area=$('board');area.replaceChildren();
- const title=document.createElement('h3');title.textContent=m+' Leaderboard';area.appendChild(title);
- const list=Array.isArray(boards[m])?boards[m]:[];
- if(!list.length){const p=document.createElement('p');p.textContent='No wins yet. Be the first racer!';area.appendChild(p);return}
- const table=document.createElement('table'),head=document.createElement('tr');
- ['Rank','Player','Correct'].forEach(text=>{const th=document.createElement('th');th.textContent=text;head.appendChild(th)});
- table.appendChild(head);
- list.forEach((entry,index)=>{
-  const tr=document.createElement('tr');
-  [index+1,entry.name,entry.score].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});
-  table.appendChild(tr);
- });
- area.appendChild(table);
+if (!Number.isFinite(rewards.candy) || rewards.candy < 0) {
+  rewards.candy = 0;
 }
-function ownerLogin(){
- if($('ownerCode').value===OWNER_CODE){
-  $('ownerControls').classList.remove('hidden');$('ownerStatus').textContent='Owner panel unlocked!';
- }else $('ownerStatus').textContent='Incorrect owner code.';
- $('ownerCode').value='';
+if (!Array.isArray(rewards.owned)) {
+  rewards.owned = [];
 }
-function ownerLogout(){
- $('ownerControls').classList.add('hidden');$('ownerStatus').textContent='Owner panel locked.';
+
+let boards = load('hmrNamedBoards', {
+  Easy:[], Hard:[], Impossible:[]
+});
+
+if (!boards || typeof boards !== 'object') {
+  boards = {Easy:[], Hard:[], Impossible:[]};
 }
-function validAmount(){
- const raw=$('rewardAmount').value.trim(),amount=Number(raw);
- if(raw===''||!Number.isSafeInteger(amount)||amount<1||amount>1000000000){
-  $('rewardMessage').textContent='Enter a whole number from 1 to 1,000,000,000.';return null;
- }
- return amount;
+
+for (const m of ['Easy','Hard','Impossible']) {
+  if (!Array.isArray(boards[m])) boards[m] = [];
 }
-function addAwardLog(target,amount){
- awardLog.unshift({target,amount,date:new Date().toLocaleString()});
- awardLog=awardLog.slice(0,30);save();renderAwardLog();
+
+let wins = load('hmrModeWins', {
+  Easy:0, Hard:0, Impossible:0
+});
+
+if (!wins || typeof wins !== 'object') {
+  wins = {Easy:0, Hard:0, Impossible:0};
 }
-function rewardOne(){
- const amount=validAmount();if(amount===null)return;
- const name=$('playerName').value.trim();
- if(!name){$('rewardMessage').textContent='Type the player name first.';return}
- addAwardLog(name,amount);
- $('rewardMessage').textContent='Demo award recorded for "'+name+'" ('+amount+' candy). It has NOT been delivered to another player. A shared database is needed for online delivery.';
+
+let selectedCar = load('hmrSelectedCar', 'Classic Car');
+let awardLog = load('hmrAwardLog', []);
+
+if (!Array.isArray(awardLog)) awardLog = [];
+
+let mode = 'Easy';
+let goal = 10;
+let correct = 0;
+let answerValue = 0;
+let seconds = 4;
+let playerProgress = 0;
+let rivalProgress = 0;
+let clock = null;
+let raceActive = false;
+let questionLock = false;
+
+const cars = {
+  'Classic Car':'🚕',
+  'Pumpkin Car':'🎃',
+  'Bat Car':'🦇',
+  'Ghost Car':'👻'
+};
+
+const prices = {
+  'Classic Car':0,
+  'Pumpkin Car':500,
+  'Bat Car':1000,
+  'Ghost Car':1000
+};
+
+function save() {
+  try {
+    localStorage.setItem('mrHalloweenRewards', JSON.stringify(rewards));
+    localStorage.setItem('hmrNamedBoards', JSON.stringify(boards));
+    localStorage.setItem('hmrModeWins', JSON.stringify(wins));
+    localStorage.setItem('hmrSelectedCar', JSON.stringify(selectedCar));
+    localStorage.setItem('hmrAwardLog', JSON.stringify(awardLog));
+  } catch (e) {
+    console.warn('Browser storage is unavailable.');
+  }
 }
-function rewardEveryone(){
- const amount=validAmount();if(amount===null)return;
- if(!confirm('Record a demo award of '+amount+' candy for everyone?'))return;
- addAwardLog('EVERYONE',amount);
- $('rewardMessage').textContent='Demo broadcast recorded ('+amount+' candy per player). It has NOT been delivered to other devices. A shared database is needed.';
+
+function render() {
+  $('candy').textContent = rewards.candy;
+  $('raceCandy').textContent = rewards.candy;
+  $('selectedCarName').textContent = selectedCar;
+
+  for (const m of ['Easy','Hard','Impossible']) {
+    const count = wins[m] || 0;
+    $(m.toLowerCase() + 'Wins').textContent =
+      count ? count + ' win' + (count === 1 ? '' : 's') : 'No wins yet';
+  }
+
+  renderAwardLog();
 }
-function renderAwardLog(){
- const area=$('awardLog');if(!area)return;area.replaceChildren();
- if(!awardLog.length){area.textContent='No awards recorded yet.';return}
- const table=document.createElement('table'),head=document.createElement('tr');
- ['Recipient','Candy','Date'].forEach(value=>{const th=document.createElement('th');th.textContent=value;head.appendChild(th)});
- table.appendChild(head);
- awardLog.forEach(entry=>{
-  const tr=document.createElement('tr');
-  [entry.target,entry.amount,entry.date].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});
-  table.appendChild(tr);
- });
- area.appendChild(table);
+
+function chooseMode(m) {
+  if (!['Easy','Hard','Impossible'].includes(m)) return;
+  mode = m;
+
+  document.querySelectorAll('.mode').forEach(button => {
+    button.classList.toggle('selected', button.dataset.mode === m);
+  });
 }
-render();showBoard('Easy');
+
+function selectCar(name) {
+  if (!cars[name]) return;
+
+  if (!rewards.owned.includes(name) && name !== 'Classic Car') {
+    alert('Buy this car first for ' + prices[name] + ' candy!');
+    return;
+  }
+
+  selectedCar = name;
+  save();
+  render();
+}
+
+function buyCar(name) {
+  if (!cars[name] || name === 'Classic Car') return;
+
+  if (rewards.owned.includes(name)) {
+    selectedCar = name;
+    save();
+    render();
+    alert('You already own this car! It is now selected.');
+    return;
+  }
+
+  const price = prices[name];
+
+  if (rewards.candy < price) {
+    alert('You need ' + price + ' candy to buy the ' + name + '!');
+    return;
+  }
+
+  rewards.candy -= price;
+  rewards.owned.push(name);
+  selectedCar = name;
+
+  save();
+  render();
+  alert('🎃 You unlocked the ' + name + '!');
+}
+
+function beep() {
+  try {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return;
+
+    const ctx = new C();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 850;
+    gain.gain.value = .06;
+
+    osc.start();
+    osc.stop(ctx.currentTime + .12);
+    osc.onended = () => ctx.close();
+  } catch (e) {}
+}
+
+function startRace() {
+  clearInterval(clock);
+
+  raceActive = true;
+  questionLock = false;
+  correct = 0;
+  playerProgress = 0;
+  rivalProgress = 0;
+
+  goal = mode === 'Easy' ? 10 : mode === 'Hard' ? 12 : 15;
+
+  $('home').classList.add('hidden');
+  $('game').classList.remove('hidden');
+
+  $('modeLabel').textContent = mode.toUpperCase() + ' MODE';
+  $('goalCount').textContent = goal;
+  $('correctCount').textContent = '0';
+  $('progress').style.width = '0%';
+  $('playerCar').style.marginLeft = '0%';
+  $('rivalCar').style.marginLeft = '0%';
+  $('playerCar').textContent = cars[selectedCar] || '🚕';
+  $('rivalCar').textContent = '🏎️';
+
+  $('typedArea').classList.toggle('hidden', mode === 'Easy');
+  $('choiceArea').classList.toggle('hidden', mode !== 'Easy');
+
+  render();
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (!raceActive) return;
+
+  clearInterval(clock);
+  questionLock = false;
+
+  const a = Math.floor(Math.random() * 13);
+  const b = Math.floor(Math.random() * 13);
+
+  answerValue = a * b;
+  $('question').textContent = a + ' × ' + b + ' = ?';
+  $('feedback').textContent = '';
+
+  if (mode === 'Easy') {
+    const choices = new Set([answerValue]);
+
+    while (choices.size < 4) {
+      choices.add(Math.floor(Math.random() * 145));
+    }
+
+    const area = $('choiceArea');
+    area.replaceChildren();
+
+    [...choices].sort(() => Math.random() - .5).forEach(value => {
+      const button = document.createElement('button');
+      button.textContent = value;
+      button.onclick = () => submitAnswer(value);
+      area.appendChild(button);
+    });
+  } else {
+    $('answer').value = '';
+    $('answer').focus();
+  }
+
+  if (mode === 'Impossible') {
+    seconds = 4;
+    $('timer').textContent = seconds;
+
+    clock = setInterval(() => {
+      if (!raceActive) {
+        clearInterval(clock);
+        return;
+      }
+
+      seconds--;
+      $('timer').textContent = seconds;
+
+      if (seconds <= 0) {
+        clearInterval(clock);
+        wrongAnswer('Time is up! ⏰');
+      }
+    }, 1000);
+  } else {
+    $('timer').textContent = '—';
+  }
+}
+
+$('answer').addEventListener('keydown', event => {
+  if (event.key === 'Enter') submitTyped();
+});
+
+function submitTyped() {
+  if (!raceActive || mode === 'Easy' || questionLock) return;
+
+  const value = $('answer').value.trim();
+  if (value === '') return;
+
+  submitAnswer(Number(value));
+}
+
+function submitAnswer(value) {
+  if (!raceActive || questionLock) return;
+
+  questionLock = true;
+  clearInterval(clock);
+
+  if (Number(value) === answerValue) {
+    correct++;
+    playerProgress += 100 / goal;
+
+    // Earn 10 candy for every correct answer.
+    rewards.candy += 10;
+
+    save();
+    render();
+    beep();
+
+    $('correctCount').textContent = correct;
+    $('progress').style.width = Math.min(100, playerProgress) + '%';
+    $('playerCar').style.marginLeft = Math.min(65, playerProgress * .65) + '%';
+    $('feedback').textContent = 'Correct! +10 candy! 🍬';
+
+    if (correct >= goal) {
+      finishRace();
+      return;
+    }
+
+    rivalProgress += mode === 'Easy' ? 5 : mode === 'Hard' ? 8 : 11;
+    $('rivalCar').style.marginLeft = Math.min(65, rivalProgress * .65) + '%';
+
+    setTimeout(nextQuestion, 550);
+  } else {
+    questionLock = false;
+    wrongAnswer('Not quite! Keep racing! 🎃');
+  }
+}
+
+function wrongAnswer(message) {
+  if (!raceActive) return;
+
+  questionLock = true;
+  clearInterval(clock);
+
+  if (mode === 'Impossible') {
+    playerProgress = Math.max(0, playerProgress - 10);
+    $('progress').style.width = playerProgress + '%';
+    $('playerCar').style.marginLeft = Math.min(65, playerProgress * .65) + '%';
+  }
+
+  rivalProgress += mode === 'Easy' ? 6 : mode === 'Hard' ? 9 : 13;
+  $('rivalCar').style.marginLeft = Math.min(65, rivalProgress * .65) + '%';
+  $('feedback').textContent = message;
+
+  setTimeout(() => {
+    if (raceActive) nextQuestion();
+  }, 750);
+}
+
+function finishRace() {
+  raceActive = false;
+  clearInterval(clock);
+
+  rewards.candy += 100;
+  wins[mode] = (wins[mode] || 0) + 1;
+
+  $('feedback').textContent = '🏆 YOU WON! +100 bonus candy!';
+
+  save();
+  render();
+
+  setTimeout(() => {
+    const name = prompt('You won! Enter a leaderboard name:', 'Player');
+
+    if (name && name.trim()) {
+      boards[mode].push({
+        name: name.trim().slice(0, 18),
+        score: correct
+      });
+
+      // Highest correct-answer score first.
+      boards[mode].sort((a, b) => b.score - a.score);
+      boards[mode] = boards[mode].slice(0, 10);
+      save();
+    }
+
+    showBoard(mode);
+    alert('Race complete! You earned 100 bonus candy!');
+  }, 100);
+}
+
+function quitRace() {
+  raceActive = false;
+  clearInterval(clock);
+
+  $('game').classList.add('hidden');
+  $('home').classList.remove('hidden');
+
+  render();
+}
+
+function showBoard(m) {
+  const area = $('board');
+  area.replaceChildren();
+
+  const title = document.createElement('h3');
+  title.textContent = m + ' Leaderboard';
+  area.appendChild(title);
+
+  const list = Array.isArray(boards[m]) ? boards[m] : [];
+
+  if (!list.length) {
+    const p = document.createElement('p');
+    p.textContent = 'No wins yet. Be the first racer!';
+    area.appendChild(p);
+    return;
+  }
+
+  const table = document.createElement('table');
+  const head = document.createElement('tr');
+
+  ['Rank','Player','Correct'].forEach(text => {
+    const th = document.createElement('th');
+    th.textContent = text;
+    head.appendChild(th);
+  });
+
+  table.appendChild(head);
+
+  list.forEach((entry, index) => {
+    const tr = document.createElement('tr');
+
+    [index + 1, entry.name, entry.score].forEach(value => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.appendChild(td);
+    });
+
+    table.appendChild(tr);
+  });
+
+  area.appendChild(table);
+}
+
+function ownerLogin() {
+  if ($('ownerCode').value === OWNER_CODE) {
+    $('ownerControls').classList.remove('hidden');
+    $('ownerStatus').textContent = 'Owner panel unlocked!';
+  } else {
+    $('ownerStatus').textContent = 'Incorrect owner code.';
+  }
+
+  $('ownerCode').value = '';
+}
+
+function ownerLogout() {
+  $('ownerControls').classList.add('hidden');
+  $('ownerStatus').textContent = 'Owner panel locked.';
+}
+
+function validAmount() {
+  const raw = $('rewardAmount').value.trim();
+  const amount = Number(raw);
+
+  if (
+    raw === '' ||
+    !Number.isSafeInteger(amount) ||
+    amount < 1 ||
+    amount > 1000000000
+  ) {
+    $('rewardMessage').textContent =
+      'Enter a whole number from 1 to 1,000,000,000.';
+    return null;
+  }
+
+  return amount;
+}
+
+function addAwardLog(target, amount) {
+  awardLog.unshift({
+    target,
+    amount,
+    date: new Date().toLocaleString()
+  });
+
+  awardLog = awardLog.slice(0, 30);
+  save();
+  renderAwardLog();
+}
+
+// FIXED: Adds candy to this browser's balance.
+function rewardOne() {
+  const amount = validAmount();
+  if (amount === null) return;
+
+  const name = $('playerName').value.trim();
+
+  if (!name) {
+    $('rewardMessage').textContent = 'Type the player name first.';
+    return;
+  }
+
+  // This changes only the current browser's balance.
+  rewards.candy += amount;
+
+  save();
+  render();
+  addAwardLog(name, amount);
+
+  $('rewardMessage').textContent =
+    '🍬 Added ' + amount + ' candy to this browser! ' +
+    'Balance: ' + rewards.candy +
+    '. Online delivery to "' + name +
+    '" requires Firebase integration.';
+}
+
+// A local demo cannot distribute candy to everyone online.
+function rewardEveryone() {
+  const amount = validAmount();
+  if (amount === null) return;
+
+  $('rewardMessage').textContent =
+    'Online broadcast is not connected yet. ' +
+    'No other players were given candy. ' +
+    'Connect Firebase and secure owner permissions to enable this feature.';
+}
+
+function renderAwardLog() {
+  const area = $('awardLog');
+  if (!area) return;
+
+  area.replaceChildren();
+
+  if (!awardLog.length) {
+    area.textContent = 'No awards recorded yet.';
+    return;
+  }
+
+  const table = document.createElement('table');
+  const head = document.createElement('tr');
+
+  ['Recipient','Candy','Date'].forEach(value => {
+    const th = document.createElement('th');
+    th.textContent = value;
+    head.appendChild(th);
+  });
+
+  table.appendChild(head);
+
+  awardLog.forEach(entry => {
+    const tr = document.createElement('tr');
+
+    [entry.target, entry.amount, entry.date].forEach(value => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.appendChild(td);
+    });
+
+    table.appendChild(tr);
+  });
+
+  area.appendChild(table);
+}
+
+render();
+showBoard('Easy');
 </script>
 </body>
 </html>
