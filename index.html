@@ -72,8 +72,7 @@ th,td{padding:9px;border-bottom:1px solid #d9cbe5;text-align:left;overflow-wrap:
 #playerCar.ghosting{opacity:.4;filter:drop-shadow(0 0 12px #b98cff)}
 #playerCar.lightning{filter:drop-shadow(0 0 12px #58eaff)}
 @media(max-width:650px){
-body{padding:7px}
-.panel{padding:12px}
+body{padding:7px}.panel{padding:12px}
 .modes{grid-template-columns:1fr}
 .mode{min-height:140px}
 .mode p{font-size:14px;max-width:290px}
@@ -114,8 +113,9 @@ body{padding:7px}
 <div class="carCard"><div class="carEmoji">🦇</div><b>Bat Car</b><p>🍬 1,000 candy · Slime Splash</p><button onclick="buyCar('Bat Car')">Buy / Select</button></div>
 <div class="carCard"><div class="carEmoji">👻</div><b>Ghost Car</b><p>🍬 1,000 candy · Ghost Mode</p><button onclick="buyCar('Ghost Car')">Buy / Select</button></div>
 <div class="carCard"><div class="carEmoji">⚡</div><b>Lightning Car</b><p>🍬 1,000 candy · Lightning Dash</p><button onclick="buyCar('Lightning Car')">Buy / Select</button></div>
+<div class="carCard"><div class="carEmoji">👑</div><b>Owner Car</b><p>Owner panel required · Wins every 3 correct answers!</p><button onclick="selectCar('Owner Car')">Select Owner Car</button></div>
 </div>
-<p class="note">Win races to earn candy! Each special car can be purchased once. Use your car ability during a race.</p>
+<p class="note">Win races to earn candy! Each special car can be purchased once. Use your car ability during a race. The Owner Car is unlocked in the browser where the owner panel is unlocked.</p>
 </section>
 
 <section class="panel">
@@ -126,7 +126,7 @@ body{padding:7px}
 
 <section class="panel">
 <h2 class="sectionTitle">🔐 OWNER PANEL</h2>
-<p>Enter your owner code to unlock candy rewards.</p>
+<p>Enter your owner code to unlock candy rewards and the Owner Car.</p>
 <div class="row"><input id="ownerCode" type="password" placeholder="Owner code" autocomplete="off"><button class="primary" onclick="ownerLogin()">Unlock</button></div>
 <p id="ownerStatus" role="status"></p>
 <div id="ownerControls" class="hidden">
@@ -145,7 +145,13 @@ body{padding:7px}
 <section id="game" class="panel hidden">
 <div class="row"><button class="purple" onclick="quitRace()">← MENU</button><span class="stat" id="modeLabel">EASY MODE</span><span class="stat">🍬 <b id="raceCandy">0</b></span></div>
 <h2 class="sectionTitle">🏁 SPOOKY RACE 🏁</h2>
-<div class="row"><span class="stat">Correct: <b id="correctCount">0</b></span><span class="stat">Goal: <b id="goalCount">10</b></span><span class="stat">⏱️ <b id="timer">—</b></span></div>
+<div class="row">
+<span class="stat">Correct: <b id="correctCount">0</b></span>
+<span class="stat">Goal: <b id="goalCount">10</b></span>
+<span class="stat">⏱️ <b id="timer">—</b></span>
+<span class="stat">🔥 Streak: <b id="streakCount">0</b></span>
+<span class="stat">🍬 Next reward: <b id="streakReward">10</b></span>
+</div>
 <div class="track"><div id="progress"></div></div>
 <div class="raceLanes">
 <div class="lane">YOU: <span id="playerCar" class="laneCar">🚕</span></div>
@@ -241,12 +247,17 @@ let abilityCooldownUntil = 0, abilityCooldownTimer = null, abilityEffectTimer = 
 let abilityActive = false, rivalSlowUntil = 0, ghostShieldUntil = 0, lightningCharged = false;
 let finishStarted = false;
 
+/* NEW FEATURES: streak rewards and Owner Car */
+let streak = 0;
+let ownerCarUnlocked = false;
+
 const cars = {
   'Classic Car':'🚕',
   'Pumpkin Car':'🎃',
   'Bat Car':'🦇',
   'Ghost Car':'👻',
-  'Lightning Car':'⚡'
+  'Lightning Car':'⚡',
+  'Owner Car':'👑'
 };
 
 const prices = {
@@ -254,7 +265,8 @@ const prices = {
   'Pumpkin Car':500,
   'Bat Car':1000,
   'Ghost Car':1000,
-  'Lightning Car':1000
+  'Lightning Car':1000,
+  'Owner Car':0
 };
 
 const carAbilities = {
@@ -262,7 +274,8 @@ const carAbilities = {
   'Pumpkin Car':{name:'🎃 Pumpkin Power',description:'Boost forward for 3 seconds!'},
   'Bat Car':{name:'🟢 Slime Splash',description:'Slow the rival for 2 seconds!'},
   'Ghost Car':{name:'👻 Ghost Mode',description:'Activate 4 seconds of obstacle protection!'},
-  'Lightning Car':{name:'⚡ Lightning Dash',description:'Charge your next correct answer for a big boost!'}
+  'Lightning Car':{name:'⚡ Lightning Dash',description:'Charge your next correct answer for a big boost!'},
+  'Owner Car':{name:'👑 Owner Power',description:'Instantly finish the race after every 3 correct answers!'}
 };
 
 function save() {
@@ -303,7 +316,12 @@ function chooseMode(m) {
 function selectCar(name) {
   if (!cars[name]) return;
 
-  if (!rewards.owned.includes(name) && name !== 'Classic Car') {
+  if (name === 'Owner Car' && !ownerCarUnlocked) {
+    alert('👑 Unlock the owner panel first!');
+    return;
+  }
+
+  if (!rewards.owned.includes(name) && name !== 'Classic Car' && name !== 'Owner Car') {
     alert('Buy this car first for ' + prices[name] + ' candy!');
     return;
   }
@@ -314,7 +332,7 @@ function selectCar(name) {
 }
 
 function buyCar(name) {
-  if (!cars[name] || name === 'Classic Car') return;
+  if (!cars[name] || name === 'Classic Car' || name === 'Owner Car') return;
 
   if (rewards.owned.includes(name)) {
     selectedCar = name;
@@ -372,15 +390,15 @@ function updateAbilityUI() {
   if (!button || !recharge) return;
 
   const ability = carAbilities[selectedCar];
-  const owned = selectedCar === 'Classic Car' || rewards.owned.includes(selectedCar);
+  const owned = selectedCar === 'Classic Car' ||
+    selectedCar === 'Owner Car' && ownerCarUnlocked ||
+    rewards.owned.includes(selectedCar);
   const remaining = Math.max(0, Math.ceil((abilityCooldownUntil - Date.now()) / 1000));
   const coolingDown = remaining > 0;
 
-  if ($('abilityName')) {
-    $('abilityName').textContent = ability
-      ? ability.name + ' — ' + ability.description
-      : '🚕 Classic Car has no special ability.';
-  }
+  $('abilityName').textContent = ability
+    ? ability.name + ' — ' + ability.description
+    : '🚕 Classic Car has no special ability.';
 
   button.disabled = !raceActive || !ability || !owned || coolingDown || abilityActive;
 
@@ -402,15 +420,20 @@ function updateAbilityUI() {
     ? '🍬 NEED 300 CANDY'
     : coolingDown
       ? '🍬 RECHARGE · 300'
-      : '🍬 RECHARGE READY';
+      : '🍬 RECHARGE · 300';
 
-  if (!raceActive && $('abilityStatus')) {
+  if (!raceActive) {
     $('abilityStatus').textContent = 'Start a race to use your ability!';
   }
 }
 
 function activateAbility() {
   if (!raceActive) return;
+
+  if (selectedCar === 'Owner Car') {
+    $('abilityStatus').textContent = '👑 Owner Car automatically wins after 3 correct answers!';
+    return;
+  }
 
   if (abilityActive) {
     $('abilityStatus').textContent = 'Your ability is already active!';
@@ -438,14 +461,12 @@ function activateAbility() {
   }
 
   abilityCooldownUntil = Date.now() + 8000;
-
   const player = $('playerCar');
 
   if (selectedCar === 'Pumpkin Car') {
     abilityActive = true;
     player.classList.add('boosting');
     $('abilityStatus').textContent = '🎃 Pumpkin Power! Speed boost activated!';
-
     const started = Date.now();
 
     abilityEffectTimer = setInterval(() => {
@@ -490,12 +511,13 @@ function activateAbility() {
   updateAbilityUI();
 }
 
-/* NEW: Buy an ability recharge with 300 candy. */
 function rechargeAbility() {
   if (!raceActive) return;
 
   const ability = carAbilities[selectedCar];
-  const owned = selectedCar === 'Classic Car' || rewards.owned.includes(selectedCar);
+  const owned = selectedCar === 'Classic Car' ||
+    selectedCar === 'Owner Car' && ownerCarUnlocked ||
+    rewards.owned.includes(selectedCar);
 
   if (!ability || !owned) {
     $('abilityStatus').textContent = 'Choose and unlock a special car first!';
@@ -526,18 +548,20 @@ function rechargeAbility() {
   save();
   render();
 
-  $('abilityStatus').textContent = '🍬 Recharge purchased! Your ability is ready. Press ENTER to use it!';
+  $('abilityStatus').textContent = '🍬 Recharge purchased! Your ability is ready!';
   updateAbilityUI();
 }
 
 function startRace() {
   clearInterval(clock);
   clearAbilityTimers();
+  clearInterval(abilityCooldownTimer);
 
   raceActive = true;
   finishStarted = false;
   questionLock = false;
   correct = 0;
+  streak = 0;
   playerProgress = 0;
   rivalProgress = 0;
   raceStartTime = Date.now();
@@ -553,6 +577,8 @@ function startRace() {
   $('modeLabel').textContent = mode.toUpperCase() + ' MODE';
   $('goalCount').textContent = goal;
   $('correctCount').textContent = '0';
+  $('streakCount').textContent = '0';
+  $('streakReward').textContent = '10';
   $('progress').style.width = '0%';
   $('playerCar').style.marginLeft = '0%';
   $('rivalCar').style.marginLeft = '0%';
@@ -560,7 +586,9 @@ function startRace() {
   $('rivalCar').textContent = '🏎️';
   $('typedArea').classList.toggle('hidden', mode === 'Easy');
   $('choiceArea').classList.toggle('hidden', mode !== 'Easy');
-  $('abilityStatus').textContent = 'Answer questions and press ENTER to use your car power!';
+  $('abilityStatus').textContent = selectedCar === 'Owner Car'
+    ? '👑 Get 3 correct answers to instantly win!'
+    : 'Answer questions and press ENTER to use your car power!';
 
   render();
   nextQuestion();
@@ -644,13 +672,6 @@ function submitTyped() {
   submitAnswer(Number(value));
 }
 
-/*
-  NEW COMPUTER CONTROLS:
-  Enter outside a text field uses the ability when ready.
-  Enter during cooldown buys the 300-candy recharge.
-  Enter inside the answer field still submits the answer.
-  Other text fields and buttons keep their normal behavior.
-*/
 document.addEventListener('keydown', event => {
   if (event.key !== 'Enter' || event.repeat || !raceActive) return;
 
@@ -704,11 +725,19 @@ function submitAnswer(value) {
 
   if (Number(value) === answerValue) {
     correct++;
+    streak++;
+
+    /* Streak reward: 10, 20, 30, 40... candy */
+    const candyEarned = streak * 10;
+    rewards.candy += candyEarned;
+
     playerProgress += 100 / goal;
-    rewards.candy += 10;
     save();
     render();
     beep();
+
+    $('streakCount').textContent = streak;
+    $('streakReward').textContent = (streak + 1) * 10;
 
     if (lightningCharged) {
       lightningCharged = false;
@@ -720,7 +749,18 @@ function submitAnswer(value) {
     $('correctCount').textContent = correct;
     $('progress').style.width = Math.min(100, playerProgress) + '%';
     $('playerCar').style.marginLeft = Math.min(65, playerProgress * .65) + '%';
-    $('feedback').textContent = 'Correct! +10 candy! 🍬';
+    $('feedback').textContent =
+      'Correct! +' + candyEarned + ' candy! 🍬 Streak: ' + streak + ' 🔥';
+
+    /* Owner Car wins immediately on every third correct answer. */
+    if (selectedCar === 'Owner Car' && correct % 3 === 0) {
+      playerProgress = 100;
+      $('progress').style.width = '100%';
+      $('playerCar').style.marginLeft = '65%';
+      $('feedback').textContent = '👑 OWNER CAR POWER! 3 correct answers — race completed!';
+      finishRace();
+      return;
+    }
 
     if (correct >= goal || playerProgress >= 100) {
       finishRace();
@@ -735,12 +775,17 @@ function submitAnswer(value) {
 
   } else {
     questionLock = false;
-    wrongAnswer('Not quite! Keep racing! 🎃');
+    wrongAnswer('Not quite! Your streak reset! Keep racing! 🎃');
   }
 }
 
 function wrongAnswer(message) {
   if (!raceActive) return;
+
+  /* A wrong answer or timeout resets the candy streak. */
+  streak = 0;
+  $('streakCount').textContent = '0';
+  $('streakReward').textContent = '10';
 
   questionLock = true;
   clearInterval(clock);
@@ -769,6 +814,7 @@ async function finishRace() {
   clearInterval(clock);
   clearAbilityTimers();
   clearInterval(abilityCooldownTimer);
+  abilityCooldownTimer = null;
 
   const elapsedMs = Date.now() - raceStartTime;
   const elapsedSeconds = elapsedMs / 1000;
@@ -832,6 +878,7 @@ function quitRace() {
   clearInterval(clock);
   clearAbilityTimers();
   clearInterval(abilityCooldownTimer);
+  abilityCooldownTimer = null;
 
   $('game').classList.add('hidden');
   $('home').classList.remove('hidden');
@@ -934,8 +981,10 @@ async function showBoard(m) {
 
 function ownerLogin() {
   if ($('ownerCode').value === OWNER_CODE) {
+    ownerCarUnlocked = true;
     $('ownerControls').classList.remove('hidden');
-    $('ownerStatus').textContent = 'Owner panel unlocked!';
+    $('ownerStatus').textContent = '👑 Owner panel unlocked! Owner Car is now available in this browser.';
+    render();
   } else {
     $('ownerStatus').textContent = 'Incorrect owner code.';
   }
@@ -944,8 +993,15 @@ function ownerLogin() {
 }
 
 function ownerLogout() {
+  ownerCarUnlocked = false;
   $('ownerControls').classList.add('hidden');
   $('ownerStatus').textContent = 'Owner panel locked.';
+
+  if (selectedCar === 'Owner Car') {
+    selectedCar = 'Classic Car';
+    save();
+    render();
+  }
 }
 
 function validAmount() {
