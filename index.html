@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -279,7 +278,7 @@ footer{text-align:center;color:white;padding:12px}
 <script>
 'use strict';
 
-const ADMIN_CODE='Jeremiah is your friend';
+const ADMIN_CODE='The Ultimate Spider-Man';
 const SAVE_KEY='turkeyRacer_v2';
 const $=id=>document.getElementById(id);
 
@@ -497,7 +496,6 @@ function drawRace(){
  const laneWidth=roadW/3;
  const playerLane=roadX+laneWidth*1.5+playerX*laneWidth*.55;
  const rivalLane=roadX+laneWidth*2.35;
- // Camera-follow effect: the player moves upward as their progress increases.
  const playerY=h*.78-Math.min(playerProgress,100)*h*.003;
  const rivalY=h*.34-(rivalProgress-playerProgress)*1.7;
  if(Date.now()<adminFlyUntil){
