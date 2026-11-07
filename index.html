@@ -6,47 +6,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Thanksgiving Turkey Racer</title>
 <style>
-:root{--orange:#e87924;--gold:#ffd45c;--brown:#512d20;--cream:#fff4d8;--ink:#382016}
+:root{--gold:#ffd45c;--brown:#512d20;--cream:#fff4d8;--ink:#382016}
 *{box-sizing:border-box}
-body{margin:0;background:#28160f;color:white;font-family:Arial,sans-serif;overflow-x:hidden;background-image:radial-gradient(#704126 1px,transparent 1px);background-size:22px 22px}
+body{margin:0;background:#28160f;color:white;font-family:Arial,sans-serif;background-image:radial-gradient(#704126 1px,transparent 1px);background-size:22px 22px}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer;font-weight:bold;color:var(--ink);touch-action:manipulation}
 button:disabled{opacity:.5;cursor:not-allowed}
 #app{max-width:1050px;margin:auto;padding:12px}
-header{text-align:center;padding:10px 0 20px}
+header{text-align:center;padding:10px}
 header .icons{font-size:28px;letter-spacing:8px}
-h1{font-size:clamp(36px,7vw,68px);line-height:.95;margin:12px 0;color:#ffcf69;text-shadow:0 5px #77371e,0 0 25px #d66b27}
+h1{font-size:clamp(36px,7vw,68px);line-height:.95;color:#ffcf69;text-shadow:0 5px #77371e,0 0 25px #d66b27}
 .subtitle{font-weight:bold;line-height:1.5}
-.topbar{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin:8px 0}
+.topbar,.row{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.topbar{justify-content:flex-end}
 .panel{background:var(--cream);color:var(--ink);border:4px solid var(--brown);border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 6px 0 #160b20}
 .title{text-align:center;font-size:clamp(22px,4vw,32px);margin:5px 0 18px}
-.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.mode{border:4px solid var(--brown);border-radius:20px;background:#fffdf7;min-height:155px;padding:12px 8px}
+.modes,.cars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mode{border:4px solid var(--brown);border-radius:20px;background:#fffdf7;min-height:145px;padding:12px}
 .mode.selected{background:#b8e5a7}
 .mode .emoji{font-size:32px}.mode h3{margin:7px 0}.mode p{font-size:13px;line-height:1.4}
-.primary,.purple,.green,.red{border:3px solid var(--brown);border-radius:12px;padding:11px 15px}
-.primary{background:var(--gold);box-shadow:0 3px var(--brown)}.purple{background:#e5c5a5}.green{background:#a9e6a8}.red{background:#ffb5a7}
+.primary,.purple,.green,.red{border:3px solid var(--brown);border-radius:12px;padding:11px 15px;font-weight:bold}
+.primary{background:var(--gold);box-shadow:0 3px var(--brown)}
+.purple{background:#e5c5a5}.green{background:#a9e6a8}.red{background:#ffb5a7}
 .start{text-align:center;margin:20px 0}.start button{font-size:23px;width:min(100%,420px);padding:16px}
 .currency{font-size:25px;font-weight:900;text-align:center;background:#ffe5a6;border:4px solid var(--brown);border-radius:16px;padding:13px}
 .garage{background:#493020;color:white;border:4px dashed #e99b42;border-radius:20px;padding:14px;margin-top:18px}
 .garage h2{text-align:center;color:#ffd078}
-.cars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.carCard{background:#fff8ed;color:var(--ink);border:3px solid #a56b3e;border-radius:14px;padding:10px 8px}
+.carCard{background:#fff8ed;color:var(--ink);border:3px solid #a56b3e;border-radius:14px;padding:10px}
 .carEmoji{font-size:38px}.carCard p{font-size:12px;min-height:30px}
-.carCard button{width:100%;padding:9px 3px;background:var(--gold);border:2px solid var(--brown);border-radius:9px;font-size:13px}
-.row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}
+.carCard button{width:100%;padding:9px;background:var(--gold);border:2px solid var(--brown);border-radius:9px}
 .stat{background:#eee5d3;color:var(--ink);padding:9px 11px;border-radius:11px;font-weight:bold}
 .hidden{display:none!important}
 .mathChoice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.mathChoice button{min-height:100px;background:#fffdf7;border:3px solid var(--brown);border-radius:16px;padding:12px;font-size:18px}
-.mathChoice button span{display:block;font-size:30px;margin-bottom:7px}
-#game{background:#493020;color:white;border:3px solid #e99b42;box-shadow:0 0 30px #9c4e1e}
+.mathChoice button{min-height:95px;background:#fffdf7;border:3px solid var(--brown);border-radius:16px;padding:12px;font-size:18px}
+.mathChoice span{display:block;font-size:30px;margin-bottom:7px}
+#game{background:#493020;color:white;border:3px solid #e99b42}
 #game .title,.abilityPanel h3{color:#ffd078}
-.hud{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}.hud .stat{background:#fff1cf}
 #raceViewport{position:relative;width:100%;height:clamp(260px,45vw,430px);overflow:hidden;background:#d78a38;border:4px solid #f4bd64;border-radius:18px;margin:12px 0}
 #raceView{display:block;width:100%;height:100%}
-.raceLabels{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
-.raceLabels span{background:#382016e8;color:#ffdf91;border:2px solid #e99b42;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:bold}
+.raceLabels{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none}
+.raceLabels span{background:#382016e8;color:#ffdf91;border:2px solid #e99b42;border-radius:10px;padding:7px;font-size:12px;font-weight:bold}
 .track{height:16px;background:#f1d8b4;border:2px solid #382016;border-radius:15px;overflow:hidden;margin:12px 0}
 #progress{height:100%;width:0%;background:linear-gradient(90deg,#4eaa54,#ffd45c,#e87924);transition:width .25s}
 .questionBox{background:#fff0bc;color:var(--ink);border:4px solid #e99b42;border-radius:18px;padding:12px;text-align:center;margin:12px 0}
@@ -58,41 +57,37 @@ h1{font-size:clamp(36px,7vw,68px);line-height:.95;margin:12px 0;color:#ffcf69;te
 .abilityPanel{background:#493020;border:3px solid #e99b42;border-radius:16px;padding:12px;margin-top:12px;text-align:center}
 .abilityPanel h3{margin:4px}.abilityButton{background:var(--gold);border:2px solid var(--brown);border-radius:10px;padding:10px;min-width:125px}
 #abilityStatus{min-height:20px;color:#ffdf91;font-weight:bold}
-#ownerPanel input,#accountPanel input,#accountPanel textarea{max-width:100%;padding:11px;border:2px solid #a56b3e;border-radius:10px}
-#ownerPanel .owner-login-row{display:flex;gap:10px;width:100%;max-width:750px;flex-wrap:wrap}
-#ownerPanel .owner-login-row input{flex:1 1 250px;min-width:0;padding:14px}
-.note{font-size:12px;line-height:1.45}
-#accountPanel textarea{width:100%;min-height:110px;background:white;color:#382016;overflow-wrap:anywhere}
 .dailySpin{background:linear-gradient(135deg,#ffe5a6,#f6b75a);color:#382016;border:4px solid #512d20;border-radius:20px;padding:16px;margin:18px 0;text-align:center}
 #wheelWrap{position:relative;width:min(290px,78vw);margin:16px auto}
 #wheelPointer{position:absolute;z-index:2;top:-7px;left:50%;transform:translateX(-50%);font-size:35px;color:#512d20}
-#wheel{width:100%;aspect-ratio:1;border-radius:50%;border:9px solid #512d20;background:conic-gradient(#e87924 0deg 51.43deg,#ffd45c 51.43deg 102.86deg,#b8e5a7 102.86deg 154.29deg,#e5c5a5 154.29deg 205.72deg,#e87924 205.72deg 257.15deg,#ffd45c 257.15deg 308.58deg,#a88be8 308.58deg 360deg);position:relative;transition:transform 4s cubic-bezier(.15,.7,.15,1);box-shadow:0 5px 12px #382016}
-.wheelLabel{position:absolute;left:50%;top:50%;width:50%;height:50%;transform-origin:0 0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;text-align:center;color:#382016}
-.wheelLabel span{display:block;width:75px;transform:rotate(25deg)}
-#spinStatus{font-weight:bold;min-height:26px}
-#spinCountdown,#multiplierTimer{font-weight:bold}
-.legendary{background:linear-gradient(135deg,#21134c,#493020 55%,#9a5c18);color:#fff4d8;border:4px solid #e9c65d;border-radius:20px;padding:17px;margin:18px 0;text-align:center;box-shadow:0 0 18px #e9c65d66}
-.legendary h2{color:#ffe27b;text-shadow:0 2px #6a3515}
-.legendary .shopCard{background:#fff4d8;color:#382016;border:3px solid #d7a943;border-radius:15px;padding:13px;margin:12px 0}
-.legendary input,.legendary select{padding:10px;border:2px solid #a56b3e;border-radius:8px;max-width:100%;color:#382016}
-.legendary label{display:block;font-weight:bold;margin:8px 0 4px}
-.legendary .creatorGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
-.legendary .creatorGrid>div{min-width:0}
+#wheel{width:100%;aspect-ratio:1;border-radius:50%;border:9px solid #512d20;background:conic-gradient(#e87924 0deg 51.43deg,#ffd45c 51.43deg 102.86deg,#b8e5a7 102.86deg 154.29deg,#e5c5a5 154.29deg 205.72deg,#e87924 205.72deg 257.15deg,#ffd45c 257.15deg 308.58deg,#a88be8 308.58deg 360deg);position:relative;transition:transform 4s cubic-bezier(.15,.7,.15,1)}
+.wheelLabel{position:absolute;left:50%;top:50%;width:50%;height:50%;transform-origin:0 0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
+.wheelLabel span{width:75px;text-align:center}
+.legendary{background:linear-gradient(135deg,#21134c,#493020 55%,#9a5c18);color:#fff4d8;border:4px solid #e9c65d;border-radius:20px;padding:17px;margin:18px 0;text-align:center}
+.legendary h2{color:#ffe27b}
+.shopCard{background:#fff4d8;color:#382016;border:3px solid #d7a943;border-radius:15px;padding:13px;margin:12px 0}
+.creatorGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
+.creatorGrid label{display:block;font-weight:bold;margin:8px 0 4px}
+.creatorGrid input,.creatorGrid select{width:100%;padding:10px;border:2px solid #a56b3e;border-radius:8px}
 #customPreview{font-size:64px;padding:12px;background:#382016;border-radius:15px;margin:10px auto;max-width:230px}
+#ownerPanel input,#accountPanel textarea{max-width:100%;padding:11px;border:2px solid #a56b3e;border-radius:10px}
+.owner-login-row{display:flex;gap:10px;max-width:750px;flex-wrap:wrap}
+.owner-login-row input{flex:1 1 250px;min-width:0;padding:14px}
+#accountPanel textarea{width:100%;min-height:110px;background:white;color:#382016;overflow-wrap:anywhere}
+.note{font-size:12px;line-height:1.45}
 #mobileControls{position:fixed;z-index:5;left:0;right:0;bottom:12px;display:none;justify-content:space-between;align-items:end;padding:0 10px;pointer-events:none}
 .touchGroup{display:flex;gap:7px;pointer-events:auto}
-.touch{width:58px;height:58px;border-radius:50%;border:3px solid white;background:#8d4b25;color:white;font-size:24px;user-select:none}
+.touch{width:58px;height:58px;border-radius:50%;border:3px solid white;background:#8d4b25;color:white;font-size:24px}
 .touch.action{width:72px;height:54px;border-radius:14px;background:#ffcf69;color:#382016;font-size:11px}
-footer{text-align:center;color:white;padding:12px}
+footer{text-align:center;padding:12px}
 @media(max-width:650px){
  #app{padding:7px}.panel{padding:11px;margin:10px 0}.modes{grid-template-columns:1fr}
  .mode{min-height:100px;display:grid;grid-template-columns:45px 1fr;column-gap:8px;text-align:left;align-items:center}
  .mode .emoji{grid-row:span 2}.mode h3{margin:2px}.mode p{margin:3px 0}
- .cars{grid-template-columns:repeat(2,minmax(0,1fr))}.carEmoji{font-size:32px}
+ .cars{grid-template-columns:repeat(2,minmax(0,1fr))}
  #mobileControls{display:flex}#game{margin-bottom:105px}#raceViewport{height:280px}
- #ownerPanel .owner-login-row{flex-direction:column}
- #ownerPanel .owner-login-row input,#ownerPanel .owner-login-row button{width:100%}
- .legendary .creatorGrid{grid-template-columns:1fr}
+ .owner-login-row{flex-direction:column}.owner-login-row input,.owner-login-row button{width:100%}
+ .creatorGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -103,6 +98,7 @@ footer{text-align:center;color:white;padding:12px}
  <h1>THANKSGIVING<br>RACER</h1>
  <p class="subtitle">Race through the autumn countryside! Solve math problems, collect Turkey, and beat the harvest rivals! 🏁</p>
 </header>
+
 <div class="topbar" id="topbar">
  <button class="primary" onclick="openMathModes()">🧮 MATH MODES</button>
  <button class="primary" onclick="openAccount()">🔑 ACCOUNT</button>
@@ -144,7 +140,7 @@ footer{text-align:center;color:white;padding:12px}
    <p>Welcome to the Legendary Shop! Build a car that is completely yours.</p>
    <div class="shopCard">
     <h3>🚗 CUSTOM CAR CREATOR</h3>
-    <p>Purchase once for <b>75,000 Turkeys</b>. After buying it, customize your own car and choose its special ability!</p>
+    <p>Purchase once for <b>75,000 Turkeys</b>. Then customize your car and choose its special ability!</p>
     <button class="primary" id="buyCreatorButton" onclick="buyCreator()">🛒 BUY CREATOR · 75,000 🦃</button>
     <p id="creatorStatus"></p>
    </div>
@@ -161,7 +157,7 @@ footer{text-align:center;color:white;padding:12px}
       <option value="turbo">⚡ Turbo Boost</option><option value="shield">🛡️ Shield</option><option value="magnet">🧲 Turkey Magnet</option><option value="freeze">❄️ Freeze Blast</option><option value="ghost">👻 Ghost Mode</option><option value="flame">🔥 Flame Trail Boost</option>
      </select></div>
     </div>
-    <p class="note">Your custom car can equip one ability. Customize it again whenever you want!</p>
+    <p class="note">Your custom car can equip one special ability. You can change its design whenever you want!</p>
     <button class="green" onclick="saveCustomCar()">💾 SAVE MY CUSTOM CAR</button>
     <button class="primary" onclick="selectCar('Custom Car')">🚗 EQUIP CUSTOM CAR</button>
    </div>
@@ -173,7 +169,7 @@ footer{text-align:center;color:white;padding:12px}
   <p>Selected car: <b id="selectedCarName">Classic Car</b></p>
   <div class="cars">
    <div class="carCard"><div class="carEmoji">🚕</div><b>Classic Car</b><p>Free starter car</p><button onclick="selectCar('Classic Car')">Select</button></div>
-   <div class="carCard"><div class="carEmoji">🦃</div><b>Turkey Car</b><p>1,000 Turkey · Gobble freezes rival for 5 seconds</p><button onclick="buyCar('Turkey Car')">Buy / Select</button></div>
+   <div class="carCard"><div class="carEmoji">🦃</div><b>Turkey Car</b><p>1,000 Turkey · Freeze rival</p><button onclick="buyCar('Turkey Car')">Buy / Select</button></div>
    <div class="carCard"><div class="carEmoji">🥧</div><b>Pumpkin Pie Car</b><p>1,000 Turkey · Splat, slow rival, and boost</p><button onclick="buyCar('Pumpkin Pie Car')">Buy / Select</button></div>
    <div class="carCard"><div class="carEmoji">🍁</div><b>Leaf Racer</b><p>1,000 Turkey · Fly high over rival</p><button onclick="buyCar('Leaf Racer')">Buy / Select</button></div>
    <div class="carCard"><div class="carEmoji">🌽</div><b>Corn Cruiser</b><p>1,000 Turkey · Flat tires for rival</p><button onclick="buyCar('Corn Cruiser')">Buy / Select</button></div>
@@ -185,23 +181,30 @@ footer{text-align:center;color:white;padding:12px}
 </section>
 
 <section class="panel" id="ownerPanel">
- <h2 class="title">🔐 OWNER PANEL</h2><p>Enter your owner code to unlock the admin controls.</p>
- <div class="owner-login-row"><input id="ownerCode" type="password" placeholder="Enter admin code" autocomplete="off"><button class="primary" onclick="ownerLogin()">🔓 Unlock</button></div>
+ <h2 class="title">🔐 OWNER PANEL</h2>
+ <p>Enter your owner code to unlock the admin controls.</p>
+ <div class="owner-login-row">
+  <input id="ownerCode" type="password" placeholder="Enter admin code" autocomplete="off">
+  <button class="primary" onclick="ownerLogin()">🔓 Unlock</button>
+ </div>
  <p id="ownerStatus" role="status"></p>
  <div id="ownerControls" class="hidden">
   <hr><h3>👑 ADMIN COMMANDS</h3><p>These controls apply to this browser.</p>
   <div><label for="rewardAmount">Turkey amount </label><input id="rewardAmount" type="number" min="1" max="1000000000" value="100"></div>
-  <div class="row" style="margin-top:10px"><button class="green" onclick="rewardOne()">🦃 Give Turkey</button><button class="green" onclick="flyOver()">🪽 Fly Over Opponent</button></div>
+  <div class="row"><button class="green" onclick="rewardOne()">🦃 Give Turkey</button><button class="green" onclick="flyOver()">🪽 Fly Over Opponent</button></div>
   <hr><h3>🚗 GIVE YOURSELF ANY CAR</h3>
-  <select id="adminCar"><option>Classic Car</option><option>Turkey Car</option><option>Pumpkin Pie Car</option><option>Leaf Racer</option><option>Corn Cruiser</option><option>Owner Turkey</option></select>
+  <select id="adminCar"><option>Classic Car</option><option>Turkey Car</option><option>Pumpkin Pie Car</option><option>Leaf Racer</option><option>Corn Cruiser</option><option>Owner Turkey</option><option>Custom Car</option></select>
   <button class="green" onclick="unlockCar()">Unlock and Equip Car</button>
-  <hr><h3>⚡ TURKEY MULTIPLIER</h3><input id="multiplierInput" type="number" min="1" max="10" value="1">
-  <button class="green" onclick="setMultiplier()">Set Multiplier (Max 10×)</button><p>Current multiplier: <b id="multiplierDisplay">1×</b></p>
+  <hr><h3>⚡ TURKEY MULTIPLIER</h3>
+  <input id="multiplierInput" type="number" min="1" max="10" value="1">
+  <button class="green" onclick="setMultiplier()">Set Multiplier (Max 10×)</button>
+  <p>Current multiplier: <b id="multiplierDisplay">1×</b></p>
   <hr><h3>🎉 BROWSER EVENTS</h3>
   <button class="green" onclick="startEvent('Double Turkey')">2× Turkey Event</button>
   <button class="green" onclick="startEvent('Speed Boost')">Speed Boost Event</button>
   <button class="green" onclick="startEvent('Golden Turkey')">Golden Turkey Event</button>
-  <button class="red" onclick="endEvent()">End Event</button><p id="eventStatus">No event running</p>
+  <button class="red" onclick="endEvent()">End Event</button>
+  <p id="eventStatus">No event running</p>
   <hr><button class="red" onclick="ownerLogout()">Lock Admin Panel</button>
  </div>
  <p class="note">The admin code is stored in the game code and is not secure against people who inspect the HTML. Rewards and events are local, not global.</p>
@@ -210,82 +213,124 @@ footer{text-align:center;color:white;padding:12px}
 
 <section id="mathMenu" class="panel hidden">
  <div class="row" style="justify-content:space-between"><button class="purple" onclick="closeMathModes()">← BACK TO MENU</button><span class="stat">🧮 MATH MODES</span></div>
- <h2 class="title">CHOOSE YOUR MATH CHALLENGE</h2><p style="text-align:center">Pick a subject. Your cars, Turkey, and race difficulty stay the same!</p>
+ <h2 class="title">CHOOSE YOUR MATH CHALLENGE</h2>
+ <p style="text-align:center">Pick a subject. Your cars, Turkey, and race difficulty stay the same!</p>
  <div class="mathChoice">
-  <button onclick="chooseMath('Multiplication')"><span>✖️</span>Multiplication</button><button onclick="chooseMath('Division')"><span>➗</span>Division</button>
+  <button onclick="chooseMath('Multiplication')"><span>✖️</span>Multiplication</button>
+  <button onclick="chooseMath('Division')"><span>➗</span>Division</button>
  </div>
- <h2 class="title" style="margin-top:25px">🔢 DECIMAL CHALLENGES</h2>
+ <h2 class="title">🔢 DECIMAL CHALLENGES</h2>
  <div class="mathChoice">
-  <button onclick="chooseMath('Decimal Addition')"><span>➕</span>Add Decimals</button><button onclick="chooseMath('Decimal Subtraction')"><span>➖</span>Subtract Decimals</button><button onclick="chooseMath('Decimal Multiplication')"><span>✖️</span>Multiply Decimals</button><button onclick="chooseMath('Decimal Division')"><span>➗</span>Divide Decimals</button>
+  <button onclick="chooseMath('Decimal Addition')"><span>➕</span>Add Decimals</button>
+  <button onclick="chooseMath('Decimal Subtraction')"><span>➖</span>Subtract Decimals</button>
+  <button onclick="chooseMath('Decimal Multiplication')"><span>✖️</span>Multiply Decimals</button>
+  <button onclick="chooseMath('Decimal Division')"><span>➗</span>Divide Decimals</button>
  </div>
 </section>
 
 <section id="accountPanel" class="panel hidden">
  <div class="row" style="justify-content:space-between"><button class="purple" onclick="closeAccount()">← BACK TO MENU</button><span class="stat">🔑 ACCOUNT TRANSFER</span></div>
- <h2 class="title">📤 EXPORT YOUR ACCOUNT</h2><p>Generate a backup code with your Turkey, owned cars, custom car, selected car, wins, and multiplier.</p>
- <button class="primary" onclick="exportAccount()">GENERATE ACCOUNT CODE</button><textarea id="exportCode" readonly placeholder="Your account code will appear here..."></textarea>
- <button class="green" onclick="copyExportCode()">📋 COPY ACCOUNT CODE</button><hr>
- <h2 class="title">📥 IMPORT YOUR ACCOUNT</h2><p>On another device, paste your saved code below.</p>
- <textarea id="importCode" placeholder="Paste your account code here..."></textarea><button class="primary" onclick="importAccount()">LOAD MY ACCOUNT</button>
+ <h2 class="title">📤 EXPORT YOUR ACCOUNT</h2>
+ <p>Generate a backup code with your Turkey, owned cars, custom car, selected car, wins, and multiplier.</p>
+ <button class="primary" onclick="exportAccount()">GENERATE ACCOUNT CODE</button>
+ <textarea id="exportCode" readonly placeholder="Your account code will appear here..."></textarea>
+ <button class="green" onclick="copyExportCode()">📋 COPY ACCOUNT CODE</button>
+ <hr><h2 class="title">📥 IMPORT YOUR ACCOUNT</h2>
+ <p>On another device, paste your saved code below.</p>
+ <textarea id="importCode" placeholder="Paste your account code here..."></textarea>
+ <button class="primary" onclick="importAccount()">LOAD MY ACCOUNT</button>
  <p class="note">Importing replaces saved progress on this device. Spin cooldown and multiplier time are saved separately in this browser.</p>
 </section>
 
 <section id="game" class="panel hidden">
  <div class="row"><button class="purple" onclick="quitRace()">← MENU</button><span class="stat" id="modeLabel">EASY MODE</span><span class="stat" id="mathLabel">MULTIPLICATION</span><span class="stat">🦃 <b id="raceCurrency">0</b></span></div>
  <h2 class="title">🍂 AUTUMN HARVEST RACE 🍂</h2>
- <div class="questionBox"><p id="questionPrompt">What is...</p><div id="question">7 × 8 = ?</div><div id="choiceArea" class="choices"></div>
-  <div id="typedArea" class="hidden"><input id="answer" type="text" inputmode="decimal" placeholder="Answer"><button class="primary" onclick="submitTyped()">ANSWER</button></div><p id="feedback" role="status"></p>
+ <div class="questionBox">
+  <p id="questionPrompt">What is...</p><div id="question">7 × 8 = ?</div>
+  <div id="choiceArea" class="choices"></div>
+  <div id="typedArea" class="hidden"><input id="answer" type="text" inputmode="decimal" placeholder="Answer"><button class="primary" onclick="submitTyped()">ANSWER</button></div>
+  <p id="feedback" role="status"></p>
  </div>
  <div id="raceViewport"><canvas id="raceView"></canvas><div class="raceLabels"><span>🚗 YOUR CAR</span><span>🏎️ RIVAL</span></div></div>
- <div class="hud"><span class="stat">Correct: <b id="correctCount">0</b></span><span class="stat">Goal: <b id="goalCount">10</b></span><span class="stat">Time: <b id="elapsed">0.0</b>s</span><span class="stat">⏱️ <b id="timer">—</b></span><span class="stat">🔥 Streak: <b id="streakCount">0</b></span><span class="stat">🦃 Next: <b id="streakReward">10</b></span></div>
+ <div class="row">
+  <span class="stat">Correct: <b id="correctCount">0</b></span><span class="stat">Goal: <b id="goalCount">10</b></span><span class="stat">Time: <b id="elapsed">0.0</b>s</span><span class="stat">⏱️ <b id="timer">—</b></span><span class="stat">🔥 Streak: <b id="streakCount">0</b></span><span class="stat">🦃 Next: <b id="streakReward">10</b></span>
+ </div>
  <div class="track"><div id="progress"></div></div>
  <div class="row"><span class="stat">🚗 Steer: A/D or ←/→</span><span class="stat">⚡ Ability: F</span><span class="stat">🦃 Recharge: R (300 Turkey)</span></div>
- <section class="abilityPanel"><h3>🌽 CAR SUPERPOWERS</h3><p id="abilityName">Classic Car has no special ability.</p>
+ <section class="abilityPanel">
+  <h3>🌽 CAR SUPERPOWERS</h3><p id="abilityName">Classic Car has no special ability.</p>
   <div class="row"><button id="abilityButton" class="abilityButton" onclick="activateAbility()">⚡ USE ABILITY (F)</button><button id="rechargeButton" class="abilityButton" onclick="rechargeAbility()">🦃 RECHARGE (R) · 300</button></div>
   <p id="abilityStatus" role="status">Start racing!</p><p class="note">Abilities have an 8-second cooldown. Recharge costs 300 Turkey.</p>
  </section>
 </section>
+
 <footer>🦃 Thanksgiving Racer · Autumn roads, harvest fun, and math! 🍂</footer>
 </div>
+
 <div id="mobileControls">
- <div class="touchGroup"><button class="touch" aria-label="Steer left" onpointerdown="setSteer(-1)" onpointerup="setSteer(0)" onpointerleave="setSteer(0)" onpointercancel="setSteer(0)">◀</button><button class="touch" aria-label="Steer right" onpointerdown="setSteer(1)" onpointerup="setSteer(0)" onpointerleave="setSteer(0)" onpointercancel="setSteer(0)">▶</button></div>
+ <div class="touchGroup">
+  <button class="touch" onpointerdown="setSteer(-1)" onpointerup="setSteer(0)" onpointerleave="setSteer(0)" onpointercancel="setSteer(0)">◀</button>
+  <button class="touch" onpointerdown="setSteer(1)" onpointerup="setSteer(0)" onpointerleave="setSteer(0)" onpointercancel="setSteer(0)">▶</button>
+ </div>
  <div class="touchGroup"><button class="touch action" onclick="activateAbility()">⚡ ABILITY</button><button class="touch action" onclick="rechargeAbility()">🦃 RECHARGE</button></div>
 </div>
 
 <script>
 'use strict';
-const ADMIN_CODE='The Ultimate Spider-Man',SAVE_KEY='turkeyRacer_v2',SPIN_KEY='turkeyRacer_dailySpin_v1',MULTIPLIER_KEY='turkeyRacer_100x_expiry';
-const DAY_MS=86400000,HOUR_MS=3600000,$=id=>document.getElementById(id);
+
+const ADMIN_CODE='The Ultimate Spider-Man';
+const SAVE_KEY='turkeyRacer_v2';
+const SPIN_KEY='turkeyRacer_dailySpin_v1';
+const MULTIPLIER_KEY='turkeyRacer_100x_expiry';
+const DAY_MS=86400000,HOUR_MS=3600000;
+const $=id=>document.getElementById(id);
+
 function defaultData(){return {turkey:0,owned:[],selected:'Classic Car',wins:0,multiplier:1,shopUnlocked:false,creatorBought:false,customCar:null};}
+
 function cleanData(raw){
  if(!raw||typeof raw!=='object')throw Error('Invalid account');
  const valid=['Classic Car','Turkey Car','Pumpkin Pie Car','Leaf Racer','Corn Cruiser','Owner Turkey','Custom Car'];
  let owned=Array.isArray(raw.owned)?raw.owned.filter(x=>valid.includes(x)):[];
  if(!owned.includes('Classic Car'))owned.push('Classic Car');
- const custom=raw.customCar&&typeof raw.customCar==='object'?{
-  name:String(raw.customCar.name||'My Custom Car').slice(0,20),
-  body:/^#[0-9a-f]{6}$/i.test(raw.customCar.body)?raw.customCar.body:'#8b5cf6',
-  wheel:/^#[0-9a-f]{6}$/i.test(raw.customCar.wheel)?raw.customCar.wheel:'#252525',
-  spoiler:['none','small','large','gold'].includes(raw.customCar.spoiler)?raw.customCar.spoiler:'none',
-  effect:['none','flame','sparkle','leaf','rainbow'].includes(raw.customCar.effect)?raw.customCar.effect:'none',
-  ability:['turbo','shield','magnet','freeze','ghost','flame'].includes(raw.customCar.ability)?raw.customCar.ability:'turbo'
- }:null;
- if(custom&&!owned.includes('Custom Car'))owned.push('Custom Car');
- let selected=valid.includes(raw.selected)&&owned.includes(raw.selected)?raw.selected:'Classic Car';
- let turkey=Number(raw.turkey),wins=Number(raw.wins),multiplier=Number(raw.multiplier);
+ let custom=null;
+ if(raw.customCar&&typeof raw.customCar==='object'){
+  const c=raw.customCar;
+  custom={
+   name:String(c.name||'My Custom Car').slice(0,20),
+   body:/^#[0-9a-f]{6}$/i.test(c.body)?c.body:'#8b5cf6',
+   wheel:/^#[0-9a-f]{6}$/i.test(c.wheel)?c.wheel:'#252525',
+   spoiler:['none','small','large','gold'].includes(c.spoiler)?c.spoiler:'none',
+   effect:['none','flame','sparkle','leaf','rainbow'].includes(c.effect)?c.effect:'none',
+   ability:['turbo','shield','magnet','freeze','ghost','flame'].includes(c.ability)?c.ability:'turbo'
+  };
+  if(!owned.includes('Custom Car'))owned.push('Custom Car');
+ }
+ const turkey=Number(raw.turkey),wins=Number(raw.wins),multiplier=Number(raw.multiplier);
  if(!Number.isFinite(turkey)||turkey<0||!Number.isFinite(wins)||wins<0||!Number.isFinite(multiplier)||multiplier<1||multiplier>10)throw Error('Invalid account values');
- return {turkey:Math.floor(turkey),wins:Math.floor(wins),multiplier,owned,selected,shopUnlocked:!!raw.shopUnlocked||turkey>=100000,creatorBought:!!raw.creatorBought,customCar:custom};
+ const shopUnlocked=!!raw.shopUnlocked||turkey>=100000;
+ const creatorBought=!!raw.creatorBought;
+ let selected=valid.includes(raw.selected)&&owned.includes(raw.selected)?raw.selected:'Classic Car';
+ if(selected==='Custom Car'&&!custom)selected='Classic Car';
+ return {turkey:Math.floor(turkey),wins:Math.floor(wins),multiplier,owned,selected,shopUnlocked,creatorBought,customCar:custom};
 }
+
 let data=defaultData();
 try{const stored=JSON.parse(localStorage.getItem(SAVE_KEY));if(stored)data=cleanData(stored);}catch(e){data=defaultData();}
+
 const cars={'Classic Car':'🚕','Turkey Car':'🦃','Pumpkin Pie Car':'🥧','Leaf Racer':'🍁','Corn Cruiser':'🌽','Owner Turkey':'👑🦃','Custom Car':'🚘'};
 const prices={'Classic Car':0,'Turkey Car':1000,'Pumpkin Pie Car':1000,'Leaf Racer':1000,'Corn Cruiser':1000,'Owner Turkey':0};
+
 let mode='Easy',mathType='Multiplication',goal=10,correct=0,answerValue=0,streak=0;
-let raceActive=false,questionLock=false,finishStarted=false,raceStartTime=0,seconds=4,questionTimer=null,uiTimer=null,nextQuestionTimer=null;
-let abilityCooldownUntil=0,abilityActive=false,abilityEffectTimer=null,rivalSlowUntil=0,freezeUntil=0,flatUntil=0;
-let ownerUnlocked=false,steer=0,playerProgress=0,rivalProgress=0,playerX=0,boostUntil=0,eventName='',adminFlyUntil=0;
-let lastSpin=Number(localStorage.getItem(SPIN_KEY))||0,multiplierExpiry=Number(localStorage.getItem(MULTIPLIER_KEY))||0,wheelSpinning=false,wheelRotation=0;
-let shieldUntil=0,ghostUntil=0,magnetUntil=0;
+let raceActive=false,questionLock=false,finishStarted=false,raceStartTime=0,seconds=4;
+let questionTimer=null,uiTimer=null,nextQuestionTimer=null;
+let abilityCooldownUntil=0,abilityActive=false,abilityEffectTimer=null;
+let rivalSlowUntil=0,freezeUntil=0,flatUntil=0,shieldUntil=0,ghostUntil=0,magnetUntil=0;
+let ownerUnlocked=false,steer=0,playerProgress=0,rivalProgress=0,playerX=0,boostUntil=0;
+let eventName='',adminFlyUntil=0;
+let lastSpin=Number(localStorage.getItem(SPIN_KEY))||0;
+let multiplierExpiry=Number(localStorage.getItem(MULTIPLIER_KEY))||0;
+let wheelSpinning=false,wheelRotation=0;
+
 const carAbilities={
  'Classic Car':{name:'🚕 Classic Car',description:'No special ability.'},
  'Turkey Car':{name:'🦃 Gobble Freeze',description:'Freeze your rival for 5 seconds.'},
@@ -293,19 +338,29 @@ const carAbilities={
  'Leaf Racer':{name:'🍁 Sky Flight',description:'Fly high above the rival to pass them.'},
  'Corn Cruiser':{name:'🌽 Flat Tires',description:'Make the rival bot tires go flat.'},
  'Owner Turkey':{name:'👑 Royal Flight',description:'Royal flight and special win reward.'},
- 'Custom Car':{name:'🚘 Custom Ability',description:'Your personally selected legendary ability.'}
+ 'Custom Car':{name:'🚘 Custom Ability',description:'Your own selected legendary ability.'}
 };
+
 function save(){
  if(data.turkey>=100000)data.shopUnlocked=true;
- try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){console.warn('Storage unavailable');}
+ try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){console.warn('Could not save game');}
 }
 function has100x(){return Date.now()<multiplierExpiry;}
 function effectiveMultiplier(){return data.multiplier*(has100x()?100:1);}
+function abilityDescription(a){
+ return ({turbo:'Turbo Boost',shield:'Shield',magnet:'Turkey Magnet',freeze:'Freeze Blast',ghost:'Ghost Mode',flame:'Flame Trail Boost'})[a]||'Turbo Boost';
+}
+function selectedAbility(){
+ if(data.selected==='Custom Car')return data.customCar?.ability||'turbo';
+ return ({'Turkey Car':'freeze','Pumpkin Pie Car':'flame','Leaf Racer':'ghost','Corn Cruiser':'freeze','Owner Turkey':'turbo'})[data.selected]||null;
+}
 function render(){
- if(data.turkey>=100000&&!data.shopUnlocked){data.shopUnlocked=true;save();}
- $('currency').textContent=data.turkey.toLocaleString();$('raceCurrency').textContent=data.turkey.toLocaleString();
+ if(data.turkey>=100000&&!data.shopUnlocked)data.shopUnlocked=true;
+ $('currency').textContent=data.turkey.toLocaleString();
+ $('raceCurrency').textContent=data.turkey.toLocaleString();
  $('selectedCarName').textContent=data.selected==='Custom Car'&&data.customCar?data.customCar.name:data.selected;
- $('mathTypeLabel').textContent=mathType;$('multiplierDisplay').textContent=data.multiplier+'×'+(has100x()?' + 100×':'');
+ $('mathTypeLabel').textContent=mathType;
+ $('multiplierDisplay').textContent=data.multiplier+'×'+(has100x()?' + 100×':'');
  $('shopLockText').textContent=data.shopUnlocked?'🔓 LEGENDARY SHOP UNLOCKED!':'🔒 Reach 100,000 Turkeys to unlock the Legendary Shop! ('+data.turkey.toLocaleString()+'/100,000)';
  $('shopUnlockedArea').classList.toggle('hidden',!data.shopUnlocked);
  $('creatorArea').classList.toggle('hidden',!data.creatorBought);
@@ -314,44 +369,71 @@ function render(){
  $('customGarageCard').classList.toggle('hidden',!data.customCar);
  if(data.customCar){
   $('garageCustomName').textContent=data.customCar.name;
-  $('customName').value=data.customCar.name;$('customBody').value=data.customCar.body;$('customWheel').value=data.customCar.wheel;
-  $('customSpoiler').value=data.customCar.spoiler;$('customEffect').value=data.customCar.effect;$('customAbility').value=data.customCar.ability;
+  $('customName').value=data.customCar.name;
+  $('customBody').value=data.customCar.body;
+  $('customWheel').value=data.customCar.wheel;
+  $('customSpoiler').value=data.customCar.spoiler;
+  $('customEffect').value=data.customCar.effect;
+  $('customAbility').value=data.customCar.ability;
  }
- updateAbilityUI();updateDailySpin();updateCustomPreview();
+ updateCustomPreview();updateAbilityUI();updateDailySpin();
 }
+
+/* DAILY SPIN */
 function updateDailySpin(){
- const remaining=Math.max(0,DAY_MS-(Date.now()-lastSpin)),button=$('spinButton');
- button.disabled=remaining>0||wheelSpinning;button.textContent=remaining>0?'⏳ SPIN ALREADY USED':'🎡 SPIN FOR REWARDS!';
- if(remaining>0){const h=Math.floor(remaining/3600000),m=Math.floor(remaining%3600000/60000),s=Math.floor(remaining%60000/1000);$('spinCountdown').textContent='Next spin in '+h+'h '+m+'m '+s+'s';}
- else $('spinCountdown').textContent='🎉 Your free spin is ready!';
+ const remaining=Math.max(0,DAY_MS-(Date.now()-lastSpin));
+ $('spinButton').disabled=remaining>0||wheelSpinning;
+ $('spinButton').textContent=remaining>0?'⏳ SPIN ALREADY USED':'🎡 SPIN FOR REWARDS!';
+ if(remaining>0){
+  const h=Math.floor(remaining/3600000),m=Math.floor(remaining%3600000/60000),s=Math.floor(remaining%60000/1000);
+  $('spinCountdown').textContent='Next spin in '+h+'h '+m+'m '+s+'s';
+ }else $('spinCountdown').textContent='🎉 Your free spin is ready!';
  const left=Math.max(0,multiplierExpiry-Date.now());
  $('multiplierTimer').textContent=left>0?'👑 100× MULTIPLIER ACTIVE! '+Math.floor(left/3600000)+'h '+Math.floor(left%3600000/60000)+'m '+Math.floor(left%60000/1000)+'s remaining!':'No special multiplier active.';
 }
 function dailySpin(){
  if(wheelSpinning||Date.now()-lastSpin<DAY_MS)return;
  wheelSpinning=true;$('spinButton').disabled=true;$('spinStatus').textContent='🎡 The wheel is spinning...';
- const jackpot=Math.random()<.001;let reward;
+ const jackpot=Math.random()<.001;
+ let reward;
  if(jackpot)reward={name:'100× TURKEY MULTIPLIER!',type:'multiplier'};
  else{
-  const rewards=[{name:'100 Turkey',amount:100,weight:300},{name:'250 Turkey',amount:250,weight:250},{name:'500 Turkey',amount:500,weight:200},{name:'1,000 Turkey',amount:1000,weight:150},{name:'2,500 Turkey',amount:2500,weight:70},{name:'5,000 Turkey',amount:5000,weight:29}];
-  let pick=Math.random()*999;for(const item of rewards){pick-=item.weight;if(pick<0){reward=item;break;}}
+  const rewards=[
+   {name:'100 Turkey',amount:100,weight:300},
+   {name:'250 Turkey',amount:250,weight:250},
+   {name:'500 Turkey',amount:500,weight:200},
+   {name:'1,000 Turkey',amount:1000,weight:150},
+   {name:'2,500 Turkey',amount:2500,weight:70},
+   {name:'5,000 Turkey',amount:5000,weight:29}
+  ];
+  let pick=Math.random()*999;
+  for(const item of rewards){pick-=item.weight;if(pick<0){reward=item;break;}}
  }
  const segment=reward.type==='multiplier'?6:reward.amount===100?0:reward.amount===250?1:reward.amount===500?2:reward.amount===1000?3:reward.amount===2500?4:5;
- const target=(360-(segment*360/7+180/7)+360)%360,current=(wheelRotation%360+360)%360,delta=(target-current+360)%360;
- wheelRotation+=2160+delta;$('wheel').style.transform='rotate('+wheelRotation+'deg)';
+ const target=(360-(segment*360/7+180/7)+360)%360;
+ const current=(wheelRotation%360+360)%360;
+ const delta=(target-current+360)%360;
+ wheelRotation+=2160+delta;
+ $('wheel').style.transform='rotate('+wheelRotation+'deg)';
  setTimeout(()=>{
   lastSpin=Date.now();localStorage.setItem(SPIN_KEY,String(lastSpin));
-  if(reward.type==='multiplier'){multiplierExpiry=Date.now()+HOUR_MS;localStorage.setItem(MULTIPLIER_KEY,String(multiplierExpiry));$('spinStatus').textContent='👑 JACKPOT! You won the 100× Turkey Multiplier for ONE HOUR!';}
-  else{data.turkey+=reward.amount;save();render();$('spinStatus').textContent='🎉 YOU WON '+reward.name+'! Added to your Turkey balance!';}
+  if(reward.type==='multiplier'){
+   multiplierExpiry=Date.now()+HOUR_MS;
+   localStorage.setItem(MULTIPLIER_KEY,String(multiplierExpiry));
+   $('spinStatus').textContent='👑 JACKPOT! You won the 100× Turkey Multiplier for ONE HOUR!';
+  }else{
+   data.turkey+=reward.amount;save();render();
+   $('spinStatus').textContent='🎉 YOU WON '+reward.name+'! Added to your Turkey balance!';
+  }
   wheelSpinning=false;updateDailySpin();
  },4100);
 }
 
-/* LEGENDARY SHOP AND CUSTOM CAR */
+/* LEGENDARY SHOP */
 function buyCreator(){
  if(!data.shopUnlocked||data.creatorBought)return;
  if(data.turkey<75000){alert('You need 75,000 Turkeys to buy the Custom Car Creator!');return;}
- if(!confirm('Buy the Custom Car Creator for 75,000 Turkeys? You only need to buy it once.'))return;
+ if(!confirm('Buy the Custom Car Creator for 75,000 Turkeys?'))return;
  data.turkey-=75000;data.creatorBought=true;
  if(!data.customCar)data.customCar={name:'My Legendary Car',body:'#8b5cf6',wheel:'#252525',spoiler:'none',effect:'sparkle',ability:'turbo'};
  if(!data.owned.includes('Custom Car'))data.owned.push('Custom Car');
@@ -361,28 +443,40 @@ function updateCustomPreview(){
  const p=$('customPreview');if(!p)return;
  const body=$('customBody')?.value||data.customCar?.body||'#8b5cf6';
  const wheel=$('customWheel')?.value||data.customCar?.wheel||'#252525';
- p.style.border='8px solid '+wheel;p.style.color=body;p.style.textShadow='0 0 14px '+body;
- p.textContent='🚘';
+ p.style.border='8px solid '+wheel;p.style.color=body;p.style.textShadow='0 0 14px '+body;p.textContent='🚘';
 }
 ['customName','customBody','customWheel','customSpoiler','customEffect','customAbility'].forEach(id=>{
- $(id).addEventListener('input',updateCustomPreview);$(id).addEventListener('change',updateCustomPreview);
+ $(id).addEventListener('input',updateCustomPreview);
+ $(id).addEventListener('change',updateCustomPreview);
 });
 function saveCustomCar(){
  if(!data.creatorBought||!data.shopUnlocked)return;
  const name=$('customName').value.trim().slice(0,20)||'My Legendary Car';
- data.customCar={name,body:$('customBody').value,wheel:$('customWheel').value,spoiler:$('customSpoiler').value,effect:$('customEffect').value,ability:$('customAbility').value};
+ data.customCar={
+  name,
+  body:$('customBody').value,
+  wheel:$('customWheel').value,
+  spoiler:$('customSpoiler').value,
+  effect:$('customEffect').value,
+  ability:$('customAbility').value
+ };
  if(!data.owned.includes('Custom Car'))data.owned.push('Custom Car');
- save();render();alert('🚘 '+name+' has been saved! Your custom ability is '+abilityDescription(data.customCar.ability)+'.');
-}
-function abilityDescription(a){
- return ({turbo:'Turbo Boost',shield:'Shield',magnet:'Turkey Magnet',freeze:'Freeze Blast',ghost:'Ghost Mode',flame:'Flame Trail Boost'})[a]||'Turbo Boost';
+ save();render();
+ alert('🚘 '+name+' saved! Special ability: '+abilityDescription(data.customCar.ability)+'.');
 }
 
 /* MENU AND GARAGE */
 function openMathModes(){if(raceActive)return;$('home').classList.add('hidden');$('mathMenu').classList.remove('hidden');$('topbar').classList.add('hidden');}
 function closeMathModes(){$('mathMenu').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');render();}
-function chooseMath(type){if(!['Multiplication','Division','Decimal Addition','Decimal Subtraction','Decimal Multiplication','Decimal Division'].includes(type))return;mathType=type;closeMathModes();}
-function chooseMode(m){if(!['Easy','Hard','Impossible'].includes(m))return;mode=m;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('selected',b.dataset.mode===m));}
+function chooseMath(type){
+ const allowed=['Multiplication','Division','Decimal Addition','Decimal Subtraction','Decimal Multiplication','Decimal Division'];
+ if(!allowed.includes(type))return;
+ mathType=type;closeMathModes();
+}
+function chooseMode(m){
+ if(!['Easy','Hard','Impossible'].includes(m))return;
+ mode=m;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('selected',b.dataset.mode===m));
+}
 function selectCar(name){
  if(!cars[name])return;
  if(name==='Owner Turkey'&&!ownerUnlocked){alert('👑 Unlock the admin panel first!');return;}
@@ -397,37 +491,47 @@ function buyCar(name){
  data.turkey-=prices[name];data.owned.push(name);data.selected=name;save();render();drawRace();alert('🦃 You unlocked '+name+'!');
 }
 
-/* ACCOUNT TRANSFER */
+/* ACCOUNT */
 function openAccount(){if(raceActive)return;$('home').classList.add('hidden');$('accountPanel').classList.remove('hidden');$('topbar').classList.add('hidden');}
 function closeAccount(){$('accountPanel').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');render();}
 function exportAccount(){
  const payload={game:'ThanksgivingTurkeyRacer',version:3,data:data};
- try{$('exportCode').value='TURKEY3-'+btoa(unescape(encodeURIComponent(JSON.stringify(payload))));}catch(e){alert('Could not create the account code.');}
+ try{$('exportCode').value='TURKEY3-'+btoa(unescape(encodeURIComponent(JSON.stringify(payload))));}
+ catch(e){alert('Could not create the account code.');}
 }
 async function copyExportCode(){
  const box=$('exportCode');if(!box.value){alert('Generate your account code first!');return;}
  try{await navigator.clipboard.writeText(box.value);alert('Account code copied! Keep it somewhere safe.');}
- catch(e){box.focus();box.select();try{document.execCommand('copy');alert('Account code copied!');}catch(err){alert('Please select and copy the code manually.');}}
+ catch(e){
+  box.focus();box.select();
+  try{document.execCommand('copy');alert('Account code copied!');}
+  catch(err){alert('Please select and copy the code manually.');}
+ }
 }
 function importAccount(){
- const code=$('importCode').value.trim(),prefix=code.startsWith('TURKEY3-')?'TURKEY3-':code.startsWith('TURKEY2-')?'TURKEY2-':'';
+ const code=$('importCode').value.trim();
+ const prefix=code.startsWith('TURKEY3-')?'TURKEY3-':code.startsWith('TURKEY2-')?'TURKEY2-':'';
  if(!prefix){alert('That is not a valid Turkey Racer account code.');return;}
  try{
-  const decoded=decodeURIComponent(escape(atob(code.substring(prefix.length))),payload=JSON.parse(decoded);
+  const decoded=decodeURIComponent(escape(atob(code.substring(prefix.length))));
+  const payload=JSON.parse(decoded);
   if(payload.game!=='ThanksgivingTurkeyRacer'||![2,3].includes(payload.version))throw Error('Wrong game version');
   const restored=cleanData(payload.data);
-  if(!confirm('Load this account?\n\nTurkey: '+restored.turkey.toLocaleString()+'\nWins: '+restored.wins+'\nSelected car: '+restored.selected+'\n\nThis replaces saved progress on this device.'))return;
-  data=restored;save();$('importCode').value='';$('exportCode').value='';render();alert('🦃 Account loaded successfully!');closeAccount();
+  const details='Turkey: '+restored.turkey.toLocaleString()+'\nWins: '+restored.wins+'\nSelected car: '+restored.selected;
+  if(!confirm('Load this account?\n\n'+details+'\n\nThis replaces saved progress on this device.'))return;
+  data=restored;save();$('importCode').value='';$('exportCode').value='';
+  render();alert('🦃 Account loaded successfully!');closeAccount();
  }catch(e){alert('Invalid or damaged account code. Make sure you copied the entire code.');}
 }
 
-/* RACE CANVAS */
+/* CANVAS */
 const canvas=$('raceView'),ctx=canvas.getContext('2d');
 let canvasWidth=800,canvasHeight=400,roadOffset=0,leafOffset=0,lastDraw=0;
 function resizeRace(){
  const rect=$('raceViewport').getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
  canvasWidth=Math.max(300,rect.width);canvasHeight=Math.max(220,rect.height);
- canvas.width=Math.round(canvasWidth*dpr);canvas.height=Math.round(canvasHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);drawRace();
+ canvas.width=Math.round(canvasWidth*dpr);canvas.height=Math.round(canvasHeight*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);drawRace();
 }
 function roundedRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
 function drawCar(x,y,emoji,scale=1,isRival=false){
@@ -439,8 +543,14 @@ function drawCar(x,y,emoji,scale=1,isRival=false){
  roundedRect(-30,-3,12,24,4,wheel);roundedRect(18,-3,12,24,4,wheel);
  roundedRect(-27,-15,54,39,10,body);roundedRect(-18,-27,36,23,8,isRival?'#713b32':custom?body:'#4d3023');
  roundedRect(-13,-24,26,13,4,'#a9d7df');roundedRect(-24,14,9,5,2,'#fff1a6');roundedRect(15,14,9,5,2,'#fff1a6');
- if(custom&&custom.spoiler!=='none'){ctx.fillStyle=custom.spoiler==='gold'?'#ffd45c':body;ctx.fillRect(-22,-21,44,5);if(custom.spoiler==='large')ctx.fillRect(-18,-29,5,12);}
- if(custom&&custom.effect!=='none'){ctx.font='20px Arial';ctx.textAlign='center';ctx.fillText(({flame:'🔥',sparkle:'✨',leaf:'🍂',rainbow:'🌈'})[custom.effect],0,39);}
+ if(custom&&custom.spoiler!=='none'){
+  ctx.fillStyle=custom.spoiler==='gold'?'#ffd45c':body;ctx.fillRect(-22,-21,44,5);
+  if(custom.spoiler==='large')ctx.fillRect(-18,-29,5,12);
+ }
+ if(custom&&custom.effect!=='none'){
+  ctx.font='20px Arial';ctx.textAlign='center';
+  ctx.fillText(({flame:'🔥',sparkle:'✨',leaf:'🍂',rainbow:'🌈'})[custom.effect],0,39);
+ }
  ctx.font='27px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(emoji,0,-39);
  if(isRival&&Date.now()<flatUntil){ctx.font='22px Arial';ctx.fillText('💨',0,38);}
  if(!isRival&&Date.now()<shieldUntil){ctx.strokeStyle='#77ddff';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(0,0,38,35,0,0,Math.PI*2);ctx.stroke();}
@@ -448,44 +558,68 @@ function drawCar(x,y,emoji,scale=1,isRival=false){
  ctx.restore();
 }
 function drawTree(x,y,size=1){
- ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.fillStyle='#633b25';ctx.fillRect(-5,-10,10,28);
- ctx.fillStyle='#b54e28';ctx.beginPath();ctx.arc(0,-15,20,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e99b42';ctx.beginPath();ctx.arc(-10,-23,11,0,Math.PI*2);ctx.fill();ctx.fillStyle='#648e3f';ctx.beginPath();ctx.arc(10,-25,10,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();ctx.translate(x,y);ctx.scale(size,size);
+ ctx.fillStyle='#633b25';ctx.fillRect(-5,-10,10,28);
+ ctx.fillStyle='#b54e28';ctx.beginPath();ctx.arc(0,-15,20,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#e99b42';ctx.beginPath();ctx.arc(-10,-23,11,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#648e3f';ctx.beginPath();ctx.arc(10,-25,10,0,Math.PI*2);ctx.fill();ctx.restore();
 }
-function drawPumpkin(x,y,size=1){ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.fillStyle='#e87924';ctx.beginPath();ctx.ellipse(0,0,17,13,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#9d481e';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,7,13,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#4c8a39';ctx.fillRect(-2,-17,5,7);ctx.restore();}
+function drawPumpkin(x,y,size=1){
+ ctx.save();ctx.translate(x,y);ctx.scale(size,size);
+ ctx.fillStyle='#e87924';ctx.beginPath();ctx.ellipse(0,0,17,13,0,0,Math.PI*2);ctx.fill();
+ ctx.strokeStyle='#9d481e';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,7,13,0,0,Math.PI*2);ctx.stroke();
+ ctx.fillStyle='#4c8a39';ctx.fillRect(-2,-17,5,7);ctx.restore();
+}
 function drawRoadside(){
  const w=canvasWidth,h=canvasHeight;
- for(let i=0;i<8;i++){const y=((i*75+roadOffset*1.2)%(h+90))-30;drawTree(35+(i%2)*14,y,.65);drawTree(w-35-(i%2)*14,y+35,.65);if(i%2===0){drawPumpkin(90,y+30,.7);drawPumpkin(w-90,y-10,.7);}}
+ for(let i=0;i<8;i++){
+  const y=((i*75+roadOffset*1.2)%(h+90))-30;
+  drawTree(35+(i%2)*14,y,.65);drawTree(w-35-(i%2)*14,y+35,.65);
+  if(i%2===0){drawPumpkin(90,y+30,.7);drawPumpkin(w-90,y-10,.7);}
+ }
 }
 function drawRace(){
  if(!ctx||!canvasWidth||!canvasHeight)return;
  const w=canvasWidth,h=canvasHeight;ctx.clearRect(0,0,w,h);
- const sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#e9a653');sky.addColorStop(.55,'#f3c477');sky.addColorStop(1,'#b97839');ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+ const sky=ctx.createLinearGradient(0,0,0,h);
+ sky.addColorStop(0,'#e9a653');sky.addColorStop(.55,'#f3c477');sky.addColorStop(1,'#b97839');
+ ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
  ctx.fillStyle='#ffe2a0';ctx.beginPath();ctx.arc(w*.78,h*.2,35,0,Math.PI*2);ctx.fill();drawRoadside();
- const roadW=Math.min(w*.68,650),roadX=(w-roadW)/2;ctx.fillStyle='#514b45';ctx.fillRect(roadX,0,roadW,h);
+ const roadW=Math.min(w*.68,650),roadX=(w-roadW)/2;
+ ctx.fillStyle='#514b45';ctx.fillRect(roadX,0,roadW,h);
  ctx.fillStyle='#f4d18d';ctx.fillRect(roadX-8,0,8,h);ctx.fillRect(roadX+roadW,0,8,h);
- ctx.strokeStyle='#fff0c2';ctx.lineWidth=5;ctx.setLineDash([28,24]);ctx.lineDashOffset=-roadOffset;ctx.beginPath();ctx.moveTo(w/2,0);ctx.lineTo(w/2,h);ctx.stroke();ctx.setLineDash([]);
- for(let i=0;i<18;i++){const x=(i*79+Math.sin(i+leafOffset*.02)*24)%w,y=(i*47+leafOffset*1.4)%(h+20);ctx.fillStyle=['#e66c26','#bd492b','#e5b63c'][i%3];ctx.beginPath();ctx.ellipse(x,y,5,9,i*.4,0,Math.PI*2);ctx.fill();}
- ctx.fillStyle='rgba(255,255,255,.8)';ctx.font='bold 13px Arial';ctx.textAlign='left';ctx.fillText('START',roadX+12,h-12);ctx.textAlign='right';ctx.fillText('FINISH',roadX+roadW-12,22);
+ ctx.strokeStyle='#fff0c2';ctx.lineWidth=5;ctx.setLineDash([28,24]);ctx.lineDashOffset=-roadOffset;
+ ctx.beginPath();ctx.moveTo(w/2,0);ctx.lineTo(w/2,h);ctx.stroke();ctx.setLineDash([]);
+ for(let i=0;i<18;i++){
+  const x=(i*79+Math.sin(i+leafOffset*.02)*24)%w,y=(i*47+leafOffset*1.4)%(h+20);
+  ctx.fillStyle=['#e66c26','#bd492b','#e5b63c'][i%3];
+  ctx.beginPath();ctx.ellipse(x,y,5,9,i*.4,0,Math.PI*2);ctx.fill();
+ }
+ ctx.fillStyle='rgba(255,255,255,.8)';ctx.font='bold 13px Arial';ctx.textAlign='left';ctx.fillText('START',roadX+12,h-12);
+ ctx.textAlign='right';ctx.fillText('FINISH',roadX+roadW-12,22);
  const laneWidth=roadW/3,playerLane=roadX+laneWidth*1.5+playerX*laneWidth*.55,rivalLane=roadX+laneWidth*2.35;
  const playerY=h*.78-Math.min(playerProgress,100)*h*.003,rivalY=h*.34-(rivalProgress-playerProgress)*1.7;
  if(Date.now()<adminFlyUntil)drawCar(playerLane,Math.max(45,playerY-95),'👑🦃',1.05,false);
  else if((data.selected==='Leaf Racer'||data.selected==='Custom Car')&&abilityActive)drawCar(playerLane,Math.max(45,playerY-65),cars[data.selected],1.05,false);
  else drawCar(playerLane,Math.max(55,playerY),cars[data.selected],1,false);
  drawCar(rivalLane,Math.max(45,Math.min(h-65,rivalY)),'🏎️',.82,true);
- if(!raceActive){roundedRect(w*.2,h*.42,w*.6,55,12,'rgba(52,30,18,.75)');ctx.fillStyle='#ffe3a1';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText('READY TO RACE?',w/2,h*.42+35);}
+ if(!raceActive){
+  roundedRect(w*.2,h*.42,w*.6,55,12,'rgba(52,30,18,.75)');
+  ctx.fillStyle='#ffe3a1';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText('READY TO RACE?',w/2,h*.42+35);
+ }
 }
 function animateRace(now){
  const dt=Math.min((now-lastDraw)/1000||.016,.05);lastDraw=now;
- if(raceActive){roadOffset+=dt*(180+(playerProgress*1.5));leafOffset+=dt*40;playerX=Math.max(-.75,Math.min(.75,playerX+steer*dt*1.8));$('elapsed').textContent=((Date.now()-raceStartTime)/1000).toFixed(1);}
+ if(raceActive){
+  roadOffset+=dt*(180+(playerProgress*1.5));leafOffset+=dt*40;
+  playerX=Math.max(-.75,Math.min(.75,playerX+steer*dt*1.8));
+  $('elapsed').textContent=((Date.now()-raceStartTime)/1000).toFixed(1);
+ }
  drawRace();requestAnimationFrame(animateRace);
 }
 window.addEventListener('resize',resizeRace);
 
 /* ABILITIES */
-function selectedAbility(){
- if(data.selected==='Custom Car')return data.customCar?.ability||'turbo';
- return ({'Turkey Car':'freeze','Pumpkin Pie Car':'flame','Leaf Racer':'ghost','Corn Cruiser':'freeze','Owner Turkey':'turbo'})[data.selected]||null;
-}
 function updateAbilityUI(){
  const b=$('abilityButton'),r=$('rechargeButton');if(!b||!r)return;
  const remaining=Math.max(0,Math.ceil((abilityCooldownUntil-Date.now())/1000)),cooling=remaining>0;
@@ -506,26 +640,32 @@ function activateAbility(){
  if(car==='Turkey Car'||car==='Corn Cruiser'||ability==='freeze'){
   freezeUntil=Date.now()+5000;rivalSlowUntil=Date.now()+5000;$('abilityStatus').textContent='❄️ FREEZE BLAST! Rival frozen for 5 seconds!';
  }else if(car==='Pumpkin Pie Car'){
-  rivalSlowUntil=Date.now()+7000;playerProgress=Math.min(100,playerProgress+12);$('abilityStatus').textContent='🥧 SPLAT! Rival slowed and you boosted!';showSplat();
+  rivalSlowUntil=Date.now()+7000;playerProgress=Math.min(100,playerProgress+12);
+  $('abilityStatus').textContent='🥧 SPLAT! Rival slowed and you boosted!';showSplat();
  }else if(car==='Leaf Racer'||ability==='ghost'){
-  abilityActive=true;ghostUntil=Date.now()+3500;playerProgress=Math.min(100,playerProgress+15);$('abilityStatus').textContent='👻 GHOST MODE! You glide past obstacles and surge ahead!';
+  abilityActive=true;ghostUntil=Date.now()+3500;playerProgress=Math.min(100,playerProgress+15);
+  $('abilityStatus').textContent='👻 GHOST MODE! You glide past obstacles and surge ahead!';
   abilityEffectTimer=setTimeout(()=>{abilityActive=false;ghostUntil=0;updateAbilityUI();drawRace();},3500);
  }else if(car==='Owner Turkey'){
   abilityActive=true;playerProgress=Math.min(100,playerProgress+20);$('abilityStatus').textContent='👑 ROYAL FLIGHT! Your crowned Turkey soars ahead!';
   abilityEffectTimer=setTimeout(()=>{abilityActive=false;updateAbilityUI();drawRace();},3500);
  }else if(ability==='turbo'||ability==='flame'){
-  boostUntil=Date.now()+6000;playerProgress=Math.min(100,playerProgress+15);$('abilityStatus').textContent=ability==='flame'?'🔥 FLAME TRAIL BOOST! Speed increased!':'⚡ TURBO BOOST! Speed increased!';
+  boostUntil=Date.now()+6000;playerProgress=Math.min(100,playerProgress+15);
+  $('abilityStatus').textContent=ability==='flame'?'🔥 FLAME TRAIL BOOST! Speed increased!':'⚡ TURBO BOOST! Speed increased!';
  }else if(ability==='shield'){
   shieldUntil=Date.now()+6000;$('abilityStatus').textContent='🛡️ SHIELD ACTIVATED! Rival attacks are blocked for 6 seconds!';
  }else if(ability==='magnet'){
-  magnetUntil=Date.now()+10000;data.turkey+=500;$('abilityStatus').textContent='🧲 TURKEY MAGNET! You collected 500 bonus Turkey!';
-  save();render();
+  magnetUntil=Date.now()+10000;data.turkey+=500;save();render();
+  $('abilityStatus').textContent='🧲 TURKEY MAGNET! You collected 500 bonus Turkey!';
  }
- $('progress').style.width=playerProgress+'%';drawRace();if(playerProgress>=100)finishRace();updateAbilityUI();
+ $('progress').style.width=playerProgress+'%';drawRace();
+ if(playerProgress>=100)finishRace();
+ updateAbilityUI();
 }
 function showSplat(){
- const old=$('splatOverlay');if(old)old.remove();const layer=document.createElement('div');layer.id='splatOverlay';
- layer.style.cssText='position:absolute;inset:0;z-index:4;background:#a94a20dd;color:white;display:flex;align-items:center;justify-content:center;font-size:clamp(35px,9vw,75px);font-weight:1000;text-shadow:3px 3px #382016;pointer-events:none';
+ const old=$('splatOverlay');if(old)old.remove();
+ const layer=document.createElement('div');layer.id='splatOverlay';
+ layer.style.cssText='position:absolute;inset:0;z-index:4;background:#a94a20dd;color:white;display:flex;align-items:center;justify-content:center;font-size:clamp(35px,9vw,75px);font-weight:1000;pointer-events:none';
  layer.textContent='🥧 SPLAT!';$('raceViewport').appendChild(layer);setTimeout(()=>layer.remove(),1800);
 }
 function rechargeAbility(){
@@ -536,14 +676,16 @@ function rechargeAbility(){
  data.turkey-=300;abilityCooldownUntil=0;save();render();$('abilityStatus').textContent='🦃 Recharge purchased! Ability ready!';
 }
 
-/* MATH QUESTIONS */
+/* MATH */
 function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
 function round2(n){return Math.round((n+Number.EPSILON)*100)/100;}
 function makeQuestion(){
  let a,b,result,display,op;
- if(mathType==='Multiplication'){a=randomInt(0,12);b=randomInt(0,12);result=a*b;display=a+' × '+b+' = ?';}
- else if(mathType==='Division'){b=randomInt(1,12);result=randomInt(0,12);a=b*result;display=a+' ÷ '+b+' = ?';}
- else{
+ if(mathType==='Multiplication'){
+  a=randomInt(0,12);b=randomInt(0,12);result=a*b;display=a+' × '+b+' = ?';
+ }else if(mathType==='Division'){
+  b=randomInt(1,12);result=randomInt(0,12);a=b*result;display=a+' ÷ '+b+' = ?';
+ }else{
   a=round2(randomInt(10,99)/10);b=round2(randomInt(10,50)/10);
   if(mathType==='Decimal Addition'){op='+';result=round2(a+b);}
   else if(mathType==='Decimal Subtraction'){if(b>a)[a,b]=[b,a];op='−';result=round2(a-b);}
@@ -555,71 +697,119 @@ function makeQuestion(){
 }
 function makeChoices(answer){
  const choices=new Set([answer]);let attempts=0;
- while(choices.size<4&&attempts<100){attempts++;let wrong=Number.isInteger(answer)?answer+randomInt(-12,12):round2(answer+randomInt(-30,30)/10);if(wrong<0)wrong=Math.abs(wrong)+1;if(wrong!==answer)choices.add(wrong);}
+ while(choices.size<4&&attempts<100){
+  attempts++;let wrong=Number.isInteger(answer)?answer+randomInt(-12,12):round2(answer+randomInt(-30,30)/10);
+  if(wrong<0)wrong=Math.abs(wrong)+1;
+  if(wrong!==answer)choices.add(wrong);
+ }
  while(choices.size<4)choices.add(round2(answer+choices.size+.7));
  return [...choices].sort(()=>Math.random()-.5);
 }
-function answersMatch(value){const n=Number(String(value).trim());return String(value).trim()!==''&&Number.isFinite(n)&&Math.abs(n-answerValue)<.0001;}
+function answersMatch(value){
+ const n=Number(String(value).trim());
+ return String(value).trim()!==''&&Number.isFinite(n)&&Math.abs(n-answerValue)<.0001;
+}
 function beep(){
- try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=850;g.gain.value=.05;o.start();o.stop(c.currentTime+.1);o.onended=()=>c.close();}catch(e){}
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);
+  o.frequency.value=850;g.gain.value=.05;o.start();o.stop(c.currentTime+.1);o.onended=()=>c.close();
+ }catch(e){}
 }
 
-/* GAME FLOW */
+/* RACE */
 function startRace(){
  clearInterval(questionTimer);clearTimeout(nextQuestionTimer);clearTimeout(abilityEffectTimer);
- raceActive=true;finishStarted=false;questionLock=false;correct=0;streak=0;playerProgress=0;rivalProgress=0;playerX=0;steer=0;
- raceStartTime=Date.now();abilityCooldownUntil=0;rivalSlowUntil=0;freezeUntil=0;flatUntil=0;abilityActive=false;shieldUntil=0;ghostUntil=0;magnetUntil=0;
+ raceActive=true;finishStarted=false;questionLock=false;correct=0;streak=0;
+ playerProgress=0;rivalProgress=0;playerX=0;steer=0;raceStartTime=Date.now();
+ abilityCooldownUntil=0;rivalSlowUntil=0;freezeUntil=0;flatUntil=0;abilityActive=false;
+ shieldUntil=0;ghostUntil=0;magnetUntil=0;
  goal=mode==='Easy'?10:mode==='Hard'?12:15;
- $('home').classList.add('hidden');$('mathMenu').classList.add('hidden');$('accountPanel').classList.add('hidden');$('topbar').classList.add('hidden');$('game').classList.remove('hidden');
+ $('home').classList.add('hidden');$('mathMenu').classList.add('hidden');$('accountPanel').classList.add('hidden');
+ $('topbar').classList.add('hidden');$('game').classList.remove('hidden');
  $('modeLabel').textContent=mode.toUpperCase()+' MODE';$('mathLabel').textContent=mathType.toUpperCase();
- $('goalCount').textContent=goal;$('correctCount').textContent='0';$('streakCount').textContent='0';$('streakReward').textContent='10';$('progress').style.width='0%';$('timer').textContent='—';$('feedback').textContent='';
+ $('goalCount').textContent=goal;$('correctCount').textContent='0';$('streakCount').textContent='0';
+ $('streakReward').textContent='10';$('progress').style.width='0%';$('timer').textContent='—';$('feedback').textContent='';
  $('typedArea').classList.toggle('hidden',mode==='Easy');$('choiceArea').classList.toggle('hidden',mode!=='Easy');
  $('abilityStatus').textContent=data.selected==='Owner Turkey'?'👑 Royal power ready!':'Race started! Answer quickly!';
  resizeRace();render();nextQuestion();uiTimer=setInterval(updateAbilityUI,250);
 }
 function nextQuestion(){
- if(!raceActive)return;clearInterval(questionTimer);questionLock=false;const q=makeQuestion();answerValue=q.answer;
- $('question').textContent=q.display;$('feedback').textContent='';$('questionPrompt').textContent=mathType.startsWith('Decimal')?'Solve the decimal problem:':'What is...';
+ if(!raceActive)return;
+ clearInterval(questionTimer);questionLock=false;
+ const q=makeQuestion();answerValue=q.answer;
+ $('question').textContent=q.display;$('feedback').textContent='';
+ $('questionPrompt').textContent=mathType.startsWith('Decimal')?'Solve the decimal problem:':'What is...';
  if(mode==='Easy'){
   const area=$('choiceArea');area.replaceChildren();
-  makeChoices(answerValue).forEach(v=>{const button=document.createElement('button');button.textContent=Number.isInteger(v)?String(v):Number(v).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');button.onclick=()=>submitAnswer(v);area.appendChild(button);});
+  makeChoices(answerValue).forEach(v=>{
+   const button=document.createElement('button');
+   button.textContent=Number.isInteger(v)?String(v):Number(v).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
+   button.onclick=()=>submitAnswer(v);area.appendChild(button);
+  });
  }else $('answer').value='';
  if(mode==='Impossible'){
-  seconds=4;$('timer').textContent=seconds;questionTimer=setInterval(()=>{if(!raceActive){clearInterval(questionTimer);return;}seconds--;$('timer').textContent=seconds;if(seconds<=0){clearInterval(questionTimer);wrongAnswer('Time is up! ⏰ Streak reset!');}},1000);
+  seconds=4;$('timer').textContent=seconds;
+  questionTimer=setInterval(()=>{
+   if(!raceActive){clearInterval(questionTimer);return;}
+   seconds--;$('timer').textContent=seconds;
+   if(seconds<=0){clearInterval(questionTimer);wrongAnswer('Time is up! ⏰ Streak reset!');}
+  },1000);
  }else $('timer').textContent='—';
 }
-function submitTyped(){if(!raceActive||mode==='Easy'||questionLock)return;const v=$('answer').value.trim();if(v!=='')submitAnswer(v);}
+function submitTyped(){
+ if(!raceActive||mode==='Easy'||questionLock)return;
+ const v=$('answer').value.trim();if(v!=='')submitAnswer(v);
+}
 $('answer').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitTyped();}});
 function submitAnswer(value){
- if(!raceActive||questionLock)return;questionLock=true;clearInterval(questionTimer);
+ if(!raceActive||questionLock)return;
+ questionLock=true;clearInterval(questionTimer);
  if(answersMatch(value)){
-  correct++;streak++;let earned=streak*10*effectiveMultiplier();if(eventName==='Double Turkey')earned*=2;if(eventName==='Golden Turkey')earned*=5;
+  correct++;streak++;
+  let earned=streak*10*effectiveMultiplier();
+  if(eventName==='Double Turkey')earned*=2;
+  if(eventName==='Golden Turkey')earned*=5;
   if(data.selected==='Custom Car'&&data.customCar?.ability==='magnet'&&Date.now()<magnetUntil)earned*=2;
-  data.turkey+=Math.floor(earned);let distance=100/goal;if(Date.now()<boostUntil)distance*=1.7;playerProgress=Math.min(100,playerProgress+distance);
-  $('correctCount').textContent=correct;$('streakCount').textContent=streak;$('streakReward').textContent=(streak+1)*10;$('progress').style.width=playerProgress+'%';
+  data.turkey+=Math.floor(earned);
+  let distance=100/goal;if(Date.now()<boostUntil)distance*=1.7;
+  playerProgress=Math.min(100,playerProgress+distance);
+  $('correctCount').textContent=correct;$('streakCount').textContent=streak;
+  $('streakReward').textContent=(streak+1)*10;$('progress').style.width=playerProgress+'%';
   $('feedback').textContent='Correct! Your car moved forward! +'+Math.floor(earned)+' Turkey! 🦃';
   save();render();beep();drawRace();
   if(data.selected==='Owner Turkey'&&correct%3===0){playerProgress=100;$('progress').style.width='100%';finishRace();return;}
   if(correct>=goal||playerProgress>=100){finishRace();return;}
   moveRivalAfterAnswer();nextQuestionTimer=setTimeout(()=>{if(raceActive)nextQuestion();},500);
- }else{questionLock=false;wrongAnswer('Not quite! Your car stays where it is. Streak reset. Try again! 🍂');}
+ }else{
+  questionLock=false;wrongAnswer('Not quite! Your car stays where it is. Streak reset. Try again! 🍂');
+ }
 }
 function moveRivalAfterAnswer(){
  if(Date.now()<freezeUntil||Date.now()<flatUntil)return;
  const rivalStep=mode==='Easy'?5:mode==='Hard'?8:11;
  rivalProgress+=Date.now()<rivalSlowUntil?rivalStep*.25:rivalStep;
- if(rivalProgress>=100){finishRace(false);return;}drawRace();
+ if(rivalProgress>=100)finishRace(false);
+ drawRace();
 }
 function wrongAnswer(message){
- if(!raceActive)return;streak=0;$('streakCount').textContent='0';$('streakReward').textContent='10';questionLock=true;clearInterval(questionTimer);
+ if(!raceActive)return;
+ streak=0;$('streakCount').textContent='0';$('streakReward').textContent='10';
+ questionLock=true;clearInterval(questionTimer);
  if(mode==='Impossible'){playerProgress=Math.max(0,playerProgress-10);$('progress').style.width=playerProgress+'%';}
- moveRivalAfterAnswer();$('feedback').textContent=message;drawRace();nextQuestionTimer=setTimeout(()=>{if(raceActive)nextQuestion();},700);
+ moveRivalAfterAnswer();$('feedback').textContent=message;drawRace();
+ nextQuestionTimer=setTimeout(()=>{if(raceActive)nextQuestion();},700);
 }
 function finishRace(won=true){
- if(!raceActive||finishStarted)return;finishStarted=true;raceActive=false;clearInterval(questionTimer);clearTimeout(nextQuestionTimer);clearInterval(uiTimer);clearTimeout(abilityEffectTimer);
+ if(!raceActive||finishStarted)return;
+ finishStarted=true;raceActive=false;
+ clearInterval(questionTimer);clearTimeout(nextQuestionTimer);clearInterval(uiTimer);clearTimeout(abilityEffectTimer);
  const elapsed=(Date.now()-raceStartTime)/1000;
  if(won){
-  data.wins++;let bonus=100*effectiveMultiplier();if(data.selected==='Owner Turkey')bonus*=10000;if(eventName==='Double Turkey')bonus*=2;if(eventName==='Golden Turkey')bonus*=5;
+  data.wins++;let bonus=100*effectiveMultiplier();
+  if(data.selected==='Owner Turkey')bonus*=10000;
+  if(eventName==='Double Turkey')bonus*=2;
+  if(eventName==='Golden Turkey')bonus*=5;
   data.turkey+=Math.floor(bonus);$('feedback').textContent='🏆 YOU WON! +'+Math.floor(bonus)+' bonus Turkey!';
  }else $('feedback').textContent='🏁 The rival reached the finish line first. Try again!';
  save();render();drawRace();
@@ -627,24 +817,68 @@ function finishRace(won=true){
 }
 function quitRace(){
  raceActive=false;clearInterval(questionTimer);clearTimeout(nextQuestionTimer);clearInterval(uiTimer);clearTimeout(abilityEffectTimer);
- $('game').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');render();drawRace();
+ $('game').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');
+ render();drawRace();
 }
 
-/* ADMIN PANEL */
-function openAdmin(){if(raceActive)return;$('home').classList.remove('hidden');$('ownerPanel').scrollIntoView({behavior:'smooth',block:'start'});$('ownerCode').focus();}
+/* OWNER PANEL */
+function openAdmin(){
+ if(raceActive)return;
+ $('home').classList.remove('hidden');
+ $('ownerPanel').scrollIntoView({behavior:'smooth',block:'start'});
+ $('ownerCode').focus();
+}
 function ownerLogin(){
- if($('ownerCode').value===ADMIN_CODE){
-  ownerUnlocked=true;$('ownerControls').classList.remove('hidden');$('ownerStatus').textContent='👑 Admin panel unlocked!';
-  if(!data.owned.includes('Owner Turkey'))data.owned.push('Owner Turkey');save();render();
- }else $('ownerStatus').textContent='Incorrect admin code.';
+ const entered=$('ownerCode').value.trim();
+ if(entered===ADMIN_CODE){
+  ownerUnlocked=true;
+  $('ownerControls').classList.remove('hidden');
+  $('ownerStatus').textContent='👑 Admin panel unlocked!';
+  if(!data.owned.includes('Owner Turkey'))data.owned.push('Owner Turkey');
+  save();render();
+ }else{
+  $('ownerStatus').textContent='Incorrect admin code. Check spelling and capitalization.';
+ }
  $('ownerCode').value='';
 }
-function ownerLogout(){ownerUnlocked=false;$('ownerControls').classList.add('hidden');$('ownerStatus').textContent='Admin panel locked.';if(data.selected==='Owner Turkey'){data.selected='Classic Car';save();render();}}
-function validAmount(){const raw=$('rewardAmount').value.trim(),n=Number(raw);if(raw===''||!Number.isSafeInteger(n)||n<1||n>1000000000){alert('Enter a whole number from 1 to 1,000,000,000.');return null;}return n;}
-function rewardOne(){if(!ownerUnlocked)return;const n=validAmount();if(n===null)return;data.turkey+=n;save();render();alert('Added '+n.toLocaleString()+' Turkey to your browser!');}
-function flyOver(){if(!ownerUnlocked)return;if(!raceActive){alert('Start a race first!');return;}playerProgress=Math.min(100,playerProgress+25);adminFlyUntil=Date.now()+2500;$('progress').style.width=playerProgress+'%';$('abilityStatus').textContent='👑 ADMIN FLIGHT! Flying over your opponent!';drawRace();if(playerProgress>=100)finishRace();}
-function unlockCar(){if(!ownerUnlocked)return;const name=$('adminCar').value;if(!cars[name])return;if(name!=='Classic Car'&&!data.owned.includes(name))data.owned.push(name);data.selected=name;save();render();drawRace();alert(name+' unlocked and equipped!');}
-function setMultiplier(){if(!ownerUnlocked)return;const n=Number($('multiplierInput').value);if(!Number.isInteger(n)||n<1||n>10){alert('Multiplier must be between 1× and 10×.');return;}data.multiplier=n;save();render();alert('Turkey reward multiplier set to '+n+'×!');}
+$('ownerCode').addEventListener('keydown',e=>{if(e.key==='Enter')ownerLogin();});
+function ownerLogout(){
+ ownerUnlocked=false;$('ownerControls').classList.add('hidden');
+ $('ownerStatus').textContent='Admin panel locked.';
+ if(data.selected==='Owner Turkey'){data.selected='Classic Car';save();render();}
+}
+function validAmount(){
+ const raw=$('rewardAmount').value.trim(),n=Number(raw);
+ if(raw===''||!Number.isSafeInteger(n)||n<1||n>1000000000){alert('Enter a whole number from 1 to 1,000,000,000.');return null;}
+ return n;
+}
+function rewardOne(){
+ if(!ownerUnlocked)return;
+ const n=validAmount();if(n===null)return;
+ data.turkey+=n;save();render();alert('Added '+n.toLocaleString()+' Turkey to your browser!');
+}
+function flyOver(){
+ if(!ownerUnlocked)return;
+ if(!raceActive){alert('Start a race first!');return;}
+ playerProgress=Math.min(100,playerProgress+25);adminFlyUntil=Date.now()+2500;
+ $('progress').style.width=playerProgress+'%';$('abilityStatus').textContent='👑 ADMIN FLIGHT!';
+ drawRace();if(playerProgress>=100)finishRace();
+}
+function unlockCar(){
+ if(!ownerUnlocked)return;
+ const name=$('adminCar').value;if(!cars[name])return;
+ if(name==='Custom Car'&&!data.customCar){
+  alert('Create your custom car in the Legendary Shop first!');return;
+ }
+ if(name!=='Classic Car'&&!data.owned.includes(name))data.owned.push(name);
+ data.selected=name;save();render();drawRace();alert(name+' unlocked and equipped!');
+}
+function setMultiplier(){
+ if(!ownerUnlocked)return;
+ const n=Number($('multiplierInput').value);
+ if(!Number.isInteger(n)||n<1||n>10){alert('Multiplier must be between 1× and 10×.');return;}
+ data.multiplier=n;save();render();alert('Turkey reward multiplier set to '+n+'×!');
+}
 function startEvent(name){if(!ownerUnlocked)return;eventName=name;$('eventStatus').textContent='🎉 '+name+' is active in this browser!';}
 function endEvent(){if(!ownerUnlocked)return;eventName='';$('eventStatus').textContent='No event running.';}
 
@@ -652,17 +886,23 @@ function endEvent(){if(!ownerUnlocked)return;eventName='';$('eventStatus').textC
 function setSteer(v){steer=v;}
 document.addEventListener('keydown',e=>{
  const key=e.key.toLowerCase(),active=document.activeElement;
- if(active&&['INPUT','TEXTAREA','SELECT'].includes(active.tagName)){if(e.key==='Enter'&&active===$('answer')){e.preventDefault();submitTyped();}return;}
+ if(active&&['INPUT','TEXTAREA','SELECT'].includes(active.tagName)){
+  if(e.key==='Enter'&&active===$('answer')){e.preventDefault();submitTyped();}
+  return;
+ }
  if(key==='arrowleft'||key==='a'){steer=-1;if(raceActive)e.preventDefault();}
  if(key==='arrowright'||key==='d'){steer=1;if(raceActive)e.preventDefault();}
  if(raceActive&&key==='f'){e.preventDefault();activateAbility();}
  if(raceActive&&key==='r'){e.preventDefault();rechargeAbility();}
 });
-document.addEventListener('keyup',e=>{if(['ArrowLeft','ArrowRight','a','d','A','D'].includes(e.key))steer=0;});
+document.addEventListener('keyup',e=>{
+ if(['ArrowLeft','ArrowRight','a','d','A','D'].includes(e.key))steer=0;
+});
 window.addEventListener('blur',()=>{steer=0;});
 
 /* START */
-resizeRace();render();drawRace();requestAnimationFrame(animateRace);setInterval(updateDailySpin,1000);
+resizeRace();render();drawRace();requestAnimationFrame(animateRace);
+setInterval(updateDailySpin,1000);
 </script>
 </body>
 </html>
