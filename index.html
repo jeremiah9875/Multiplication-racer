@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,9 +77,11 @@ canvas{width:100%;height:100%;display:block}
 .touch.action{width:70px;border-radius:12px;background:#ffd45c;color:#382016;font-size:11px}
 footer{text-align:center;padding:15px}
 @media(max-width:650px){
- .modes{grid-template-columns:1fr}.cars,.shopGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .modes{grid-template-columns:1fr}
+ .cars,.shopGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .mode{min-height:90px}.mode p{margin:4px}
- #mobileControls{display:flex}#game{margin-bottom:95px}
+ #mobileControls{display:flex}
+ #game{margin-bottom:95px}
  .creatorGrid{grid-template-columns:1fr}
 }
 </style>
@@ -356,7 +357,7 @@ let questionTimer=null,nextQuestionTimer=null,uiTimer=null;
 let playerProgress=0,rivalProgress=0,playerX=0,steer=0,abilityCooldownUntil=0;
 let abilityActive=false,abilityEffectTimer=null,boostUntil=0,freezeUntil=0,rivalSlowUntil=0;
 let shieldUntil=0,ghostUntil=0,flatUntil=0,magnetUntil=0,adminFlyUntil=0;
-let eventName='',ownerUnlocked=false;
+let ownerUnlocked=false;
 let lastSpin=Number(localStorage.getItem(SPIN_KEY))||0,multiplierExpiry=Number(localStorage.getItem(MULT_KEY))||0;
 let wheelSpinning=false,wheelRotation=0;
 let canvasWidth=800,canvasHeight=400,roadOffset=0,leafOffset=0,lastDraw=0;
@@ -509,7 +510,7 @@ function updateCustomPreview(){
 });
 function saveCustomCar(){
  if(!data.creatorBought)return;
- data.customCar={name:$('customName').value.trim().slice(0,20)||'My Custom Car',body:$('customBody').value,wheel:$('customWheel').value,spoiler:$('customSpoiler').value,effect:$('customEffect').value,ability:$('customAbility').value};
+ data.customCar={name:$('customName').value.trim().slice(0,20)||'My Legendary Car',body:$('customBody').value,wheel:$('customWheel').value,spoiler:$('customSpoiler').value,effect:$('customEffect').value,ability:$('customAbility').value};
  if(!data.owned.includes('Custom Car'))data.owned.push('Custom Car');
  saveRender();alert('Custom car saved!');
 }
@@ -581,7 +582,7 @@ function unlockAllCars(){
 function flyOver(){
  if(!ownerUnlocked||!raceActive)return alert('Start a race first!');
  playerProgress=Math.min(100,playerProgress+30);adminFlyUntil=Date.now()+2500;
- $('progress').style.width=playerProgress+'%';drawRace();if(playerProgress>=100)finishRace();
+ $('progress').style.width=playerProgress+'%';drawRace();if(playerProgress>=100)finishRace(true);
 }
 function setMultiplier(){
  if(!ownerUnlocked)return;
@@ -605,23 +606,110 @@ function drawTree(x,y,s=1){
  ctx.fillStyle='#b54e28';ctx.beginPath();ctx.arc(0,-15,20,0,Math.PI*2);ctx.fill();
  ctx.fillStyle='#e99b42';ctx.beginPath();ctx.arc(-10,-23,11,0,Math.PI*2);ctx.fill();ctx.restore();
 }
+
+/* UPDATED CAR DRAWING */
 function drawCar(x,y,name,scale=1,rival=false){
- ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+ ctx.save();
+ ctx.translate(x,y);
+ ctx.scale(scale,scale);
+
  const custom=name==='Custom Car'&&!rival?data.customCar:null;
- const body=custom?custom.body:rival?'#9b5540':name==='Golden Turkey'?'#ffd45c':name==='Galaxy Racer'?'#7651c8':name==='Dragon Car'?'#25864a':name==='Diamond Racer'?'#8be9f5':name==='Owner Turkey'?'#ffdf62':'#d7dce4';
+ const body=custom?custom.body:
+  rival?'#9b5540':
+  name==='Golden Turkey'?'#ffd45c':
+  name==='Galaxy Racer'?'#7651c8':
+  name==='Dragon Car'?'#25864a':
+  name==='Diamond Racer'?'#8be9f5':
+  name==='Owner Turkey'?'#ffdf62':'#d7dce4';
+
  const wheel=custom?custom.wheel:'#211b18';
- ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.ellipse(0,25,31,10,0,0,Math.PI*2);ctx.fill();
- rounded(-30,-3,12,24,4,wheel);rounded(18,-3,12,24,4,wheel);
- rounded(-27,-15,54,39,10,body);rounded(-18,-27,36,23,8,'#4d3023');
+
+ // Car shadow
+ ctx.fillStyle='rgba(0,0,0,.25)';
+ ctx.beginPath();
+ ctx.ellipse(0,25,31,10,0,0,Math.PI*2);
+ ctx.fill();
+
+ // Wheels and car body
+ rounded(-30,-3,12,24,4,wheel);
+ rounded(18,-3,12,24,4,wheel);
+ rounded(-27,-15,54,39,10,body);
+ rounded(-18,-27,36,23,8,'#4d3023');
  rounded(-13,-24,26,13,4,'#a9d7df');
- if(custom&&custom.spoiler!=='none'){rounded(-22,-22,44,5,2,custom.spoiler==='gold'?'#ffd45c':body);}
- ctx.font='27px Arial';ctx.textAlign='center';ctx.fillText(cars[name]||'🚘',0,-39);
- if(custom&&custom.effect!=='none')ctx.fillText(({flame:'🔥',sparkle:'✨',leaf:'🍂',rainbow:'🌈'})[custom.effect],0,42);
- if(rival&&Date.now()<flatUntil)ctx.fillText('💨',0,40);
- if(!rival&&Date.now()<shieldUntil){ctx.strokeStyle='#77ddff';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(0,0,38,35,0,0,Math.PI*2);ctx.stroke();}
- if(!rival&&Date.now()<ghostUntil)ctx.globalAlpha=.4;
+
+ // Spoiler
+ if(custom&&custom.spoiler!=='none'){
+  const spoilerWidth=custom.spoiler==='large'?54:44;
+  rounded(-spoilerWidth/2,-22,spoilerWidth,5,2,
+   custom.spoiler==='gold'?'#ffd45c':body);
+ }
+
+ ctx.textAlign='center';
+ ctx.textBaseline='middle';
+
+ if(name==='Owner Turkey'&&!rival){
+  // Crown directly ABOVE the turkey
+  ctx.font='29px Arial';
+  ctx.fillText('👑',0,-83);
+
+  // Turkey directly BELOW the crown
+  ctx.font='35px Arial';
+  ctx.fillText('🦃',0,-47);
+
+ }else{
+  // Each other car displays its own selected design
+  ctx.font='32px Arial';
+  ctx.fillText(cars[name]||'🚘',0,-47);
+ }
+
+ // Custom car effect
+ if(custom&&custom.effect!=='none'){
+  ctx.font='21px Arial';
+  ctx.fillText(
+   ({flame:'🔥',sparkle:'✨',leaf:'🍂',rainbow:'🌈'})[custom.effect],
+   0,43
+  );
+ }
+
+ // Rival visual effect
+ if(rival&&Date.now()<flatUntil){
+  ctx.font='21px Arial';
+  ctx.fillText('💨',0,40);
+ }
+
+ // Special trail
+ if(!rival&&data.trail!=='none'){
+  const colors={
+   rainbow:['red','orange','yellow','green','blue','violet'],
+   galaxy:['#8c52ff','#d9a5ff','#4d2d9a'],
+   fire:['#ff3300','#ff9900','#ffdf55'],
+   lightning:['#fff','#4edcff','#8b5cff']
+  };
+  (colors[data.trail]||[]).forEach((c,i)=>{
+   ctx.fillStyle=c;
+   ctx.beginPath();
+   ctx.arc(-18-i*5,25+i*4,5,0,Math.PI*2);
+   ctx.fill();
+  });
+ }
+
+ // Shield effect
+ if(!rival&&Date.now()<shieldUntil){
+  ctx.strokeStyle='#77ddff';
+  ctx.lineWidth=4;
+  ctx.beginPath();
+  ctx.ellipse(0,0,38,35,0,0,Math.PI*2);
+  ctx.stroke();
+ }
+
+ // Ghost effect
+ if(!rival&&Date.now()<ghostUntil){
+  ctx.globalAlpha=.4;
+ }
+
  ctx.restore();
 }
+
 function drawTrail(x,y){
  const t=data.trail;if(t==='none')return;
  const colors={rainbow:['red','orange','yellow','green','blue','violet'],galaxy:['#8c52ff','#d9a5ff','#4d2d9a'],fire:['#ff3300','#ff9900','#ffdf55'],lightning:['#fff','#4edcff','#8b5cff']};
@@ -657,9 +745,9 @@ function animateRace(now){
  if(raceActive&&data.rentalUntil>Date.now())$('rentalRaceTimer').textContent='👑 Owner rental: '+Math.ceil((data.rentalUntil-Date.now())/1000)+'s';
  drawRace();requestAnimationFrame(animateRace);
 }
-window.addEventListener('resize',resizeRace);
 
 /* Race questions */
+window.addEventListener('resize',resizeRace);
 function randomInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function round2(n){return Math.round((n+Number.EPSILON)*100)/100;}
 function makeQuestion(){
