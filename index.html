@@ -81,7 +81,13 @@ canvas{width:100%;height:100%;display:block}
 #ownerWorld .questionBox{background:#eee1ff;border-color:#9c63e8}
 #ownerWorldQuestion{font-size:clamp(28px,7vw,48px);font-weight:bold}
 #ownerWorldStatus{font-size:18px;font-weight:bold;min-height:28px}
-#angelPanel{border:3px solid #e9d9ff;background:#f4eaff;color:#32184d;border-radius:14px;padding:12px;margin-top:12px}
+.ownerModeGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0}
+.ownerMode{padding:15px 8px;border:3px solid #9c63e8;border-radius:14px;background:#f4eaff;color:#32184d}
+.ownerMode.selected{background:#c9a6ff;border-color:#fff}
+.ownerMode strong{display:block;font-size:20px}
+.ownerMode span{display:block;font-size:12px;margin-top:5px}
+.ownerWorldAnswer{width:min(260px,90%);padding:12px;border:3px solid #9c63e8;border-radius:10px;font-size:22px;text-align:center}
+#ownerWorldProgress{transition:width .3s}
 footer{text-align:center;padding:15px}
 @media(max-width:650px){
  .modes{grid-template-columns:1fr}
@@ -90,6 +96,7 @@ footer{text-align:center;padding:15px}
  #mobileControls{display:flex}
  #game{margin-bottom:95px}
  .creatorGrid{grid-template-columns:1fr}
+ .ownerModeGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -261,7 +268,6 @@ footer{text-align:center;padding:15px}
   </div>
   <button class="green" onclick="unlockAllCars()">🚘 UNLOCK ALL REGULAR CARS</button>
   <button class="green" onclick="ownerFly()">👑 OWNER TURKEY: FLY OVER OPPONENT</button>
-
   <hr><h3>😇 ANGEL CAR COMMANDS</h3>
   <p>Enter the special code to unlock the Angel Car.</p>
   <div class="ownerRow">
@@ -274,9 +280,8 @@ footer{text-align:center;padding:15px}
    <button class="green" onclick="angelTransform()">🚘 TURN INTO ANY CAR</button>
    <p>Angel Instant Win is automatic: answer one equation correctly to win.</p>
   </div>
-
   <hr><h3>🌌 OWNER WORLD</h3>
-  <p>Enter the special world for difficult decimals, fractions, and multiplication.</p>
+  <p>Enter the special world for Easy, Hard, and Impossible challenges.</p>
   <button class="purple" onclick="enterOwnerWorld()">🌌 ENTER OWNER WORLD</button>
   <button class="red" onclick="ownerLogout()">🔒 LOCK OWNER PANEL</button>
   <p class="note">These browser-based controls are saved locally on this device. They are not secure server-side permissions.</p>
@@ -286,23 +291,35 @@ footer{text-align:center;padding:15px}
 <section id="ownerWorld" class="panel hidden">
  <button class="purple" onclick="leaveOwnerWorld()">← LEAVE OWNER WORLD</button>
  <h2 class="title">🌌 THE OWNER DIMENSION 🌌</h2>
- <p class="title">One equation. One chance. The rival is just as fast as you.</p>
+ <p class="title">Choose your difficulty. One equation. One chance.</p>
  <div class="row">
   <span class="stat">OWNER WORLD</span>
   <span class="stat">BOT SPEED: MATCHED</span>
   <span class="stat">ONE QUESTION ONLY</span>
  </div>
+
+ <h3 class="title">⚔️ CHOOSE YOUR DIFFICULTY</h3>
+ <div class="ownerModeGrid">
+  <button class="ownerMode selected" data-owner-mode="Easy" onclick="chooseOwnerMode('Easy')">
+   <strong>🍁 EASY</strong><span>Multiplication 2–12</span>
+  </button>
+  <button class="ownerMode" data-owner-mode="Hard" onclick="chooseOwnerMode('Hard')">
+   <strong>🔥 HARD</strong><span>Large numbers and decimals</span>
+  </button>
+  <button class="ownerMode" data-owner-mode="Impossible" onclick="chooseOwnerMode('Impossible')">
+   <strong>😈 IMPOSSIBLE</strong><span>Huge numbers and fractions</span>
+  </button>
+ </div>
+
  <div class="questionBox">
-  <p>Choose your challenge</p>
-  <select id="ownerDifficulty">
-   <option value="mixed">Mixed: Decimals, Fractions & Multiplication</option>
-   <option value="decimal">Hard Decimals</option>
-   <option value="fraction">Fractions</option>
-   <option value="multiplication">Extreme Multiplication</option>
-  </select>
+  <h2 id="ownerWorldModeLabel">🍁 EASY MODE</h2>
+  <p id="ownerWorldDifficultyTitle">Easy Challenge</p>
   <p id="ownerWorldQuestion">Ready?</p>
-  <input id="ownerWorldAnswer" placeholder="Your answer" inputmode="decimal">
-  <button class="primary" onclick="submitOwnerWorld()">SUBMIT ONE ANSWER</button>
+  <input id="ownerWorldAnswer" class="ownerWorldAnswer" placeholder="Your answer" inputmode="decimal">
+  <div class="row">
+   <button class="primary" onclick="submitOwnerWorld()">🏁 SUBMIT ANSWER</button>
+   <button class="purple" onclick="resetOwnerWorld()">🔄 NEW QUESTION</button>
+  </div>
   <p id="ownerWorldStatus">You have one attempt. One wrong answer means you lose.</p>
  </div>
  <div class="track"><div id="ownerWorldProgress" style="height:100%;width:0%;background:#bd91ff"></div></div>
@@ -601,47 +618,115 @@ function angelTransform(){
  $('abilityStatus').textContent='😇 ANGEL TRANSFORMED INTO '+chosen+'!';
  drawRace();
 }
+
+/* OWNER WORLD: THREE DIFFICULTIES */
+let ownerWorldActive=false,ownerWorldAnswer=0,ownerWorldMode='Easy',raceCarOverride=null;
+
 function enterOwnerWorld(){
  if(!ownerUnlocked)return;
- $('home').classList.add('hidden');$('ownerPanel').classList.add('hidden');$('topbar').classList.add('hidden');$('ownerWorld').classList.remove('hidden');
- resetOwnerWorld();
+ $('home').classList.add('hidden');
+ $('ownerPanel').classList.add('hidden');
+ $('topbar').classList.add('hidden');
+ $('ownerWorld').classList.remove('hidden');
+ chooseOwnerMode('Easy');
 }
+
 function leaveOwnerWorld(){
- ownerWorldActive=false;$('ownerWorld').classList.add('hidden');$('home').classList.remove('hidden');$('ownerPanel').classList.remove('hidden');$('topbar').classList.remove('hidden');
+ ownerWorldActive=false;
+ $('ownerWorld').classList.add('hidden');
+ $('home').classList.remove('hidden');
+ $('ownerPanel').classList.remove('hidden');
+ $('topbar').classList.remove('hidden');
  $('ownerWorldStatus').textContent='You left the Owner World.';
 }
-let ownerWorldActive=false,ownerWorldAnswer=0,raceCarOverride=null;
-function ownerWorldQuestion(){
- const kind=$('ownerDifficulty').value;
- let a,b,q,ans;
- const type=kind==='mixed'?['decimal','fraction','multiplication'][randomInt(0,2)]:kind;
- if(type==='decimal'){
-  a=randomInt(100,999)/10;b=randomInt(10,99)/10;ans=round2(a*b);q=a.toFixed(1)+' × '+b.toFixed(1)+' = ?';
- }else if(type==='fraction'){
-  const n=randomInt(2,15),d=randomInt(2,12),m=randomInt(2,10),e=randomInt(2,12);
-  ans=(n*m)/(d*e);q=n+'/'+d+' × '+m+'/'+e+' = ? (decimal answer)';
- }else{
-  a=randomInt(25,999);b=randomInt(25,999);ans=a*b;q=a.toLocaleString()+' × '+b.toLocaleString()+' = ?';
- }
- ownerWorldAnswer=ans;$('ownerWorldQuestion').textContent=q;
+
+function chooseOwnerMode(m){
+ if(!ownerUnlocked)return;
+ ownerWorldMode=m;
+ document.querySelectorAll('[data-owner-mode]').forEach(b=>{
+  b.classList.toggle('selected',b.dataset.ownerMode===m);
+ });
+ $('ownerWorldModeLabel').textContent=
+  m==='Easy'?'🍁 EASY MODE':m==='Hard'?'🔥 HARD MODE':'😈 IMPOSSIBLE MODE';
+ $('ownerWorldDifficultyTitle').textContent=
+  m==='Easy'?'Easy Challenge':m==='Hard'?'Hard Challenge':'Impossible Challenge';
+ resetOwnerWorld();
 }
+
+function ownerWorldQuestion(){
+ let a,b,ans,q;
+
+ if(ownerWorldMode==='Easy'){
+  a=randomInt(2,12);
+  b=randomInt(2,12);
+  ans=a*b;
+  q=a+' × '+b+' = ?';
+ }
+ else if(ownerWorldMode==='Hard'){
+  const type=randomInt(1,2);
+  if(type===1){
+   a=randomInt(15,75);
+   b=randomInt(12,65);
+   ans=a*b;
+   q=a+' × '+b+' = ?';
+  }else{
+   a=randomInt(10,99)/10;
+   b=randomInt(10,99)/10;
+   ans=round2(a*b);
+   q=a.toFixed(1)+' × '+b.toFixed(1)+' = ?';
+  }
+ }
+ else{
+  const type=randomInt(1,3);
+  if(type===1){
+   a=randomInt(100,999);
+   b=randomInt(100,999);
+   ans=a*b;
+   q=a.toLocaleString()+' × '+b.toLocaleString()+' = ?';
+  }else if(type===2){
+   a=randomInt(1000,9999);
+   b=randomInt(100,999);
+   ans=a*b;
+   q=a.toLocaleString()+' × '+b.toLocaleString()+' = ?';
+  }else{
+   const n=randomInt(2,20),d=randomInt(2,12);
+   const m=randomInt(2,20),e=randomInt(2,12);
+   ans=round2((n*m)/(d*e));
+   q=n+'/'+d+' × '+m+'/'+e+' = ? (decimal answer)';
+  }
+ }
+
+ ownerWorldAnswer=ans;
+ $('ownerWorldQuestion').textContent=q;
+}
+
 function round2(n){return Math.round((n+Number.EPSILON)*100)/100;}
+
 function resetOwnerWorld(){
- ownerWorldActive=true;$('ownerWorldAnswer').value='';$('ownerWorldProgress').style.width='0%';
+ if(!ownerUnlocked)return;
+ ownerWorldActive=true;
+ $('ownerWorldAnswer').value='';
+ $('ownerWorldProgress').style.width='0%';
  $('ownerWorldStatus').textContent='The bot is ready. One answer decides the match.';
  ownerWorldQuestion();
 }
+
 function submitOwnerWorld(){
  if(!ownerWorldActive)return;
- const raw=$('ownerWorldAnswer').value.trim(),n=Number(raw);
+ const raw=$('ownerWorldAnswer').value.trim();
+ const n=Number(raw);
  if(!raw||!Number.isFinite(n))return alert('Enter your answer first.');
+
  ownerWorldActive=false;
+
  if(Math.abs(n-ownerWorldAnswer)<.0001){
-  $('ownerWorldProgress').style.width='100%';$('ownerWorldStatus').textContent='👑 YOU WIN! One correct equation beats the Owner World bot!';
+  $('ownerWorldProgress').style.width='100%';
+  $('ownerWorldStatus').textContent='👑 YOU WIN! You defeated the Owner World bot!';
   alert('🌌 OWNER WORLD VICTORY!');
  }else{
-  $('ownerWorldProgress').style.width='0%';$('ownerWorldStatus').textContent='❌ WRONG ANSWER! The bot won this round. One mistake means defeat.';
-  alert('The Owner World bot won. One wrong answer means you lose.');
+  $('ownerWorldProgress').style.width='0%';
+  $('ownerWorldStatus').textContent='❌ WRONG ANSWER! The bot won. Try another challenge!';
+  alert('The Owner World bot won. One wrong answer means defeat.');
  }
 }
 
@@ -697,17 +782,14 @@ function drawRace(){
  if(!raceActive){rounded(w*.2,h*.42,w*.6,55,12,'rgba(52,30,18,.75)');ctx.fillStyle='#ffe3a1';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText('READY TO RACE?',w/2,h*.42+35);}
 }
 
-/* IMPOSSIBLE MODE BOT: continuous movement */
+/* IMPOSSIBLE MODE BOT */
 function animateRace(now){
  const dt=Math.min((now-lastDraw)/1000||.016,.05);
  lastDraw=now;
-
  if(raceActive){
-  roadOffset+=dt*180;
-  leafOffset+=dt*40;
+  roadOffset+=dt*180;leafOffset+=dt*40;
   playerX=Math.max(-.75,Math.min(.75,playerX+steer*dt*1.8));
   $('elapsed').textContent=((Date.now()-raceStartTime)/1000).toFixed(1);
-
   if(mode==='Impossible'&&!finishStarted){
    if(Date.now()>=freezeUntil&&Date.now()>=flatUntil){
     let botSpeed=IMPOSSIBLE_BOT_SPEED;
@@ -788,10 +870,7 @@ function submitAnswer(v){
  }else{questionLock=false;wrongAnswer('Not quite! Streak reset. Try again! 🍂');}
 }
 function moveRival(){
- if(mode==='Impossible'){
-  drawRace();
-  return;
- }
+ if(mode==='Impossible'){drawRace();return;}
  if(Date.now()<freezeUntil||Date.now()<flatUntil)return;
  rivalProgress+=mode==='Easy'?5:8;
  if(Date.now()<rivalSlowUntil)rivalProgress-=3;
