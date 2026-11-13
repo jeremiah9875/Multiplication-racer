@@ -356,6 +356,7 @@ const ADMIN_CODE='The Ultimate Spider-Man';
 const ANGEL_CODE='Jeremiah is fun';
 const SAVE_KEY='turkeyRacer_v2',SPIN_KEY='turkeyRacer_dailySpin_v1',MULT_KEY='turkeyRacer_100x_expiry';
 const DAY=86400000,HOUR=3600000,RENTAL=300000;
+const IMPOSSIBLE_BOT_SPEED=100/90;
 const $=id=>document.getElementById(id);
 
 function defaults(){return {turkey:0,owned:[],selected:'Classic Car',wins:0,multiplier:1,shopUnlocked:false,creatorBought:false,customCar:null,upgrades:{double:false,bonus:false,recharge:false},trails:[],trail:'none',abilities:[],legendaryAbility:'none',rentalUntil:0,previousCar:'Classic Car',angelUnlocked:false};}
@@ -370,6 +371,7 @@ function cleanData(x){
  d.owned=Array.isArray(x.owned)?x.owned.filter(v=>valid.includes(v)):[];
  if(!d.owned.includes('Classic Car'))d.owned.push('Classic Car');
  d.angelUnlocked=!!x.angelUnlocked;
+ if(d.angelUnlocked&&!d.owned.includes('Angel Car'))d.owned.push('Angel Car');
  d.shopUnlocked=!!x.shopUnlocked||d.turkey>=100000;d.creatorBought=!!x.creatorBought;
  if(x.upgrades)d.upgrades={double:!!x.upgrades.double,bonus:!!x.upgrades.bonus,recharge:!!x.upgrades.recharge};
  const ts=['rainbow','galaxy','fire','lightning'];
@@ -501,7 +503,7 @@ function updateCustomPreview(){const p=$('customPreview');if(!p)return;p.style.c
 ['customName','customBody','customWheel','customSpoiler','customEffect','customAbility'].forEach(id=>{$(id).addEventListener('input',updateCustomPreview);$(id).addEventListener('change',updateCustomPreview);});
 function saveCustomCar(){
  if(!data.creatorBought)return;
- data.customCar={name:$('customName').value.trim().slice(0,20)||'My Custom Car',body:$('customBody').value,wheel:$('customWheel').value,spoiler:$('customSpoiler').value,effect:$('customEffect').value,ability:$('customAbility').value};
+ data.customCar={name:$('customName').value.trim().slice(0,20)||'My Legendary Car',body:$('customBody').value,wheel:$('customWheel').value,spoiler:$('customSpoiler').value,effect:$('customEffect').value,ability:$('customAbility').value};
  if(!data.owned.includes('Custom Car'))data.owned.push('Custom Car');saveRender();alert('Custom car saved!');
 }
 function openMathModes(){if(raceActive)return;$('home').classList.add('hidden');$('mathMenu').classList.remove('hidden');$('topbar').classList.add('hidden');}
@@ -694,12 +696,31 @@ function drawRace(){
  drawCar(rx2,Math.max(45,Math.min(h-60,ry)),mode==='Impossible'?'Evil Turkey':'Classic Car',.82,true);
  if(!raceActive){rounded(w*.2,h*.42,w*.6,55,12,'rgba(52,30,18,.75)');ctx.fillStyle='#ffe3a1';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText('READY TO RACE?',w/2,h*.42+35);}
 }
+
+/* IMPOSSIBLE MODE BOT: continuous movement */
 function animateRace(now){
- const dt=Math.min((now-lastDraw)/1000||.016,.05);lastDraw=now;
- if(raceActive){roadOffset+=dt*180;leafOffset+=dt*40;playerX=Math.max(-.75,Math.min(.75,playerX+steer*dt*1.8));$('elapsed').textContent=((Date.now()-raceStartTime)/1000).toFixed(1);}
+ const dt=Math.min((now-lastDraw)/1000||.016,.05);
+ lastDraw=now;
+
+ if(raceActive){
+  roadOffset+=dt*180;
+  leafOffset+=dt*40;
+  playerX=Math.max(-.75,Math.min(.75,playerX+steer*dt*1.8));
+  $('elapsed').textContent=((Date.now()-raceStartTime)/1000).toFixed(1);
+
+  if(mode==='Impossible'&&!finishStarted){
+   if(Date.now()>=freezeUntil&&Date.now()>=flatUntil){
+    let botSpeed=IMPOSSIBLE_BOT_SPEED;
+    if(Date.now()<rivalSlowUntil)botSpeed*=.5;
+    rivalProgress=Math.min(100,rivalProgress+botSpeed*dt);
+    if(rivalProgress>=100)finishRace(false);
+   }
+  }
+ }
  if(data.rentalUntil&&Date.now()>=data.rentalUntil)expireRental();
  if(raceActive&&data.rentalUntil>Date.now())$('rentalRaceTimer').textContent='👑 Owner rental: '+Math.ceil((data.rentalUntil-Date.now())/1000)+'s';
- drawRace();requestAnimationFrame(animateRace);
+ drawRace();
+ requestAnimationFrame(animateRace);
 }
 
 /* RACE QUESTIONS */
@@ -727,14 +748,16 @@ function startRace(){
  clearInterval(questionTimer);clearTimeout(nextQuestionTimer);clearInterval(uiTimer);
  raceActive=true;finishStarted=false;questionLock=false;correct=0;streak=0;playerProgress=0;rivalProgress=0;playerX=0;steer=0;
  raceCarOverride=null;angelInstantRace=data.selected==='Angel Car';
- raceStartTime=Date.now();abilityCooldownUntil=0;abilityActive=false;freezeUntil=0;rivalSlowUntil=0;boostUntil=0;shieldUntil=0;ghostUntil=0;
+ raceStartTime=Date.now();lastDraw=performance.now();
+ abilityCooldownUntil=0;abilityActive=false;freezeUntil=0;rivalSlowUntil=0;boostUntil=0;shieldUntil=0;ghostUntil=0;flatUntil=0;
  goal=mode==='Easy'?10:mode==='Hard'?12:15;
  $('home').classList.add('hidden');$('mathMenu').classList.add('hidden');$('accountPanel').classList.add('hidden');$('ownerWorld').classList.add('hidden');$('topbar').classList.add('hidden');$('game').classList.remove('hidden');
  $('modeLabel').textContent=mode.toUpperCase();$('mathLabel').textContent=mathType.toUpperCase();
  $('goalCount').textContent=angelInstantRace?'1':goal;$('correctCount').textContent='0';$('streakCount').textContent='0';$('progress').style.width='0%';
  $('feedback').textContent=angelInstantRace?'😇 ANGEL POWER: ONE CORRECT ANSWER WINS!':'';
  $('typedArea').classList.toggle('hidden',mode==='Easy');$('choiceArea').classList.toggle('hidden',mode!=='Easy');
- $('abilityStatus').textContent='Race started!';resizeRace();render();nextQuestion();uiTimer=setInterval(updateAbilityUI,250);
+ $('abilityStatus').textContent=mode==='Impossible'?'😈 Evil Turkey is racing! You have 90 seconds to beat it.':'Race started!';
+ resizeRace();render();nextQuestion();uiTimer=setInterval(updateAbilityUI,250);
 }
 function nextQuestion(){
  if(!raceActive)return;clearInterval(questionTimer);questionLock=false;
@@ -765,10 +788,16 @@ function submitAnswer(v){
  }else{questionLock=false;wrongAnswer('Not quite! Streak reset. Try again! 🍂');}
 }
 function moveRival(){
+ if(mode==='Impossible'){
+  drawRace();
+  return;
+ }
  if(Date.now()<freezeUntil||Date.now()<flatUntil)return;
- rivalProgress+=mode==='Easy'?5:mode==='Hard'?8:11;
- if(Date.now()<rivalSlowUntil)rivalProgress-=mode==='Impossible'?5:3;
- rivalProgress=Math.max(0,rivalProgress);drawRace();if(rivalProgress>=100)finishRace(false);
+ rivalProgress+=mode==='Easy'?5:8;
+ if(Date.now()<rivalSlowUntil)rivalProgress-=3;
+ rivalProgress=Math.max(0,rivalProgress);
+ drawRace();
+ if(rivalProgress>=100)finishRace(false);
 }
 function wrongAnswer(msg){
  if(!raceActive)return;streak=0;$('streakCount').textContent='0';questionLock=true;clearInterval(questionTimer);
