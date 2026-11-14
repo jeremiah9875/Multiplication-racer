@@ -302,10 +302,15 @@ footer{text-align:center;padding:15px}
 'use strict';
 const $=id=>document.getElementById(id);
 const SAVE_KEY='turkeyRacer_v2';
-const OWNER_CODE='The Ultimate Spider-Man';
+
+/* UPDATED OWNER CODE */
+const OWNER_CODE='Koon';
+
+/* ADMIN CODE IS UNCHANGED */
 const ADMIN_CODE='Leave me alone';
 const ANGEL_CODE='Jeremiah is fun';
 const DAY=86400000;
+
 const defaults=()=>({
  turkey:0,owned:['Classic Car'],selected:'Classic Car',wins:0,
  winsByMode:{Easy:0,Hard:0,Impossible:0},
@@ -335,6 +340,7 @@ function cleanData(x){
 let data=defaults();
 try{data=cleanData(JSON.parse(localStorage.getItem(SAVE_KEY)));}catch(e){}
 function save(){data.shopUnlocked=data.shopUnlocked||data.turkey>=100000;try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){}}
+
 const cars={
  'Classic Car':{body:'#d7dce4',window:'#a9d7df',wheel:'#211b18'},
  'Turkey Car':{body:'#9b3525',window:'#ffd6a3',wheel:'#211b18'},
@@ -349,14 +355,16 @@ const cars={
  'Admin Car':{body:'#e52d39',window:'#ffc4c4',wheel:'#171717'}
 };
 const prices={'Turkey Car':1000,'Pumpkin Pie Car':1000,'Leaf Racer':1000,'Corn Cruiser':1000,'Golden Turkey':250000,'Galaxy Racer':500000,'Dragon Car':750000,'Diamond Racer':1000000};
+
 let mode='Easy',mathType='Multiplication',goal=10,correct=0,answerValue=0,streak=0;
 let raceActive=false,questionLock=false,finishStarted=false,raceStart=0;
 let playerProgress=0,rivalProgress=0,steer=0,playerX=0,roadOffset=0,lastDraw=0;
-let questionTimer=null,nextTimer=null,uiTimer=null,spinLast=Number(localStorage.getItem('turkeyRacer_dailySpin_v1'))||0;
+let questionTimer=null,nextTimer=null,uiTimer=null;
+let spinLast=Number(localStorage.getItem('turkeyRacer_dailySpin_v1'))||0;
 let ownerUnlocked=false,adminUnlocked=false,angelInstant=false;
 let ownerMode='Easy',ownerAnswer=0,adminAnswer=0,world2Answer=0;
 let ownerActive=false,adminWorldActive=false,world2Active=false;
-let abilityUntil=0,boostUntil=0,freezeUntil=0,rivalSlowUntil=0;
+let raceCarOverride=null;
 const canvas=$('raceView'),ctx=canvas.getContext('2d');
 let cw=800,ch=400;
 
@@ -437,6 +445,8 @@ function parseBig(s){
  if(!m)return NaN;
  return Number(m[1])*({k:1e3,m:1e6,b:1e9,t:1e12,qa:1e15}[m[2]]||1);
 }
+
+/* ADMIN PANEL */
 function adminLogin(){
  if($('adminCode').value===ADMIN_CODE){
   adminUnlocked=true;$('adminControls').classList.remove('hidden');$('adminStatus').textContent='Admin access granted!';
@@ -480,6 +490,8 @@ function submitAdminWorld(){
  if(n===adminAnswer){$('adminWorldStatus').textContent='🎉 CORRECT! You won!';alert('Admin World victory!');}
  else{$('adminWorldStatus').textContent='Not quite! Try a new question.';alert('Incorrect answer.');}
 }
+
+/* OWNER PANEL */
 function ownerLogin(){
  if($('ownerCode').value===OWNER_CODE){
   ownerUnlocked=true;$('ownerControls').classList.remove('hidden');$('ownerStatus').textContent='Owner unlocked!';
@@ -518,7 +530,6 @@ function angelTransform(){
  raceCarOverride=available[i];drawRace();
  $('abilityStatus').textContent='😇 Transformed into '+raceCarOverride+'!';
 }
-let raceCarOverride=null;
 function enterOwnerWorld(){if(!ownerUnlocked)return;hideAll();$('ownerWorld').classList.remove('hidden');chooseOwnerMode('Easy');}
 function leaveOwnerWorld(){ownerActive=false;$('ownerWorld').classList.add('hidden');$('ownerPanel').classList.remove('hidden');$('topbar').classList.remove('hidden');}
 function chooseOwnerMode(m){
@@ -540,6 +551,8 @@ function submitOwnerWorld(){
  if(v===ownerAnswer){data.ownerWorldWins[ownerMode]++;save();$('ownerWorldStatus').textContent='👑 YOU WIN!';alert('Owner World victory!');}
  else{$('ownerWorldStatus').textContent='Wrong answer. The bot won.';alert('The bot won.');}
 }
+
+/* WORLD 2 */
 function enterWorld2(){if(!world2Unlocked())return;hideAll();$('world2').classList.remove('hidden');newWorld2Question();}
 function leaveWorld2(){world2Active=false;$('world2').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');render();}
 function newWorld2Question(){
@@ -555,6 +568,8 @@ function submitWorld2(){
  if(n===world2Answer){$('world2Status').textContent='🌌 CORRECT! You won!';alert('World 2 victory!');}
  else{$('world2Status').textContent='Not quite! Try another question.';alert('Incorrect. Try again!');}
 }
+
+/* NORMAL RACES */
 function randomInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function round2(n){return Math.round((n+Number.EPSILON)*100)/100;}
 function makeQuestion(){
@@ -647,12 +662,16 @@ function quitRace(){
  raceActive=false;clearInterval(questionTimer);clearTimeout(nextTimer);clearInterval(uiTimer);
  $('game').classList.add('hidden');$('home').classList.remove('hidden');$('topbar').classList.remove('hidden');render();drawRace();
 }
+
+/* CAR POWERS */
 function selectedAbility(){return data.selected==='Angel Car'?'angel':data.selected==='Admin Car'?'admin':null;}
 function activateAbility(){
  if(!raceActive)return;
  if(selectedAbility()==='angel'){angelFly();return;}
  if(selectedAbility()==='admin'){playerProgress=Math.min(100,playerProgress+20);$('progress').style.width=playerProgress+'%';if(playerProgress>=100)finishRace(true);}
 }
+
+/* DAILY SPIN */
 function dailySpin(){
  if(Date.now()-spinLast<DAY)return;
  spinLast=Date.now();localStorage.setItem('turkeyRacer_dailySpin_v1',String(spinLast));
@@ -661,6 +680,8 @@ function dailySpin(){
  data.turkey+=reward;save();render();
  $('spinStatus').textContent='🎉 You won '+reward.toLocaleString()+' Turkey!';
 }
+
+/* CAR DRAWING: ACTUAL VEHICLE SHAPES, NO EMOJI ON TOP */
 function drawCar(x,y,name,scale=1){
  const spec=cars[name]||cars['Classic Car'];
  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
@@ -722,6 +743,7 @@ window.addEventListener('blur',()=>steer=0);
 window.addEventListener('resize',resizeRace);
 $('ownerCode').addEventListener('keydown',e=>{if(e.key==='Enter')ownerLogin();});
 $('adminCode').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin();});
+
 resizeRace();render();requestAnimationFrame(animate);
 </script>
 </body>
